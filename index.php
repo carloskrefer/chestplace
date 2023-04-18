@@ -32,7 +32,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Skinny</a>
       <a href="#" class="w3-bar-item w3-button">Relaxed</a>
       <a href="#" class="w3-bar-item w3-button">Bootcut</a>
-      <a href="#" class="w3-bar-item w3-button">Straight</a>
+      <a href="#" class="w3-bar-item w3-button">Straireqtvabyhdnvught</a>
     </div>
     <a href="#" class="w3-bar-item w3-button">Jackets</a>
     <a href="#" class="w3-bar-item w3-button">Gymwear</a>
