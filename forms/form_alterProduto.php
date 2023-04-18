@@ -20,8 +20,8 @@
 
 <body onload="w3_show_nav('menuMedico')">
 	<!-- Inclui MENU.PHP  -->
-    <?php require 'header.php'; ?>
-    <?php require 'database/conectaBD.php'; ?>
+    <?php require '../common/header.php'; ?>
+    <?php require '../database/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
 	<div class="w3-main w3-container" style="">
@@ -29,7 +29,7 @@
 			<p class="w3-large">
 			<div class="w3-code cssHigh notranslate" style="border-left:4px solid blue;">
                 <div class="w3-container w3-theme">
-                    <h2>Cadastrar produto</h2>
+                    <h2>Alterar dados do produto</h2>
                 </div>
                 <form class="w3-container" action="cadProduto_exe.php" method="post" enctype="multipart/form-data">
                     <table class='w3-table-all'>
