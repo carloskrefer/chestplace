@@ -6,7 +6,7 @@ CREATE TABLE usuario(
   id int(10) unsigned NOT NULL AUTO_INCREMENT, 
   id_tipo_usuario int(1) NOT NULL, 
   nome varchar(255) NOT NULL, 
-  email varchar(255) NOT NULL, 
+  email varchar(255) UNIQUE NOT NULL, 
   senha varchar(255) NOT NULL, 
   banido datetime DEFAULT NULL, 
   PRIMARY KEY (id)
