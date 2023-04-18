@@ -16,7 +16,7 @@ global $database;
 $servername = "localhost:3307";
 $username = "root";
 $password = "";
-$database = "ClinicaA";
+$database = "chestplace";
 ?>
 
 
