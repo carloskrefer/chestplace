@@ -34,16 +34,16 @@
             $sql_insert_usuario = "INSERT INTO usuario (Nome, Celular, DataNasc, ID_Genero, Login, Senha, ID_TipoUsu, Foto) VALUES ('$nome','$celular','$dt_nasc', '$genero','$login','$md5Senha', $tipoUsu, NULL)";
             $sql_pega_id_usuario = "SELECT id FROM usuario WHERE email = '$email';"
 
-            if ($result = $conn->query($sql_insert_usuario)) {
+            if ($result1 = $conn->query($sql_insert_usuario)) {
                 $msg = "Registro cadastrado com sucesso! Você já pode realizar login.";
             } else {
                 $msg = "Erro executando INSERT: " . $conn-> error . " Tente novo cadastro.";
             }
 
-            if ($result = $conn->query($sql_pega_id_usuario)) {
-                if ($result->num_rows > 0) {
+            if ($result2 = $conn->query($sql_pega_id_usuario)) {
+                if ($result2->num_rows > 0) {
                     // Apresenta cada linha da tabela
-                    while ($row = $result->fetch_assoc()) {
+                    while ($row = $result2->fetch_assoc()) {
                         $id_usuario = $row["id"];
                     }
                 }
@@ -52,7 +52,7 @@
             
             $sql_insert_vendedor = "INSERT INTO vendedor (id, nome_estabelecimento, cpf, cnpj) VALUES ('$id_usuario', '$nome_estabelecimento', '$cpf', '$cnpj');"
 
-            if ($result = $conn->query($sql_insert_vendedor)) {
+            if ($result3 = $conn->query($sql_insert_vendedor)) {
                 $msg = "Registro cadastrado com sucesso! Você já pode realizar login.";
             } else {
                 $msg = "Erro executando INSERT: " . $conn-> error . " Tente novo cadastro.";
