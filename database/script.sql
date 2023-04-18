@@ -13,10 +13,12 @@ CREATE TABLE usuario(
 )ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE vendedor(
-  id int(10) FOREIGN KEY REFERENCES usuario(id), 
+  id int(10), 
   nome_estabelecimento varchar(255) NOT NULL, 
   cpf char(11), 
-  cnpj char(14)
+  cnpj char(14),
+
+  FOREIGN KEY (id) REFERENCES usuario(id)
 );
 
 CREATE TABLE comprador(
@@ -46,18 +48,22 @@ CREATE TABLE camiseta(
 )ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE tamanho_camiseta(
-  id_camiseta int(10) FOREIGN KEY REFERENCES camiseta (id), 
-  id_tamanho int(10) FOREIGN KEY REFERENCES tamanho(id), 
-  quantidade int(10) NOT NULL
+  id_camiseta int(10), 
+  id_tamanho int(10), 
+  quantidade int(10) NOT NULL,
+  FOREIGN KEY (id_camiseta) REFERENCES camiseta (id),
+  FOREIGN KEY (id_tamanho) REFERENCES tamanho(id)
 );
 
 CREATE TABLE camiseta_nova(
-  id int(10) FOREIGN KEY REFERENCES camiseta(id)
+  id int(10),
+  FOREIGN KEY (id) REFERENCES camiseta(id)
 );
 
 CREATE TABLE camiseta_usada(
-  id int(10) FOREIGN KEY REFERENCES camiseta(id), 
+  id int(10), 
   conservacao ENUM('nova', 'seminova', 'usada', 'desgastada', 'muito desgasatda')
+  FOREIGN KEY (id) REFERENCES camiseta(id)
 );
 
 CREATE TABLE venda(
@@ -72,8 +78,10 @@ CREATE TABLE venda(
 )ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 CREATE TABLE carrinho(
-  id_tipo_usuario int(10) FOREIGN KEY REFERENCES comprador(id), 
-  id_produto int(10) FOREIGN KEY REFERENCES camiseta(id)
+  id_tipo_usuario int(10), 
+  id_produto int(10),
+  FOREIGN KEY (id_tipo_usuario) REFERENCES comprador(id),
+  FOREIGN KEY (id_tipo_usuario) REFERENCES camiseta(id)
 );
 
 DROP DATABASE chestplace;
