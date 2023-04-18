@@ -31,6 +31,11 @@ CREATE TABLE administrador(
   -- Tabela feita apenas para diferenciar o admin dos outros
 );
 
+CREATE TABLE marca(
+  id int(10) PRIMARY KEY AUTO_INCREMENT, 
+  nome varchar(255);
+);
+
 CREATE TABLE tamanho(
   id int(2) unsigned PRIMARY KEY, 
   codigo varchar(3) NOT NULL, 
