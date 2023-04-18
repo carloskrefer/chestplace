@@ -31,6 +31,17 @@ CREATE TABLE administrador(
   -- Tabela feita apenas para diferenciar o admin dos outros
 );
 
+CREATE TABLE imagem(
+  id_produto int(10) NOT NULL, 
+  imagem blob NOT NULL,
+  FOREIGN KEY (id_produto) REFERENCES camiseta(id)
+);
+
+CREATE TABLE marca(
+  id int(10) PRIMARY KEY AUTO_INCREMENT, 
+  nome varchar(255)
+);
+
 CREATE TABLE tamanho(
   id int(2) unsigned PRIMARY KEY, 
   codigo varchar(3) NOT NULL, 
@@ -45,9 +56,10 @@ CREATE TABLE camiseta(
   imagem blob NOT NULL, 
   data_hora_publicacao datetime NOT NULL, 
   id_marca int(10) DEFAULT NULL
-)ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE tamanho_camiseta(
+  id int(10) PRIMARY KEY AUTO_INCREMENT, 
   id_camiseta int(10), 
   id_tamanho int(10), 
   quantidade int(10) NOT NULL,
@@ -66,7 +78,7 @@ CREATE TABLE camiseta_usada(
   FOREIGN KEY (id) REFERENCES camiseta(id)
 );
 
-CREATE TABLE venda(
+CREATE TABLE compra_venda(
   id int(10) unsigned NOT NULL AUTO_INCREMENT, 
   id_camiseta int(10) unsigned NOT NULL AUTO_INCREMENT, 
   id_comprador int(10) NOT NULL, 
@@ -75,13 +87,14 @@ CREATE TABLE venda(
   data_hora_recebimento datetime DEFAULT NULL, 
   quantidade int(5) NOT NULL, 
   PRIMARY KEY (id)
-)ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE carrinho(
-  id_tipo_usuario int(10), 
-  id_produto int(10),
+  id_usuario int(10) NOT NULL, 
+  id_produto int(10) NOT NULL,
+  quantidade int NOT NULL,
   FOREIGN KEY (id_tipo_usuario) REFERENCES comprador(id),
-  FOREIGN KEY (id_tipo_usuario) REFERENCES camiseta(id)
+  FOREIGN KEY (id_tipo_usuario) REFERENCES tamanho_camiseta(id)
 );
 
 DROP DATABASE chestplace;
