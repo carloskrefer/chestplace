@@ -61,8 +61,8 @@
             <span class="w3-tag w3-display-topleft">New</span>
             <img src="./w3images/jeans2.jpg" style="width:100%">  
             <div class="w3-display-middle w3-display-hover">
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-trash"></i>&nbsp;Edit</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-edit"></i>&nbsp;Delete</button>
             </div>
             </div>
             <p>[PRODUCT-NAME]<br><b>$19.99</b></p>
@@ -74,8 +74,8 @@
             <div class="w3-display-container">
             <img src="./w3images/jeans2.jpg" style="width:100%">  
             <div class="w3-display-middle w3-display-hover">
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-trash"></i>&nbsp;Edit</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-edit"></i>&nbsp;Delete</button>
             </div>
             </div>
             <p>[PRODUCT-NAME]<br><b>$19.99</b></p>
@@ -87,8 +87,8 @@
             <div class="w3-display-container">
             <img src="./w3images/jeans2.jpg" style="width:100%">  
             <div class="w3-display-middle w3-display-hover">
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-trash"></i>&nbsp;Edit</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-edit"></i>&nbsp;Delete</button>
             </div>
             </div>
             <p>[PRODUCT-NAME]<br><b>$19.99</b></p>
@@ -100,8 +100,8 @@
             <div class="w3-display-container">
             <img src="./w3images/jeans2.jpg" style="width:100%">  
             <div class="w3-display-middle w3-display-hover">
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-                <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-trash"></i>&nbsp;Edit</button>
+                <button class="w3-left-align w3-button w3-black w3-block w3-margin"><i class="fa fa-edit"></i>&nbsp;Delete</button>
             </div>
             </div>
             <p>[PRODUCT-NAME]<br><b class="w3-text-red">$19.99</b></p>
