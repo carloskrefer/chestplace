@@ -1,3 +1,4 @@
+DROP DATABASE if EXISTS chestplace;
 CREATE DATABASE IF NOT EXISTS  chestplace;
 
 use chestplace;
@@ -10,24 +11,26 @@ CREATE TABLE usuario(
   senha varchar(255) NOT NULL, 
   banido datetime DEFAULT NULL, 
   PRIMARY KEY (id)
-)ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+);
 
 CREATE TABLE vendedor(
-  id int(10), 
+  id_usuario int(10), 
   nome_estabelecimento varchar(255) NOT NULL, 
   cpf char(11), 
   cnpj char(14),
 
-  FOREIGN KEY (id) REFERENCES usuario(id)
+  FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 
 CREATE TABLE comprador(
-  id int(10) FOREIGN KEY REFERENCES usuario(id), 
-  cpf varchar(11) DEFAULT NULL 
+  id_usuario int(10), 
+  cpf varchar(11) DEFAULT NULL, 
+  FOREIGN KEY id_usuario REFERENCES usuario(id)
 );
 
 CREATE TABLE administrador(
-  id int(10) FOREIGN KEY REFERENCES usuario(id)
+  id_usuario int(10), 
+  FOREIGN KEY id_usuario REFERENCES usuario(id)
   -- Tabela feita apenas para diferenciar o admin dos outros
 );
 
@@ -97,4 +100,3 @@ CREATE TABLE carrinho(
   FOREIGN KEY (id_tipo_usuario) REFERENCES tamanho_camiseta(id)
 );
 
-DROP DATABASE chestplace;
