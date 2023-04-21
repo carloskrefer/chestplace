@@ -13,19 +13,19 @@ Agosto/2022
     global $password;
     global $database;
 
-    $servername = "localhost:3307";
+    $servername = "localhost:3306";
     $username = "root";
     $password = "";
     $database = "chestplace";
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password);
+    $conn = new mysqli($servername, $username, $password, $database);
 
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        die("<script>console.log( \" Connected failed: ".$conn->connect_error." \" )</script> ");
     }
-    echo "Connected successfully";
+    echo "<script>console.log(\"Connected successfully to database\")</script>";
 ?>
 
 

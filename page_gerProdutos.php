@@ -1,5 +1,3 @@
-<?include("./database/conectaBD.php")?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,92 +44,85 @@
 
 
     <div class="w3-container w3-text-grey" id="jeans">
-      <p>4 items</p>
+      <p>
+      <?php
+        include("./database/conectaBD.php");
+
+        $queryQtde = "
+        SELECT count(*) qtde 
+        FROM camiseta c 
+        INNER JOIN imagem i
+        ON c.id = i.id_produto
+        WHERE c.id_vendedor =".$_GET["id"].";";
+
+        $result = mysqli_query($conn, $queryQtde);
+
+        if (mysqli_num_rows($result) > 0) {
+          while($row = mysqli_fetch_assoc($result)) {
+            echo $row["qtde"]." produtos";
+          }
+        } else {
+          echo "0 results";
+        }
+      ?>  
+      </p>
     </div>
 
-    <?php
-      for($i=0; $i< 10; $i++){
-        $sum = 0;
-        $sum += $i;
-        // echo "<script>alert(\"".$i."\")</script>";
-      }
-    ?>
     <!-- Product grid -->
     <div class="w3-row w3-grayscale">
       <?php
+        $dataHoraAtual = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));;
 
-        $queryProdutos = "SELECT ";
+        $queryProdutos = "
+          SELECT * 
+          FROM camiseta c 
+          INNER JOIN imagem i
+          ON c.id = i.id_produto
+          WHERE c.id_vendedor =".$_GET["id"].";";
+          
+        $result = mysqli_query($conn, $queryProdutos);
 
+        if (mysqli_num_rows($result) > 0) {
+          // output data of each row
+          while($row = mysqli_fetch_assoc($result)) {
+            $dataPublicacao = new DateTime($row["data_hora_publicacao"]);
+            
+            echo "
+              <div class=\"w3-col l3 s6\">
+                <div class=\"w3-container\">
+                  <div class=\"w3-display-container\">
+            ";
 
-        $conn->
+            //Tag 'Novo'
+            if($dataHoraAtual->diff($dataPublicacao)->days < 2){
+              echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
+            }
 
+            // Codifica o blob em base64
+            $base64Image = base64_encode($row["imagem"]);
 
-        // Utilizando a sintaxe curta
-        $array = [
-          0 => "bar",
-          1 => "foo",
-        ];
-      
+            // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
+            echo "<img src='./w3images/jeans1.jpg' style=\"width:100%;\">";
+
+            echo "
+                  <div class=\"w3-display-middle w3-display-hover\">
+                  <button class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Edit</button>
+                  <button class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Delete</button>
+                </div>
+              </div>
+              <p>".$row["titulo"]."<br><b>$".$row["preco"]."</b></p>
+              </div>
+            </div>
+            ";
+
+            
+          }
+        }
+
       ?>
 
 
-      <div class="w3-col l3 s6">
-        <div class="w3-container">
-          <div class="w3-display-container">
-            <span class="w3-tag w3-display-topleft">New</span>
-            <img src="./w3images/jeans2.jpg" style="width:100%">  
-            <div class="w3-display-middle w3-display-hover">
-              <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-              <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
-            </div>
-          </div>
-          <p>[PRODUCT-NAME]<br><b>$19.99</b></p>
-        </div>
-    </div>
-
-    <?php
-      echo "<script>alert(\"".$sum."\")</script>";
-    ?>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans2.jpg" style="width:100%">  
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-            <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
-          </div>
-        </div>
-        <p>[PRODUCT-NAME]<br><b>$19.99</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans2.jpg" style="width:100%">  
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-            <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
-          </div>
-        </div>
-        <p>[PRODUCT-NAME]<br><b>$19.99</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans2.jpg" style="width:100%">  
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-trash"></i>&nbsp;Edit</button>
-            <button class="w3-left-align w3-button w3-black w3-block"><i class="fa fa-edit"></i>&nbsp;Delete</button>
-          </div>
-        </div>
-        <p>[PRODUCT-NAME]<br><b class="w3-text-red">$19.99</b></p>
-      </div>
-    </div>
-
+      
   </div>
   
   <!-- End page content -->
