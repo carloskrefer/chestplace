@@ -51,8 +51,6 @@
         $queryQtde = "
         SELECT count(*) qtde 
         FROM camiseta c 
-        INNER JOIN imagem i
-        ON c.id = i.id_produto
         WHERE c.id_vendedor =".$_GET["id"].";";
 
         $result = mysqli_query($conn, $queryQtde);
@@ -71,20 +69,25 @@
     <!-- Product grid -->
     <div class="w3-row w3-grayscale">
       <?php
+        //Coleta data e hora atual (momento da execução)
         $dataHoraAtual = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));;
 
+        //Select das camisetas e imagens das camisetas do vendedor passado por _GET
         $queryProdutos = "
           SELECT * 
           FROM camiseta c 
           INNER JOIN imagem i
           ON c.id = i.id_produto
-          WHERE c.id_vendedor =".$_GET["id"].";";
-          
+          WHERE c.id_vendedor =".$_GET["id"]."
+          GROUP BY c.id;";
+
+        //Resultao do Select
         $result = mysqli_query($conn, $queryProdutos);
 
+        //Percorrendo resultado do select
         if (mysqli_num_rows($result) > 0) {
-          // output data of each row
           while($row = mysqli_fetch_assoc($result)) {
+            //Data de publicação convertida para DateTime do php
             $dataPublicacao = new DateTime($row["data_hora_publicacao"]);
             
             echo "
@@ -93,6 +96,7 @@
                   <div class=\"w3-display-container\">
             ";
 
+            //Se o anuncio foi feito há menos de dois dias
             //Tag 'Novo'
             if($dataHoraAtual->diff($dataPublicacao)->days < 2){
               echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
@@ -104,15 +108,16 @@
             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
             echo "<img src='./w3images/jeans1.jpg' style=\"width:100%;\">";
 
+            //Coloca botões, título e preço do anúncio
             echo "
                   <div class=\"w3-display-middle w3-display-hover\">
-                  <button class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Edit</button>
-                  <button class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Delete</button>
+                    <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Edit</button>
+                    <button onclick=\"goToDeletarProduto()\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Delete</button>
+                  </div>
+                </div>
+                <p>".$row["titulo"]."<br><b>$".$row["preco"]."</b></p>
                 </div>
               </div>
-              <p>".$row["titulo"]."<br><b>$".$row["preco"]."</b></p>
-              </div>
-            </div>
             ";
 
             
@@ -156,6 +161,10 @@
       function w3_close() {
         document.getElementById("mySidebar").style.display = "none";
         document.getElementById("myOverlay").style.display = "none";
+      }
+
+      function goToAlterProduto(id){
+        window.location.href='./forms/form_alterProduto.php?id=' + id;
       }
 
     </script>
