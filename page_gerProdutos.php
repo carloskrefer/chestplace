@@ -39,7 +39,7 @@
           <spam class="w3-large" style="text-decoration: underline;">Gabriel</spam>
           <i class="fa fa-user w3-margin-right"></i>
         </a>
-        <a class="no-underline" href="forms/form_cadProduto.php">
+        <a class="no-underline" href="forms/form_cadProduto.php" title="Cadastrar novo produto">
           <i class="fa fa-solid fa-plus"></i>
         </a>
       </p>

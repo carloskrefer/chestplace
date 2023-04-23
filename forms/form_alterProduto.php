@@ -78,10 +78,9 @@
                                     ?>
                                 </p>
                                 <p>
-                                    <label class="w3-text-IE"><b>Data de publicação</b></label>
+                                    <label class="w3-text-IE"><b>Data de publicação*</b></label>
                                     <?php
                                         echo"<input class=\"w3-input w3-border w3-light-grey \" name=\"dataPublicacao\" type=\"datetime-local\" placeholder=\"dd/mm/aaaa\" title=\"dd/mm/aaaa\" title=\"Formato: dd/mm/aaaa\" value=\"".$data_hora_publicacao."\">";
-                                    
                                     ?>
                                     
                                 </p>
