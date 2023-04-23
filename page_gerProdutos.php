@@ -1,3 +1,6 @@
+<?php 
+  session_start(); 
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,11 +50,12 @@
       <p>
       <?php
         include("./database/conectaBD.php");
+        $_SESSION["idVendedor"] = $_GET["id"];
 
         $queryQtde = "
         SELECT count(*) qtde 
         FROM camiseta c 
-        WHERE c.id_vendedor =".$_GET["id"].";";
+        WHERE c.id_vendedor =".$_SESSION["idVendedor"].";";
 
         $result = mysqli_query($conn, $queryQtde);
 
@@ -69,6 +73,7 @@
     <!-- Product grid -->
     <div class="w3-row w3-grayscale">
       <?php
+
         //Coleta data e hora atual (momento da execução)
         $dataHoraAtual = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));;
 
@@ -78,7 +83,7 @@
           FROM camiseta c 
           INNER JOIN imagem i
           ON c.id = i.id_produto
-          WHERE c.id_vendedor =".$_GET["id"]."
+          WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
           GROUP BY c.id;";
 
         //Resultao do Select
