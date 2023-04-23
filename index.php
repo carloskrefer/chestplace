@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./css/styles.css">
 <style>
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
@@ -70,6 +70,38 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <i class="fa fa-search"></i>
     </p>
   </header>
+
+  <!-- MODAL LOGIN: pop up para realizar Login --> 
+  <div id="id0L" class="w3-modal ">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:400px">
+      <div class="w3-center"> 
+        <span onclick="document.getElementById('id0L').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Fechar">×</span>
+      </div>
+
+      <h2 class="w3-center w3-xxlarge">Entrar</h2>
+
+      <form action="login.php" method="POST" class="w3-container w3-card-4 w3-light-grey w3-margin">
+        <div class="w3-section">
+          <label class="w3-text-IE"><b>Nome do usuário</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login" placeholder="" required>
+          <label class="w3-text-IE"><b>Senha</b></label>
+          <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
+          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,8}" placeholder="" 
+          title="Deve conter ao menos um número, uma letra maiúscula, uma letra minúscula, um caracter especial, e ter de 6 a 8 caracteres" 
+          required>
+          <p>
+          <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
+          </p>
+          <button class="w3-button w3-block w3-theme w3-section w3-padding w3-cyan" type="submit">Entrar</button>
+        </div>
+      </form>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('id0L').style.display='none'" type="button" class="w3-button w3-red">Cancelar</button>
+        <span class="w3-right w3-padding w3-hide-small"><a href="#">Esqueceu a senha?</a></span>
+      </div>
+    </div>
+  </div>
 
   <!-- Image header -->
   <div class="w3-display-container w3-container">
