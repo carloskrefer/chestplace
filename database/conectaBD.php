@@ -8,10 +8,10 @@ Profa. Cristina V. P. B. Souza
 Agosto/2022
 ---------------------------------------------------------------------------------->
 <?php
-global $servername ;
-global $username;
-global $password;
-global $database;
+    global $servername ;
+    global $username;
+    global $password;
+    global $database;
 
 $servername = "localhost:3306";
 $username = "root";
