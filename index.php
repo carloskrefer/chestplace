@@ -113,18 +113,13 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>
     </div>
   </div>
-  <?php include_once("conectaBD.php");
-  $sql = "SELECT titulo, preco, imagem FROM camiseta";
-  $r_produto = "SELECT * FROM camiseta" ;
-  $result_produto = mysql_query($conn, $r_produto);
-  ?>
   <div class="w3-container w3-text-grey" id="jeans">
     <p>8 items</p>
   </div>
 // a testar
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
-  <?php while($rows_produtos = mysql_fetch_assoc( $result_produto)){ ?>
+  
   
     <div class="w3-col l3 s6">
       <div class="w3-container">
@@ -133,28 +128,44 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
               
                 <div class="w3-container">
                 <?php
-                if ($row['Foto']) {?>
-                                    <td>
-                                        <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="data:image/png;base64,<?= base64_encode($row['Foto']) ?>" />
-                                    </td><td>
-                                    <?php
-                                } else {
-                                    ?>
-                                    <td>
-                                        <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="imagens/pessoa.jpg" />
-                                    </td><td>
-                                    <?php
-                                }
-                                ?>
-                  <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
-                  <p><a href="#"role="button">Comprar</a></p>
-                
+                      // Conexão com o banco de dados
+                      $conn = mysqli_connect('localhost', 'usuario', 'senha', 'banco_de_dados');
+
+                      // Consulta SQL para selecionar os produtos com a data de postagem igual à data atual
+                      $sql = "SELECT titulo, preco , imagem FROM camiseta WHERE data_postagem = CURDATE()";
+
+                      // Executa a consulta
+                      $resultado = mysqli_query($conn, $sql);
+
+                      // Verifica se há resultados
+                      if (mysqli_num_rows($resultado) > 0) {
+                          // Loop pelos resultados
+                          while ($produto = mysqli_fetch_assoc($resultado)) {
+                              // Exibe as informações do produto
+                              <div class="w3-col l3 s6">
+                              <div class="w3-container">
+                                <div class="w3-display-container">
+                                  <img src="./w3images/jeans2.jpg" style="width:100%">
+                                </div>
+                                <p><?php echo $row["titulo"] ?><br><b>R$ <?php echo number_format($row["preco"], 2, ',', '.') ?></b></p>
+                              </div>
+                            </div>
+                          }
+                      } else {
+                          // Caso não haja resultados
+                          echo "Não há produtos para exibir.";
+                      }
+
+                      // Fecha a conexão com o banco de dados
+                      mysqli_close($conn);
+                      ?>
+
               </div>
             </div>
           </div>
       </div>
     
-    <?php } ?>
+    
     </div>
     <div class="w3-col l3 s6">
       <div class="w3-container">
