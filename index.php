@@ -80,58 +80,49 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>
     </div>
   </div>
-  <?php
-  $conn = new mysqli($servername, $username, $password, $database);
-  // Verifica conexão 
-  if ($conn->connect_error) {
-    die("<strong> Falha de conexão: </strong>" . $conn->connect_error);
-  }
-
+  <?php include_once("conectaBD.php");
   $sql = "SELECT titulo, preco, imagem FROM camiseta";
-
+  $r_produto = "SELECT * FROM camiseta" ;
+  $result_produto = mysql_query($conn, $r_produto);
   ?>
   <div class="w3-container w3-text-grey" id="jeans">
     <p>8 items</p>
   </div>
-
+// a testar
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
+  <?php while($rows_produtos = mysql_fetch_assoc( $result_produto)){ ?>
+  
     <div class="w3-col l3 s6">
       <div class="w3-container">
-      <?php
-	    if($row['imagem']) {
-		    // inicia o loop que vai mostrar todos os dados
-        do {
-    ?>
-          <img id="imagemSelecionada" src="data:image/png;base64,<?= base64_encode($row['imagem']) ?>" />
-    <?php
-        // finaliza o loop que vai mostrar os dados
-        }while($linha = mysql_fetch_assoc($dados));
-      // fim do if
-      }
-    ?>
-        <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
+                <div class="row">
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="w3-container">
+                  <img src="./w3images/jeans3.jpg" style="width:100%">
+                  <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
+                  <p><a href="#"role="button">Comprar</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
-      <div class="w3-container">
-        <img src="./w3images/jeans2.jpg" style="width:100%">
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
-      </div>
+    
+    <?php } ?>
     </div>
-
     <div class="w3-col l3 s6">
       <div class="w3-container">
         <div class="w3-display-container">
           <img src="./w3images/jeans2.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">New</span>
           <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+
           </div>
         </div>
-        <p>Mega Ripped Jeans<br><b>$19.99</b></p>
+        <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
       </div>
       <div class="w3-container">
         <img src="./w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+        <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
       </div>
     </div>
 
