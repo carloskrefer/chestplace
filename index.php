@@ -130,12 +130,25 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
       <div class="w3-container">
                 <div class="row">
             <div class="col-sm-6 col-md-4">
-              <div class="thumbnail">
+              
                 <div class="w3-container">
-                  <img src="./w3images/jeans3.jpg" style="width:100%">
+                <?php
+                if ($row['Foto']) {?>
+                                    <td>
+                                        <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="data:image/png;base64,<?= base64_encode($row['Foto']) ?>" />
+                                    </td><td>
+                                    <?php
+                                } else {
+                                    ?>
+                                    <td>
+                                        <img id="imagemSelecionada" class="w3-circle w3-margin-top" src="imagens/pessoa.jpg" />
+                                    </td><td>
+                                    <?php
+                                }
+                                ?>
                   <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
                   <p><a href="#"role="button">Comprar</a></p>
-                </div>
+                
               </div>
             </div>
           </div>
