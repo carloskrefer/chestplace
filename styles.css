@@ -10,3 +10,32 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 
 /*CHESTPLACE*/
+/* Define a largura máxima da vitrine de produtos */
+.w3-row-padding {
+    margin: 0 -16px;
+  }
+  
+  /* Define as propriedades de layout para cada coluna de produto */
+  .w3-col {
+    padding: 0 16px;
+  }
+  
+  /* Define a largura da coluna de produto para dispositivos grandes */
+  .w3-col.l3 {
+    width: 25%;
+  }
+  
+  /* Define a largura da coluna de produto para dispositivos médios */
+  @media screen and (max-width: 992px) {
+    .w3-col.m4 {
+      width: 33.33%;
+    }
+  }
+  
+  /* Define a largura da coluna de produto para dispositivos pequenos */
+  @media screen and (max-width: 600px) {
+    .w3-col.s6 {
+      width: 50%;
+    }
+  }
+  
