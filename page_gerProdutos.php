@@ -81,8 +81,6 @@
         $queryProdutos = "
           SELECT * 
           FROM camiseta c 
-          INNER JOIN imagem i
-          ON c.id = i.id_produto
           WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
           GROUP BY c.id;";
 
@@ -107,9 +105,6 @@
               echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
             }
 
-            // Codifica o blob em base64
-            $base64Image = base64_encode($row["imagem"]);
-
             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
             echo "<img src='./w3images/jeans1.jpg' style=\"width:100%;\">";
 
@@ -117,7 +112,7 @@
             echo "
                   <div class=\"w3-display-middle w3-display-hover\">
                     <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Edit</button>
-                    <button onclick=\"goToDeletarProduto()\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Delete</button>
+                    <button onclick=\"goToDeletarProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Delete</button>
                   </div>
                 </div>
                 <p>".$row["titulo"]."<br><b>$".$row["preco"]."</b></p>
@@ -170,6 +165,10 @@
 
       function goToAlterProduto(id){
         window.location.href='./forms/form_alterProduto.php?id=' + id;
+      }
+
+      function goToDeletarProduto(id){
+        window.location.href="./actions/delProduto_exe.php?id=" + id;
       }
 
     </script>

@@ -1,5 +1,6 @@
 <?php
     session_start();
+    include("../common/functions.php");
     include("../database/conectaBD.php");
 
     $titulo         = $_POST["titulo"];
@@ -48,12 +49,14 @@
                 // Insere o conteúdo no banco de dados
                 $sql = "INSERT INTO imagem (id_produto, imagem) VALUES(\"".$idCamiseta."\",\"".$content."\")";
                 
-                echo "<script>alert(\"".$filename."\");</script>";
+                echo "<script>console.log(\"".$filename."\");</script>";
     
-                if (mysqli_query($conn, $sql))
-                    echo "<script>alert(\"Cadastro de imagem realizado\");</script>";
+                if (mysqli_query($conn, $sql)){
+                    echo "<script>console.log(\"Cadastro de imagem realizado\");</script>";
+                    redirect("../page_gerProdutos.php?".$_SESSION["idVendedor"]);
+                }
                 else
-                    echo "<script>alert(\"Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");</script>";
+                    echo "<script>console.log(\"Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");</script>";
                 
             }
         }
