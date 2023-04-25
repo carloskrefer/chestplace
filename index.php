@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="./scripts/login.js"></script>
-  <link rel="stylesheet" href="chestplace\styles.css">
+  <link rel="stylesheet" href="./styles.css">
 <style>
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
@@ -64,9 +64,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <header class="w3-container w3-xlarge">
     <p class="w3-left">Jeans</p>
     <p class="w3-right">
-      
-      <button class="w3-btn w3-deep-orange w3-border" onclick="document.getElementById('id0L').style.display='block'" style="font-size: 15px; font-weight: 700; margin-right: 10px;">Entrar</button>
-      <button class="w3-btn w3-white w3-border" onclick="//inserir aqui o código que exibe o display do modal de cadastro" style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
+      <?php
+        // Exibe nome do usuário logado, se não mostrará os botões de login e cadastro
+        session_start();
+        $usuarioLogou = isset($_SESSION ['nome']);
+        if ($usuarioLogou) {
+          $nomeUsuario = $_SESSION['nome'];
+          echo <<<END
+            <span style="margin-right: 10px;">Olá, $nomeUsuario </span>
+          END;
+        } else {
+          echo <<<END
+            <button class="w3-btn w3-deep-orange w3-border" onclick="document.getElementById('id0L').style.display='block'" 
+            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Entrar</button>
+            <button class="w3-btn w3-white w3-border" onclick="//inserir aqui o código que exibe o display do modal de cadastro" 
+            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
+          END;
+        }
+      ?>     
       <i class="fa fa-shopping-cart w3-margin-right"></i>
       <i class="fa fa-search"></i>
     </p>
@@ -87,8 +102,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
           <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login" placeholder="" required>
           <label class="w3-text-IE"><b>Senha</b></label>
           <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,8}" placeholder="" 
-          title="Deve conter ao menos um número, uma letra maiúscula, uma letra minúscula, um caracter especial, e ter de 6 a 8 caracteres" 
+          placeholder="" 
+          title="Por enquanto não tem regra nenhuma, pois no banco salvaram senhas curtas pra facilitar os testes." 
           required>
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
