@@ -34,15 +34,15 @@
                 <div class="w3-container w3-theme">
                     <h2>Cadastrar produto</h2>
                 </div>
-                <form class="w3-container" action="cadProduto_exe.php" method="post" enctype="multipart/form-data">
+                <form class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data">
                     <table class='w3-table-all'>
                         <tr>
                             <td style="width:50%;">
-                                <p>
+                                <!-- <p>
                                     <input type="hidden" id="idProduto" name="idProduto" value="">
-                                <p>
+                                <p> -->
                                     <label class="w3-text-IE"><b>Título</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" pattern="\w{1,}$" title="Nome entre 10 e 100 letras." value="" required>
+                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
                                 </p>
                                 <p>
                                 <label class="w3-text-IE"><b>Descrição</b>*</label>
@@ -83,6 +83,18 @@
                                 </p>
 
                                 <p>
+                                    <label class="w3-text-IE"><b>Estado de conservação</b>*</label>
+                                    <select name="conservacao" id="conservacao" class="w3-input w3-border w3-light-grey " required>
+                                        <option value=""  disabled hidden selected>Escolha o estado de conservação</option>
+                                        <option value="nova">Nova</option>
+                                        <option value="seminova">Seminova</option>
+                                        <option value="usada">Usada</option>
+                                        <option value="desgastada">Desgastada</option>
+                                        <option value="muito desgastada">Muito desgastada</option>
+                                    </select>
+                                </p>
+
+                                <p>
                                     <label class="w3-text-IE"><b>Tamanhos/Quantidade</b>*</label>
                                     <table id="tabelaTamanhos">
                                         <th class="w3-center">Disponível</th>
@@ -114,9 +126,14 @@
                             </td>
 
                             <td>
-                                <p style="text-align:center"><label class="w3-text-IE"><b>Imagens do produto: </b></label></p>
-                                        <input type="hidden" name="MAX_FILE_SIZE" value="16777215" />
-                                        <input type="file" id="Imagem" name="Imagem" accept="imagem/*" onchange="validaImagem(this);" /></label>
+                                <p style="text-align:center">
+                                    <label class="w3-text-IE">
+                                        <b>Imagens do produto:</b>
+                                    </label>
+                                </p>
+                                <p>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="16777215" />
+                                    <input type="file" id="Imagem" name="imagem[]" accept="imagem/*" enctype="multipart/form-data" onchange="validaImagem(this);" multiple/></label>
                                 </p>
                             </td>
                         </tr>

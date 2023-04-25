@@ -40,7 +40,7 @@ CREATE TABLE marca(
 );
 
 CREATE TABLE camiseta(
-  id int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+  id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, 
   titulo varchar(255) NOT NULL, 
   descricao text DEFAULT '', 
   preco float NOT NULL,
@@ -54,6 +54,7 @@ CREATE TABLE camiseta(
 );
 
 CREATE TABLE imagem(
+  id int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_produto int(10) UNSIGNED NOT NULL, 
   imagem blob NOT NULL,
   FOREIGN KEY (id_produto) REFERENCES camiseta(id)
