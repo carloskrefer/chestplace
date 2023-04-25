@@ -53,7 +53,7 @@
     
                 if (mysqli_query($conn, $sql)){
                     echo "<script>console.log(\"Cadastro de imagem realizado\");</script>";
-                    redirect("../page_gerProdutos.php?".$_SESSION["idVendedor"]);
+                    redirect("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);
                 }
                 else
                     echo "<script>console.log(\"Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");</script>";
