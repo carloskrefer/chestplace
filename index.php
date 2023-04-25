@@ -102,8 +102,8 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
           <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login" placeholder="" required>
           <label class="w3-text-IE"><b>Senha</b></label>
           <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
-          pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,8}" placeholder="" 
-          title="Deve conter ao menos um número, uma letra maiúscula, uma letra minúscula, um caracter especial, e ter de 6 a 8 caracteres" 
+          placeholder="" 
+          title="Por enquanto não tem regra nenhuma, pois no banco salvaram senhas curtas pra facilitar os testes." 
           required>
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
