@@ -34,7 +34,7 @@
                 <div class="w3-container w3-theme">
                     <h2>Cadastrar produto</h2>
                 </div>
-                <form class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data">
+                <form id="cadForm"class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data">
                     <table class='w3-table-all'>
                         <tr>
                             <td style="width:50%;">
@@ -113,9 +113,9 @@
                                                 while($row = mysqli_fetch_assoc($result)) {
                                                     echo "
                                                         <tr>
-                                                            <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'inpt-".$row["codigo"]."')\" type=\"checkbox\" name=\"disp\" id=\"disp\" checked></td>
+                                                            <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'inpt-".$row["codigo"]."')\" type=\"checkbox\" name=\"disp\" id=\"disp\"></td>
                                                             <td class=\"w3-left-align\" >".$row["codigo"]." - ".$row["descricao"]."</td>
-                                                            <td class=\"w3-center\"     ><input id=\"inpt-".$row["codigo"]."\" type=\"number\" style=\"width:50%\" min=0 step=\"1\" required></td>
+                                                            <td class=\"w3-center\"     ><input name=\"inpt-".$row["codigo"]."\" id=\"inpt-".$row["codigo"]."\" type=\"number\" style=\"width:50%\" min=0 step=\"1\" required></td>
                                                         </tr>
                                                     ";
                                                 }
@@ -153,6 +153,20 @@
 		</div>
 
 	</div>
+
+    <script>
+        window.addEventListener("load", function(event) {
+            // Seleciona todos os checkboxes
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            
+            // Verifica se pelo menos um checkbox foi marcado
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].click();
+                checkboxes[i].click();
+            }
+        });
+    </script>
+
 
 </body>
 
