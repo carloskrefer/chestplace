@@ -10,14 +10,7 @@
     <body>
         <?php
             session_start();
-
-            require 'database/conectaBD.php'
-
-            $conn = new mysqli(servername, $username, $password, $database);
-
-            if ($conn->connect_error) {
-                die("<strong> Falha de conexão: </strong>" . $conn->connect_error);
-            }
+            include("../database/conectaBD.php");
 
             $nome    = $conn->real_escape_string($_POST['nome']);    // prepara a string recebida para ser utilizada em comando SQL
             $email   = $conn->real_escape_string($_POST['email']);
@@ -32,7 +25,7 @@
             $id_usuario = 0;
 
             $sql_insert_usuario = "INSERT INTO usuario (Nome, Celular, DataNasc, ID_Genero, Login, Senha, ID_TipoUsu, Foto) VALUES ('$nome','$celular','$dt_nasc', '$genero','$login','$md5Senha', $tipoUsu, NULL)";
-            $sql_pega_id_usuario = "SELECT id FROM usuario WHERE email = '$email';"
+            $sql_pega_id_usuario = "SELECT id FROM usuario WHERE email = '$email';";
 
             if ($result1 = $conn->query($sql_insert_usuario)) {
                 $msg = "Registro cadastrado com sucesso! Você já pode realizar login.";
@@ -50,7 +43,7 @@
             }
 
             
-            $sql_insert_vendedor = "INSERT INTO vendedor (id, nome_estabelecimento, cpf, cnpj) VALUES ('$id_usuario', '$nome_estabelecimento', '$cpf', '$cnpj');"
+            $sql_insert_vendedor = "INSERT INTO vendedor (id, nome_estabelecimento, cpf, cnpj) VALUES ('$id_usuario', '$nome_estabelecimento', '$cpf', '$cnpj');";
 
             if ($result3 = $conn->query($sql_insert_vendedor)) {
                 $msg = "Registro cadastrado com sucesso! Você já pode realizar login.";

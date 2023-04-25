@@ -13,7 +13,7 @@ Agosto/2022
     global $password;
     global $database;
 
-$servername = "localhost:3306";
+$servername = "localhost:3307";
 $username = "root";
 $password = "";
 $database = "chestplace";

@@ -35,7 +35,7 @@
     <header class="w3-container w3-xlarge">
       <h3 class="w3-wide w3-left w3-padding-16"><b>LOGO</b></h3>
       <p class="w3-right">
-        <a class="no-underline" href="#" target="" >
+        <a class="no-underline" href="./forms/form_alterVendedor.php" target="" >
           <spam class="w3-large" style="text-decoration: underline;">Gabriel</spam>
           <i class="fa fa-user w3-margin-right"></i>
         </a>
