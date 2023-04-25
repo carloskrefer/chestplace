@@ -64,9 +64,24 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   <header class="w3-container w3-xlarge">
     <p class="w3-left">Jeans</p>
     <p class="w3-right">
-      
-      <button class="w3-btn w3-deep-orange w3-border" onclick="document.getElementById('id0L').style.display='block'" style="font-size: 15px; font-weight: 700; margin-right: 10px;">Entrar</button>
-      <button class="w3-btn w3-white w3-border" onclick="//inserir aqui o código que exibe o display do modal de cadastro" style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
+      <?php
+        // Exibe nome do usuário logado, se não mostrará os botões de login e cadastro
+        session_start();
+        $usuarioLogou = isset($_SESSION ['nome']);
+        if ($usuarioLogou) {
+          $nomeUsuario = $_SESSION['nome'];
+          echo <<<END
+            <span style="margin-right: 10px;">Olá, $nomeUsuario </span>
+          END;
+        } else {
+          echo <<<END
+            <button class="w3-btn w3-deep-orange w3-border" onclick="document.getElementById('id0L').style.display='block'" 
+            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Entrar</button>
+            <button class="w3-btn w3-white w3-border" onclick="//inserir aqui o código que exibe o display do modal de cadastro" 
+            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
+          END;
+        }
+      ?>     
       <i class="fa fa-shopping-cart w3-margin-right"></i>
       <i class="fa fa-search"></i>
     </p>
