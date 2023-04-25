@@ -1,9 +1,12 @@
 <?php
     session_start();
+
+
+
     include("../common/functions.php");
     include("../database/conectaBD.php");
 
-    $titulo         = $_POST["titulo"];
+    $titulo         = $_POST["email"];
     $descricao      = $_POST["descricao"];
     $preco          = $_POST["preco"];
     $dataPublicacao = DateTime::createFromFormat('Y-m-d\TH:i', $_POST["dataPublicacao"]);
@@ -20,7 +23,7 @@
         ".$_SESSION["idVendedor"].",
         ".$marca."
     );";
-    // echo $insertQuery;
+    echo $insertQuery;
     if (mysqli_query($conn, $insertQuery)){
         echo "<script>alert(\"Cadastro realizado\");</script>";
         
@@ -28,9 +31,11 @@
     
         $result = mysqli_query($conn, $selectIdCamiseta);
 
-        if (mysqli_num_rows($result) > 0)
-            while($row = mysqli_fetch_assoc($result))
+        if (mysqli_num_rows($result) > 0){
+            while($row = mysqli_fetch_assoc($result)){
                 $idCamiseta = $row["id"];
+            }
+        }
     
         // Loop através de cada arquivo enviado pelo formulário
         foreach ($_FILES["imagem"]["tmp_name"] as $key => $tmp_name) {
@@ -53,8 +58,6 @@
     
                 if (mysqli_query($conn, $sql)){
                     echo "<script>console.log(\"Cadastro de imagem realizado\");</script>";
-                    // echo "../page_gerProdutos.php?id=".$_SESSION["idVendedor"];
-                    // header("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);
                 }
                 else
                     echo "<script>console.log(\"Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");</script>";
@@ -64,9 +67,6 @@
     }
     else
         echo "<script>alert(\"Erro ao cadastrar produto:" . mysqli_error($conn) . "\");</script>";
-    // $insertImages = "INSERT INTO imagem VALUES(".$idCamiseta.")";
 
-    echo "
-    <a href=\"../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."\">Voltar</a>
-    " ;  
 ?>
+
