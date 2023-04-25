@@ -28,7 +28,7 @@ body { background-color: #ffff4d; }
     <a href="#" class="w3-bar-item w3-button">Shirts</a>
     <a href="#" class="w3-bar-item w3-button">Dresses</a>
     <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      Jeans <i class="fa fa-caret-down"></i>
+      Camisetas <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
       <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Skinny</a>
@@ -63,7 +63,7 @@ body { background-color: #ffff4d; }
   
   <!-- Top header -->
   <header class="w3-container w3-xlarge">
-    <p class="w3-left">Jeans</p>
+    <p class="w3-left">Camisetas</p>
     <p class="w3-right">
       <?php
         // Exibe nome do usuário logado, se não mostrará os botões de login e cadastro
