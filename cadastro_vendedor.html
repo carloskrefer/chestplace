@@ -12,46 +12,37 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 
-<style>
-body {background-color:MidnightBlue;}
-
-</style>
-
-<body> 
-
-
+<body>
 <div class='container'>
   <div class='card'>
 
-    <h1 style="color:yellow;">Cadastro de Vendedor</h1>
+    <h1>Cadastro de Vendedor</h1>
 
-    <form method="post">
-
-    <div style="color:yellow;" class="label-float">
+    <div class="label-float">
      <input type="text" id="email" placeholder="Email" required>
      <label id="labelEmail" for="email">E-Mail</label>
     </div>
 
-    <div style="color:yellow;" class="label-float">
+    <div class="label-float">
+      <input type="text" id="cpf" placeholder=" " required>
+      <label id="labelCPF" for="email">CPF</label>
+   </div>
+
+    <div class="label-float">
       <input type="text" id="nome vendedor" placeholder="Nome do vendedor" required>
       <label id="labelNome" for="nome vendedor">Nome do vendedor</label>
     </div>
             
-    <div style="color:yellow;" class="label-float">
-      
+    <div class="label-float">
       <input type="password" id="senha" placeholder="Senha" required>
       <label id="labelSenha" for="senha">Senha</label>
 
       <div class='justify-center'>
+        <button onclick='cadastrar'>Cadastrar</button>
 
-        <input type="submit" value="Cadastrar" name="Submit1"><br/><br/>
-
-
-      <h2 style="color:yellow;">Já possuo Conta</h2>
+      <h2>Já possuo Conta</h2>
       <div class ='justify-center'>
-        <button onclick="link da pagina de login" >Login</button>
+        <button onclick="https:" >Login</button>
 
-      <h3 style="color:yellow;">Voltar para tela inicial</h3>
-      <button onclick="link da pagina inicial" >Voltar</button>
       </body>
 </html>
