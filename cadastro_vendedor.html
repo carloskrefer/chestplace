@@ -13,6 +13,14 @@
 </head>
 
 <body>
+  
+<php>
+  require './database/conectaBD.php'; 
+
+
+  $conn = new mysqli($email, $nome_vendedor, $senha, $cpf);
+
+
 <div class='container'>
   <div class='card'>
 
@@ -29,7 +37,7 @@
    </div>
 
     <div class="label-float">
-      <input type="text" id="nome vendedor" placeholder="Nome do vendedor" required>
+      <input type="text" id="nome_vendedor" placeholder="Nome do vendedor" required>
       <label id="labelNome" for="nome vendedor">Nome do vendedor</label>
     </div>
             
@@ -43,6 +51,8 @@
       <h2>Já possuo Conta</h2>
       <div class ='justify-center'>
         <button onclick="https:" >Login</button>
+        $conn->close();  
+      </php>
 
       </body>
 </html>
