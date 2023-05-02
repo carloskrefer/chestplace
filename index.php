@@ -99,13 +99,14 @@ body { background-color: #ffff4d; }
 
       <form action="login.php" method="POST" class="w3-container w3-card-4 w3-light-grey w3-margin">
         <div class="w3-section">
-          <label class="w3-text-IE"><b>Nome do usuário</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login" placeholder="" required>
+          <label class="w3-text-IE"><b>E-mail</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login" pattern="(?=.+@.+\..+).{1,255}" 
+            title="Deve informar um e-mail com até 255 caracteres." placeholder="usuario@dominio.com" required maxlength="255">
           <label class="w3-text-IE"><b>Senha</b></label>
           <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
-          placeholder="" 
-          title="Por enquanto não tem regra nenhuma, pois no banco salvaram senhas curtas pra facilitar os testes." 
-          required>
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-!#$.%&*]).{6,255}" placeholder="" 
+            title="Deve conter ao menos um número, uma letra maiúscula, uma letra minúscula, um caracter especial (-!#$.%&*), e ter de 6 a 255 caracteres" 
+            required maxlength="255">
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
           </p>
