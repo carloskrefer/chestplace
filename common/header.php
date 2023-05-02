@@ -20,9 +20,9 @@
     <link rel="stylesheet" href="../styles.css">
 </head>
 
-<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
+<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge" style="display:flex; align-items:center; padding: 0px 25px 0px 25px">
   <div class="w3-bar-item w3-padding-24 w3-wide">
-    <img src="./imagens/logo_chestplace.png" style="width: 100%; margin-top: 10px;">
+    <img src="../imagens/logo_chestplace.png" style="width: 30%;">
   </div>
   <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
 </header>

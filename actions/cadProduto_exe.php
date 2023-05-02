@@ -14,6 +14,8 @@
     $conservacao    = $_POST["conservacao"];
     $tamanhoSelect  = $_POST["tamanho"];
     
+    alert($preco);
+
     // Queries
     $insertCamiseta   = "INSERT INTO camiseta(titulo, descricao, preco, conservacao, data_hora_publicacao,id_vendedor, id_marca) VALUES(
         \"".$titulo."\",

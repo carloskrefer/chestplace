@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
     <script src="../scripts/formFunctions.js"></script>
+    <script src="../scripts/validacoes.js"></script>
 
 </head>
 
@@ -27,7 +28,7 @@
                 <div class="w3-container w3-theme">
                     <h2>Cadastrar produto</h2>
                 </div>
-                <form id="cadForm"class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                <form id="cadForm"class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data" onsubmit="">
                     <table class='w3-table-all'>
                         <tr>
                             <td style="width:50%;">
@@ -36,7 +37,7 @@
                                 <p> -->
                                 <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="titulo" name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Descrição</b>*</label>
@@ -107,9 +108,9 @@
                                                 while($row = mysqli_fetch_assoc($result)) {
                                                     echo "
                                                         <tr>
-                                                            <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'quantidade_".$row["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" class=\"tamanho\" value=\"".$row["codigo"]."\"></td>
+                                                            <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'quantidade_".$row["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" value=\"".$row["codigo"]."\" class=\"tamanho\"></td>
                                                             <td class=\"w3-left-align\" >".$row["codigo"]." - ".$row["descricao"]."</td>
-                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%\" min=\"0\" pattern\"\d+\" required></td>
+                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%\" min=\"0\" pattern\"\d+\" onkeyup=\"configurarQtde(this)\" onblur=\"configurarQtde(this)\" class=\"quantidade\" required></td>
                                                         </tr>
                                                     ";
                                                 }
@@ -127,14 +128,14 @@
                                 </p>
                                 <p>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
-                                    <input type="file" id="Imagem" name="imagem[]" accept="imagem/*" enctype="multipart/form-data" onchange="validaImagem(this);" multiple required/></label>
+                                    <input type="file" id="Imagem" name="imagem[]" accept="image/*" enctype="multipart/form-data" onchange="validaImagem(this);" multiple required/></label>
                                 </p>
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" style="text-align:center">
                             <p>
-                                <input type="submit" value="Salvar" class="w3-btn w3-red">
+                                <input type="button" value="Salvar" onclick="validarFormulario();" class="w3-btn w3-red">
                                 <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
                             </p>
                             </td>
@@ -152,13 +153,41 @@
         // import *  as funcoes from "../scripts/validacoes_form_cadProduto.js";
         
         window.addEventListener("load", function(event) {
+            limitarCampos();
+
             let preco = document.getElementById("preco");
             if(preco.value == ""){
                 preco.value = "0.00";
             }
+
             configurarTamanhoCheckbox();
             configurarDataHoraPubli();
         });
+
+        function limitarCampos(){
+            let titulo = document.getElementById("titulo");
+            titulo.maxLength = 255;
+
+            let descricao = document.getElementById("descricao");
+            descricao.maxLength = 2000;
+
+            let quantidades = document.getElementsByClassName("quantidade");
+            for(let i = 0; i < quantidades.length ; i++){
+                quantidades[i].max = 2147483647;
+                quantidades[i].min = 1;
+            }
+        }
+
+        function configurarMensagensValidacao(){
+            let inputs = document.document.querySelectorAll("input");
+
+            for(let i = 0; i < inputs.length; i++){
+                inputs[i].addEventListener("invalid", function(event) {
+                    event.preventDefault(); // Impede que a mensagem de erro padrão apareça
+                    inputs[i].setCustomValidity("Por favor, preencha este campo com uma informação válida."); // Define uma mensagem de erro personalizada
+                });
+            }
+        }
 
         function configurarTamanhoCheckbox(){
             // Seleciona todos os checkboxes
@@ -181,6 +210,7 @@
             // Definir o valor mínimo do input
             agora.setUTCHours(agora.getUTCHours() - 3);
             input.min = agora.toISOString().slice(0,16);
+            input.value = agora.toISOString().slice(0,16);
 
             console.log(agora.toISOString());
         }
@@ -211,31 +241,26 @@
             // input.setSelectionRange(cursorPos, cursorPos);
         }
 
+        function configurarQtde(input){
+            input.value = input.value.replace(/\D+/g, '');
+            // alert(input.value);
+        }
+
         function validarFormulario(){
-            return validarTamanhoCheckbox();
+            const formulario = document.getElementById("cadForm");
+            let valido = validarTitulo() &&
+                         validarDescricao() && 
+                         validarDataPubli() &&
+                         validarMarca() &&
+                         validarConservacao() &&
+                         validarTamanhoCheckbox() && 
+                         validarQuantidade() &&
+                         validarImagem();
+            if(valido){
+                formulario.submit();
+            }
         }
 
-        function validarTamanhoCheckbox(){
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var checked = false;
-
-            console.log(checkboxes.length);
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                if(checkboxes[i].classList[0] == "tamanho"){
-                    if (checkboxes[i].checked) {
-                        checked = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!checked) {
-                alert('Selecione pelo menos uma opção de tamanho!');
-            }
-
-            return checked;
-        }
 
     </script>
 
