@@ -1,13 +1,6 @@
 <?php session_start() ?>
 
 <!DOCTYPE html>
-<!-------------------------------------------------------------------------------
-    Desenvolvimento Web
-    PUCPR
-    Profa. Cristina V. P. B. Souza
-    Agosto/2022
----------------------------------------------------------------------------------->
-<!-- MedAtualizar.php -->
 
 <html>
 
@@ -21,9 +14,9 @@
 
 </head>
 
-<body onload="w3_show_nav('menuMedico')">
+<body">
 	<!-- Inclui MENU.PHP  -->
-    <?php require '../common/header.php'; ?>
+    <?php require "../common/header.php"; ?>
     <?php require '../database/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
@@ -41,12 +34,13 @@
                                 <!-- <p>
                                     <input type="hidden" id="idProduto" name="idProduto" value="">
                                 <p> -->
+                                <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" title="Nome entre 10 e 100 letras." maxlength="255" value="" required>
+                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
                                 </p>
                                 <p>
-                                <label class="w3-text-IE"><b>Descrição</b>*</label>
-                                <textarea class="w3-input w3-border w3-light-grey " maxlength="2000" name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required></textarea>
+                                    <label class="w3-text-IE"><b>Descrição</b>*</label>
+                                    <textarea class="w3-input w3-border w3-light-grey " name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required></textarea>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Preço</b>*</label>
