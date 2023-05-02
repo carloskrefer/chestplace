@@ -14,7 +14,7 @@
 
     $quantidade = 0;
 
-    $sql_procura_carrinho = "SELECT carrinho.quantidade AS qtd_carrinho, tamanho_carrinho.quantidade AS quantia_possivel FROM carrinho INNER JOIN tamanho_camiseta ON tamanho_camiseta.id = carrinho.id_produto WHERE tamanho_camiseta.id_camiseta = '$id_camiseta' AND carrinho.id_usuario = '$id_usuario';";
+    $sql_procura_carrinho = "SELECT carrinho.quantidade AS qtd_carrinho, tamanho_carrinho.quantidade AS quantia_possivel FROM carrinho INNER JOIN estoque ON estoque.id = carrinho.id_produto WHERE estoque.id_camiseta = '$id_camiseta' AND carrinho.id_usuario = '$id_usuario';";
     
     $sql_insere_camiseta = "INSERT INTO carrinho (id_usuario, id_produto, quantidade) VALUES '$id_usuario', '$id_camiseta', '$quantidade';";
     

@@ -48,3 +48,4 @@ function validaImagem(input) {
         document.getElementById('imagemSelecionada').setAttribute('src', '#');
     }
 }
+

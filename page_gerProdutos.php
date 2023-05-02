@@ -111,8 +111,8 @@
             //Coloca botões, título e preço do anúncio
             echo "
                   <div class=\"w3-display-middle w3-display-hover\">
-                    <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Edit</button>
-                    <button onclick=\"goToDeletarProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Delete</button>
+                    <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Edit</button>
+                    <button onclick=\"goToDeletarProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Delete</button>
                   </div>
                 </div>
                 <p>".$row["titulo"]."<br><b>$".$row["preco"]."</b></p>

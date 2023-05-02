@@ -34,7 +34,7 @@
                 <div class="w3-container w3-theme">
                     <h2>Cadastrar produto</h2>
                 </div>
-                <form id="cadForm"class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data">
+                <form id="cadForm"class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
                     <table class='w3-table-all'>
                         <tr>
                             <td style="width:50%;">
@@ -42,19 +42,19 @@
                                     <input type="hidden" id="idProduto" name="idProduto" value="">
                                 <p> -->
                                     <label class="w3-text-IE"><b>Título</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
+                                    <input class="w3-input w3-border w3-light-grey " name="titulo" type="text" title="Nome entre 10 e 100 letras." maxlength="255" value="" required>
                                 </p>
                                 <p>
                                 <label class="w3-text-IE"><b>Descrição</b>*</label>
-                                <textarea class="w3-input w3-border w3-light-grey " name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required></textarea>
+                                <textarea class="w3-input w3-border w3-light-grey " maxlength="2000" name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required></textarea>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Preço</b>*</label>
-                                    <input step="0.01" class="w3-input w3-border w3-light-grey " min="0" type="number" name="preco" id="preco" required>
+                                    <input class="w3-input w3-border w3-light-grey " onkeyup="configurarPreco(this);" onblur="configurarPreco(this)" type="text" name="preco" id="preco" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Data de publicação*</b></label>
-                                    <input class="w3-input w3-border w3-light-grey " name="dataPublicacao" type="datetime-local" placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa" value="" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="dataPublicacao" name="dataPublicacao" type="datetime-local" title="dd/mm/aaaa hh:mm" title="Formato: dd/mm/aaaa" value="" max="9999-12-12T23:59:59" required>
                                 </p>
 
                                 <p>
@@ -113,9 +113,9 @@
                                                 while($row = mysqli_fetch_assoc($result)) {
                                                     echo "
                                                         <tr>
-                                                            <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'inpt-".$row["codigo"]."')\" type=\"checkbox\" name=\"disp\" id=\"disp\"></td>
+                                                            <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'quantidade_".$row["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" class=\"tamanho\" value=\"".$row["codigo"]."\"></td>
                                                             <td class=\"w3-left-align\" >".$row["codigo"]." - ".$row["descricao"]."</td>
-                                                            <td class=\"w3-center\"     ><input name=\"inpt-".$row["codigo"]."\" id=\"inpt-".$row["codigo"]."\" type=\"number\" style=\"width:50%\" min=0 step=\"1\" required></td>
+                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%\" min=\"0\" pattern\"\d+\" required></td>
                                                         </tr>
                                                     ";
                                                 }
@@ -132,8 +132,8 @@
                                     </label>
                                 </p>
                                 <p>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="16777215" />
-                                    <input type="file" id="Imagem" name="imagem[]" accept="imagem/*" enctype="multipart/form-data" onchange="validaImagem(this);" multiple/></label>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
+                                    <input type="file" id="Imagem" name="imagem[]" accept="imagem/*" enctype="multipart/form-data" onchange="validaImagem(this);" multiple required/></label>
                                 </p>
                             </td>
                         </tr>
@@ -153,9 +153,20 @@
 		</div>
 
 	</div>
-
+    
     <script>
+        // import *  as funcoes from "../scripts/validacoes_form_cadProduto.js";
+        
         window.addEventListener("load", function(event) {
+            let preco = document.getElementById("preco");
+            if(preco.value == ""){
+                preco.value = "0.00";
+            }
+            configurarTamanhoCheckbox();
+            configurarDataHoraPubli();
+        });
+
+        function configurarTamanhoCheckbox(){
             // Seleciona todos os checkboxes
             var checkboxes = document.querySelectorAll('input[type="checkbox"]');
             
@@ -164,7 +175,74 @@
                 checkboxes[i].click();
                 checkboxes[i].click();
             }
-        });
+        }
+
+        function configurarDataHoraPubli(){
+            // Seleciona dataPublicacao
+            const input = document.getElementById('dataPublicacao');
+
+            // Obter a data e hora atual
+            const agora = new Date();
+
+            // Definir o valor mínimo do input
+            agora.setUTCHours(agora.getUTCHours() - 3);
+            input.min = agora.toISOString().slice(0,16);
+
+            console.log(agora.toISOString());
+        }
+
+        function configurarPreco(input){
+
+            // Armazena a posição atual do cursor
+            input.selectionStart = input.selectionEnd = input.value.length;
+
+            // Remove todos os caracteres não numéricos (exceto um ponto ou vírgula decimal)
+            input.value = input.value.replace(/[^0-9]/g, '');
+
+            // Substitui a vírgula pelo ponto como separador decimal, se necessário
+            // input.value = input.value.replace(',', '.');
+
+            // Formata o valor com duas casas decimais, se possível
+            var valor = parseFloat(input.value.replace(',', '.'));
+            if (!isNaN(valor) && input.value.trim() !== '') {
+                valor = valor/100;
+                input.value = valor.toFixed(2);
+                if(valor > 999999.99){
+                    input.value = 999999.99; 
+    
+                }
+            }
+
+            // Define a posição do cursor para a posição armazenada
+            // input.setSelectionRange(cursorPos, cursorPos);
+        }
+
+        function validarFormulario(){
+            return validarTamanhoCheckbox();
+        }
+
+        function validarTamanhoCheckbox(){
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var checked = false;
+
+            console.log(checkboxes.length);
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                if(checkboxes[i].classList[0] == "tamanho"){
+                    if (checkboxes[i].checked) {
+                        checked = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!checked) {
+                alert('Selecione pelo menos uma opção de tamanho!');
+            }
+
+            return checked;
+        }
+
     </script>
 
 

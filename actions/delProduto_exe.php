@@ -5,8 +5,12 @@
 
     //Query's de deleção de registros em tabelas que camiseta interfer
     $delImgQuery = "DELETE FROM imagem WHERE id_produto = " . $_GET["id"];
-    $delTamQuery = "DELETE FROM imagem WHERE id_produto = " . $_GET["id"];
+    $delTamQuery = "DELETE FROM estoque WHERE id_camiseta = " . $_GET["id"];
     $delQuery    = "DELETE FROM camiseta WHERE id = " . $_GET["id"];
+
+    // alert($delImgQuery);
+    // alert($delTamQuery);
+    // alert($delQuery);
 
     if (mysqli_query($conn, $delImgQuery)){
         if(mysqli_query($conn, $delTamQuery)){

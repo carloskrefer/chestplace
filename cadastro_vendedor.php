@@ -1,5 +1,7 @@
-<?php include("../database/conectaBD.php");
-session_start();>
+<?php 
+    include("./database/conectaBD.php");
+    session_start();
+?>
 
 <!DOCTYPE html>
 
@@ -24,23 +26,23 @@ session_start();>
 
             <div>
                 <td>
-                    <input class=\"w3-input w3-border w3-light-grey\" name=Nome type=\"text\" value=Nome required></div>
+                    <input class=\"w3-input w3-border w3-light-grey\" name=Nome type=\"text\" placeholder=Nome required></div>
                 </td>
             <div>
                 <td>
-                    <input class=\"w3-input w3-border w3-light-grey\" name=\Email type=\"text\" value=Email required></div>
+                    <input class=\"w3-input w3-border w3-light-grey\" name=\Email type=\"text\" placeholder=Email required></div>
                 </td>
             <div>
                 <td>
-                    <input class=\"w3-input w3-border w3-light-grey\" name=\CPF type=\"text\" value=CPF required></div>
+                    <input class=\"w3-input w3-border w3-light-grey\" name=\CPF type=\"text\" placeholder=CPF required></div>
                 </td>
             <div>
                 <td>
-                <input class=\"w3-input w3-border w3-light-grey\" name=\CNPJ type=\"text\" value=CNPJ required></div>
+                <input class=\"w3-input w3-border w3-light-grey\" name=\CNPJ type=\"text\" placeholder=CNPJ required></div>
                 </td>
             <div>
                 <td>
-                    <input class=\"w3-input w3-border w3-light-grey\" name=\Senha type=\"text\" value=Senha required></div>
+                    <input class=\"w3-input w3-border w3-light-grey\" name=\Senha type=\"text\" placeholder=Senha required></div>
                 </td>
 
 
