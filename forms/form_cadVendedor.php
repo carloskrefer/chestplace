@@ -1,65 +1,65 @@
+<?php 
+    include("./database/conectaBD.php");
+    session_start();
+?>
+
+<!DOCTYPE html>
+
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>IE - Instituição de Ensino</title>
-        <link rel="icon" type="image/png" href="imagens/favicon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="css/customize.css">
-    </head>
-    <body>
-        <?php
-            session_start();
-            include("../database/conectaBD.php");
 
-            $nome    = $conn->real_escape_string($_POST['nome']);    // prepara a string recebida para ser utilizada em comando SQL
-            $email   = $conn->real_escape_string($_POST['email']);
-            $senha   = $conn->real_escape_string($_POST['senha']);   // prepara a string recebida para ser utilizada em comando SQL
-            $cpf     = $conn->real_escape_string($_POST['cpf']);
-            $cnpj    = $conn->real_escape_string($_POST['cnpj']);
-            $nome_estabelecimento = $conn->real_escape_string($_POST['nomeEstabelecimento']);
+<head>
+	<title>Chestplace</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="css/customize.css">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="../scripts/formFunctions.js"></script>
+</head>
 
-            $md5Senha = md5($senha);
-
-            $tipoUsu = 1;
-            $id_usuario = 0;
-
-            $sql_insert_usuario = "INSERT INTO usuario (Nome, Celular, DataNasc, ID_Genero, Login, Senha, ID_TipoUsu, Foto) VALUES ('$nome','$celular','$dt_nasc', '$genero','$login','$md5Senha', $tipoUsu, NULL)";
-            $sql_pega_id_usuario = "SELECT id FROM usuario WHERE email = '$email';";
-
-            if ($result1 = $conn->query($sql_insert_usuario)) {
-                $msg = "Registro cadastrado com sucesso! Você já pode realizar login.";
-            } else {
-                $msg = "Erro executando INSERT: " . $conn-> error . " Tente novo cadastro.";
-            }
-
-            if ($result2 = $conn->query($sql_pega_id_usuario)) {
-                if ($result2->num_rows > 0) {
-                    // Apresenta cada linha da tabela
-                    while ($row = $result2->fetch_assoc()) {
-                        $id_usuario = $row["id"];
-                    }
-                }
-            }
-
-            
-            $sql_insert_vendedor = "INSERT INTO vendedor (id, nome_estabelecimento, cpf, cnpj) VALUES ('$id_usuario', '$nome_estabelecimento', '$cpf', '$cnpj');";
-
-            if ($result3 = $conn->query($sql_insert_vendedor)) {
-                $msg = "Registro cadastrado com sucesso! Você já pode realizar login.";
-            } else {
-                $msg = "Erro executando INSERT: " . $conn-> error . " Tente novo cadastro.";
-            }
-
-            $_SESSION['nao_autenticado'] = true;
-            $_SESSION['mensagem_header'] = "Cadastro";
-            $_SESSION['mensagem']        = $msg;
-            $conn->close();  //Encerra conexao com o BD
-
-            header('location: login.php');
-
-        ?>
-
-    </body> 
+<body>
+    <?php require './common/header.php'; ?>
+    <div class="w3-main w3-container">
+        <div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
+            <p class="w3-large">
+                <div class="w3-code cssHigh notranslate" style="border-left:4px solid blue;">
+                    <div class="w3-container w3-theme">
+                        <h2>Cadastro de Vendedor</h2>
+                    </div>
+                    <form id="cadForm"class="w3-container" action="./actions/cadVendedor_exe.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario();">
+                        <div>
+                            <td>
+                                <input class="w3-input w3-border w3-light-grey" name="nome" type="text" placeholder="Nome" required></div>
+                            </td>
+                        <div>
+                        <div>
+                            <td>
+                                <input class="w3-input w3-border w3-light-grey" name="nomeEstabelecimento" type="text" placeholder="Nome do estabelecimento" required></div>
+                            </td>
+                        <div>
+                            <td>
+                                <input class="w3-input w3-border w3-light-grey" name="email" type="text" placeholder="Email" required></div>
+                            </td>
+                        <div>
+                            <td>
+                                <input class="w3-input w3-border w3-light-grey" name="cpf" type="text" placeholder="CPF" required></div>
+                            </td>
+                        <div>
+                            <td>
+                            <input class="w3-input w3-border w3-light-grey" name="cnpj" type="text" placeholder="CNPJ" required></div>
+                            </td>
+                        <div>
+                            <td>
+                                <input class="w3-input w3-border w3-light-grey" name="senha" type="text" placeholder="Senha" required></div>
+                            </td>
     
+                        <p>
+                            <input type="submit" value="Cadastrar" class="w3-btn w3-red">
+                        </p>
+                    </form>
+                </div>
+            </p>
+        </div>
+    </div>
+</body>
 </html>
+
