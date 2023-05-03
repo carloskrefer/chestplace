@@ -29,20 +29,22 @@
   <div class="w3-main">
   
     <!-- Push down content on small screens -->
-    <div class="w3-hide-large" style="margin-top:83px"></div>
+    <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
     
     <!-- Top header -->
-    <header class="w3-container w3-xlarge">
-      <h3 class="w3-wide w3-left w3-padding-16"><b>LOGO</b></h3>
+    <header class="w3-container w3-xlarge" style=" display:flex; align-items: center; justify-content: space-between; padding:0px 50px 0px 50px;">
+      <h3 class="w3-wide w3-left w3-padding-16" >
+        <img src="./imagens/logo_chestplace.png" style="width: 15%;">
+      </h3>
       <p class="w3-right">
-        <a class="no-underline" href="./forms/form_alterVendedor.php" target="" >
+        </p>
+        <a class="no-underline" href="./forms/form_alterVendedor.php" target="" style="display:flex; width:10vw;" >
           <spam class="w3-large" style="text-decoration: underline;">Gabriel</spam>
           <i class="fa fa-user w3-margin-right"></i>
         </a>
-        <a class="no-underline" href="forms/form_cadProduto.php" title="Cadastrar novo produto">
-          <i class="fa fa-solid fa-plus"></i>
-        </a>
-      </p>
+      <a class="no-underline" href="forms/form_cadProduto.php" title="Cadastrar novo produto">
+        <i class="fa fa-solid fa-plus"></i>
+      </a>
     </header>
 
 
@@ -111,8 +113,8 @@
             //Coloca botões, título e preço do anúncio
             echo "
                   <div class=\"w3-display-middle w3-display-hover\">
-                    <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Edit</button>
-                    <button onclick=\"goToDeletarProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Delete</button>
+                    <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
+                    <button onclick=\"goToDeletarProduto(".$row["id"].")\" class=\"w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Apagar</button>
                   </div>
                 </div>
                 <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>

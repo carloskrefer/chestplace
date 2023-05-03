@@ -33,6 +33,7 @@
 
 <head>
 	<title>Chestplace</title>
+    <link rel="icon" type="image/png" href="imagens/favicon.png" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
@@ -48,7 +49,7 @@
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
 	<div class="w3-main w3-container">
-		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
+		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey" style="max-width:1500px; margin:auto;">
 			<p class="w3-large">
 			<div class="w3-code cssHigh notranslate" style="border-left:4px solid blue;">
                 <div class="w3-container w3-theme">
@@ -60,11 +61,12 @@
                             <td style="width:50%;">
                                 <p>
                                     <input type="hidden" id="idCamiseta" name="idCamiseta" value="<?= $idCamiseta?>">
+                                </p>
                                 <p>
-                                <label class="w3-text-IE"><b>Título</b>*</label>
-                                <?php
-                                    echo"<input class=\"w3-input w3-border w3-light-grey\" name=\"titulo\" type=\"text\" value=\"".$titulo."\" required>"
-                                ?>
+                                    <label class="w3-text-IE"><b>Título</b>*</label>
+                                    <?php
+                                        echo"<input class=\"w3-input w3-border w3-light-grey\" name=\"titulo\" type=\"text\" value=\"".$titulo."\" required/>"
+                                    ?>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Descrição</b>*</label>
@@ -85,8 +87,8 @@
                                     ?>
                                     
                                 </p>
-
-                                <p><label class="w3-text-IE"><b>Marca</b>*</label>
+                                <p>
+                                    <label class="w3-text-IE"><b>Marca</b>*</label>
                                     <select name="marca" id="marca" class="w3-input w3-border w3-light-grey " required>
                                         <?php
                                             //Select das camisetas e imagens das camisetas do vendedor passado por _GET
@@ -108,7 +110,6 @@
                                         ?>
                                     </select>
                                 </p>
-
                                 <p>
                                     <label class="w3-text-IE"><b>Estado de conservação</b>*</label>
                                     <select name="conservacao" id="conservacao" class="w3-input w3-border w3-light-grey " required>
@@ -134,23 +135,10 @@
 
 
                                         ?>
-
-
-
-
-
-
-
-
-                                        <option value="nova">Nova</option>
-                                        <option value="seminova">Seminova</option>
-                                        <option value="usada">Usada</option>
-                                        <option value="desgastada">Desgastada</option>
-                                        <option value="muito desgastada">Muito desgastada</option>
                                     </select>
                                 </p>
-
-                                <p><label class="w3-text-IE"><b>Tamanhos/Quantidade</b>*</label>
+                                <p>
+                                    <label class="w3-text-IE"><b>Tamanhos/Quantidade</b>*</label>
                                     <table id="tabelaTamanhos">
                                         <th class="w3-center">Disponível</th>
                                         <th class="w3-center">

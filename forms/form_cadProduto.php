@@ -15,14 +15,14 @@
 
 </head>
 
-<body">
+<body >
 	<!-- Inclui MENU.PHP  -->
     <?php require "../common/header.php"; ?>
     <?php require '../database/conectaBD.php'; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
 	<div class="w3-main w3-container">
-		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
+		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey" style="max-width:1500px; margin:auto;">
 			<p class="w3-large">
 			<div class="w3-code cssHigh notranslate" style="border-left:4px solid blue;">
                 <div class="w3-container w3-theme">
@@ -91,7 +91,7 @@
 
                                 <p>
                                     <label class="w3-text-IE"><b>Tamanhos/Quantidade</b>*</label>
-                                    <table id="tabelaTamanhos">
+                                    <table id="tabelaTamanhos" style="width:100%">
                                         <th class="w3-center">Disponível</th>
                                         <th class="w3-center">Tamanho</th>
                                         <th class="w3-center">Quantidade</th>
