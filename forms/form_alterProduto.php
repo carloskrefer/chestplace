@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <?php
     include("../database/conectaBD.php");
     include("../common/functions.php");
@@ -26,8 +28,6 @@
         }
 
 ?>
-
-<!DOCTYPE html>
 
 <html>
 
