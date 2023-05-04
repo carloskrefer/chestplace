@@ -110,7 +110,7 @@
                                                         <tr>
                                                             <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'quantidade_".$row["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" value=\"".$row["codigo"]."\" class=\"tamanho\"></td>
                                                             <td class=\"w3-left-align\" >".$row["codigo"]." - ".$row["descricao"]."</td>
-                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%\" min=\"0\" pattern\"\d+\" onkeyup=\"configurarQtde(this)\" onblur=\"configurarQtde(this)\" class=\"quantidade\" required></td>
+                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%; text-align:center\" min=\"0\" pattern\"\d+\" onkeyup=\"configurarQtde(this)\" onblur=\"configurarQtde(this)\" class=\"quantidade\" required></td>
                                                         </tr>
                                                     ";
                                                 }

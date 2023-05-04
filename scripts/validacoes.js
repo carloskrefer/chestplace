@@ -97,10 +97,7 @@ function validarTamanhoCheckbox(){
     var checkboxes = document.getElementsByClassName("tamanho");
     var checked = false;
 
-    console.log(checkboxes.length);
-
     for (var i = 0; i < checkboxes.length; i++) {
-        console.log(checkboxes[i]);
         if(checkboxes[i].classList[0] == "tamanho"){
             if (checkboxes[i].checked) {
                 checked = true;
@@ -132,7 +129,7 @@ function validarQuantidade(){
 }
 
 function validarImagem(){
-    const inputImage = document.getElementById("Imagem");;
+    const inputImage = document.getElementById("Imagem");
   
     if (inputImage.validity.valueMissing) {
         exibirPopUpErro(inputImage,"Campo obrigatório! Selecione pelo menos uma imagem.");
@@ -155,3 +152,5 @@ function exibirPopUpErro(campoInpt, mensagem){
     campoInpt.reportValidity();
     campoInpt.focus();
 }
+
+

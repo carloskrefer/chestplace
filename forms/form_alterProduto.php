@@ -39,6 +39,7 @@
 	<link rel="stylesheet" href="css/customize.css">
     <link rel="stylesheet" href="../styles.css">
     <script src="../scripts/formFunctions.js"></script>
+    <script src="../scripts/validacoes.js"></script>
 
 </head>
 
@@ -55,7 +56,7 @@
                 <div class="w3-container w3-theme">
                     <h2>Alterar dados do produto</h2>
                 </div>
-                <form name="frmAlterProduto" id="frmAlterProduto" class="w3-container" action="../actions/alterProduto_exe.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario()">
+                <form name="frmAlterProduto" id="frmAlterProduto" class="w3-container" action="../actions/alterProduto_exe.php" method="post" enctype="multipart/form-data">
                     <table class='w3-table-all'>
                         <tr>
                             <td style="width:50%;">
@@ -65,7 +66,7 @@
                                 <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
                                     <?php
-                                        echo"<input class=\"w3-input w3-border w3-light-grey\" name=\"titulo\" type=\"text\" value=\"".$titulo."\" required/>"
+                                        echo"<input class=\"w3-input w3-border w3-light-grey\" name=\"titulo\" id=\"titulo\" type=\"text\" value=\"".$titulo."\" required/>"
                                     ?>
                                 </p>
                                 <p>
@@ -77,13 +78,13 @@
                                 <p>
                                     <label class="w3-text-IE"><b>Preço</b>*</label>
                                     <?php
-                                        echo"<input class=\"w3-input w3-border w3-light-grey \" onkeyup=\"configurarPreco(this);\" onblur=\"configurarPreco(this)\" type=\"text\" name=\"preco\" id=\"preco\" value=\"".$preco."\" required>";
+                                        echo"<input class=\"w3-input w3-border w3-light-grey \" oninput=\"configurarPreco(this);\" onblur=\"configurarPreco(this)\" type=\"text\" name=\"preco\" id=\"preco\" value=\"".number_format($preco,2,".","")."\" required>";
                                     ?>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Data de publicação*</b></label>
                                     <?php
-                                        echo"<input class=\"w3-input w3-border w3-light-grey \" name=\"dataPublicacao\" type=\"datetime-local\" placeholder=\"dd/mm/aaaa\" title=\"dd/mm/aaaa\" title=\"Formato: dd/mm/aaaa\" value=\"".$data_hora_publicacao."\">";
+                                        echo"<input class=\"w3-input w3-border w3-light-grey \" name=\"dataPublicacao\" id=\"dataPublicacao\" type=\"datetime-local\" placeholder=\"dd/mm/aaaa\" title=\"dd/mm/aaaa\" title=\"Formato: dd/mm/aaaa\" value=\"".$data_hora_publicacao."\">";
                                     ?>
                                     
                                 </p>
@@ -139,11 +140,9 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Tamanhos/Quantidade</b>*</label>
-                                    <table id="tabelaTamanhos">
+                                    <table id="tabelaTamanhos" style="width:100%">
                                         <th class="w3-center">Disponível</th>
-                                        <th class="w3-center">
-                                            Tamanho
-                                        </th class="w3-center">
+                                        <th class="w3-center">Tamanho</th>
                                         <th class="w3-center">Quantidade</th>
                                         <?php
                                             //Select das camisetas e imagens das camisetas do vendedor passado por _GET
@@ -165,18 +164,18 @@
                                                         while($rowEstq = mysqli_fetch_assoc($resultEstoque)) {
                                                             echo "
                                                                 <tr>
-                                                                    <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'inpt-".$rowTamanho["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\" checked></td>
+                                                                    <td class=\"w3-center\"     ><input class=\"tamanho\" onclick=\"checkTamanho(this,'inpt-".$rowTamanho["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\" checked></td>
                                                                     <td class=\"w3-left-align\" >".$rowTamanho["codigo"]." - ".$rowTamanho["descricao"]."</td>
-                                                                    <td class=\"w3-center\"     ><input id=\"inpt-".$rowTamanho["codigo"]."\" name=\"quantidade_".$rowTamanho["codigo"]."\" type=\"number\" style=\"width:50%\" min=0 step=\"1\" value=\"".$rowEstq["quantidade"]."\"required></td>
+                                                                    <td class=\"w3-center\"     ><input class=\"quantidade\" id=\"inpt-".$rowTamanho["codigo"]."\" name=\"quantidade_".$rowTamanho["codigo"]."\" type=\"number\" style=\"width:50%; text-align:center\" min=0 step=\"1\" oninput=\"configurarQtde(this)\" onblur=\"configurarQtde(this)\" value=\"".$rowEstq["quantidade"]."\"required></td>
                                                                 </tr>
                                                             ";
                                                         }
                                                     } else {
                                                         echo "
                                                             <tr>
-                                                                <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'inpt-".$rowTamanho["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\"></td>
+                                                                <td class=\"w3-center\"     ><input class=\"tamanho\" onclick=\"checkTamanho(this,'inpt-".$rowTamanho["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\"></td>
                                                                 <td class=\"w3-left-align\" >".$rowTamanho["codigo"]." - ".$rowTamanho["descricao"]."</td>
-                                                                <td class=\"w3-center\"     ><input id=\"inpt-".$rowTamanho["codigo"]."\" name=\"quantidade_".$rowTamanho["codigo"]."\" type=\"number\" style=\"width:50%\" min=0 step=\"1\" disabled required></td>
+                                                                <td class=\"w3-center\"     ><input class=\"quantidade\" id=\"inpt-".$rowTamanho["codigo"]."\" name=\"quantidade_".$rowTamanho["codigo"]."\" type=\"number\" style=\"width:50%; text-align:center\" min=0 step=\"1\" oninput=\"configurarQtde(this)\" onblur=\"configurarQtde(this)\" disabled required></td>
                                                             </tr>
                                                         ";
                                                     }
@@ -250,8 +249,8 @@
                         <tr>
                             <td colspan="2" style="text-align:center">
                             <p>
-                                <input type="submit" value="Alterar" class="w3-btn w3-red">
-                                <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
+                                <input type="button" onclick="validarFormulario();" value="Alterar" class="w3-btn w3-red">
+                                <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"if(validarImagem()){window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'}\">"?>
                             </p>
                             </td>
                         </tr>
@@ -266,11 +265,25 @@
 
     <script>
 
+        window.addEventListener("load", function(event) {
+            limitarCampos();
+
+            let preco = document.getElementById("preco");
+            if(preco.value == ""){
+                preco.value = "0.00";
+            }
+
+        });
 
 
         function configurarPreco(input){
+
+            if(input.value == ""){
+                input.value = 0.00; 
+            }1
+            
             // Armazena a posição atual do cursor
-            input.selectionStart = input.selectionEnd = input.value.length;
+            input.selectionStart = input.selectionEnd = input.value.length-3;
 
             // Remove todos os caracteres não numéricos (exceto um ponto ou vírgula decimal)
             input.value = input.value.replace(/[^0-9]/g, '');
@@ -279,40 +292,51 @@
             // input.value = input.value.replace(',', '.');
 
             // Formata o valor com duas casas decimais, se possível
+
             var valor = parseFloat(input.value.replace(',', '.'));
+
+            
             if (!isNaN(valor) && input.value.trim() !== '') {
                 valor = valor/100;
                 input.value = valor.toFixed(2);
                 if(valor > 999999.99){
                     input.value = 999999.99; 
-
                 }
+            }
+
+        }
+
+        function configurarQtde(input){
+            input.value = input.value.replace(/\D+/g, '');
+        }
+
+        function limitarCampos(){
+            let titulo = document.getElementById("titulo");
+            titulo.maxLength = 255;
+
+            let descricao = document.getElementById("descricao");
+            descricao.maxLength = 2000;
+
+            let quantidades = document.getElementsByClassName("quantidade");
+            for(let i = 0; i < quantidades.length ; i++){
+                quantidades[i].max = 2147483647;
+                quantidades[i].min = 1;
             }
         }
 
         function validarFormulario(){
-            return validarTamanhoCheckbox();
-        }
-
-        function validarTamanhoCheckbox(){
-            console.log("hellop");
-            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-            var checked = false;
-
-            for (var i = 0; i < checkboxes.length; i++) {
-                if(checkboxes[i].classList[0] == "tamanho"){
-                    if (checkboxes[i].checked) {
-                        checked = true;
-                        break;
-                    }
-                }
+            const formulario = document.getElementById("frmAlterProduto");
+            let valido = validarTitulo() &&
+                         validarDescricao() && 
+                         validarDataPubli() &&
+                         validarMarca() &&
+                         validarConservacao() &&
+                         validarTamanhoCheckbox() && 
+                         validarQuantidade() &&
+                         validarImagem();
+            if(valido){
+                formulario.submit();
             }
-
-            if (!checked) {
-                alert('Selecione pelo menos uma opção de tamanho!');
-            }
-
-            return checked;
         }
 
         
