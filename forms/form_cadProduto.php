@@ -128,8 +128,21 @@
                                 </p>
                                 <p>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
-                                    <input type="file" id="Imagem" name="imagem[]" accept="image/*" enctype="multipart/form-data" onchange="validaImagem(this);" multiple required/></label>
+                                    <input type="file" id="Imagem" name="imagem[]" accept="image/*" enctype="multipart/form-data" onchange="validaImagem(this);" class="clickable" multiple required/></label>
                                 </p>
+                                
+                                <table class="w3-table " style="margin:auto;width:75%;" id="previewTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="w3-center">Imagem</th>
+                                            <th class="w3-center">Tamanho</th>
+                                            <th class="w3-center">Opções</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- As prévias das imagens serão adicionadas dinamicamente aqui -->
+                                    </tbody>
+                                </table>
                             </td>
                         </tr>
                         <tr>
@@ -150,8 +163,12 @@
 	</div>
     
     <script>
-        // import *  as funcoes from "../scripts/validacoes_form_cadProduto.js";
-        
+        let inputImagem      = document.getElementById("Imagem");
+        let tablePrevImagens = document.getElementById("previewTable");
+        let tbodyPrevImagens =tablePrevImagens.querySelector("tbody");
+
+        inputImagem.addEventListener("change", () => exibirPreviaImagens());
+
         window.addEventListener("load", function(event) {
             limitarCampos();
 
@@ -261,6 +278,77 @@
             }
         }
 
+        function exibirPreviaImagens() {
+            tbodyPrevImagens.innerHTML = ""; // Limpar o tbody da tabela de pré-visualização
+
+            // Obter os arquivos selecionados
+            let imagens = inputImagem.files;
+
+            for (let i = 0; i < imagens.length; i++) {
+                let imagem = imagens[i];
+
+                // Criar um elemento <img> com os atributos desejados
+                let img = document.createElement("img");
+                img.setAttribute("src", URL.createObjectURL(imagem));
+                img.setAttribute("width", "90");
+                img.setAttribute("height", "100");
+
+                // Criar a linha da tabela
+                let row = document.createElement("tr");
+                row.id = "prevImg-"+imagem.name;
+
+                // Criar a célula da imagem
+                let cellImagem = document.createElement("td");
+                cellImagem.classList.add("w3-center");
+                cellImagem.style = "vertical-align: middle;";
+                cellImagem.appendChild(img);
+                
+                // Criar célula de tamanho
+                let cellTamanho = document.createElement("td");
+                cellTamanho.classList.add("w3-center");
+                cellTamanho.style = "vertical-align: middle;";
+                cellTamanho.textContent =  (imagem.size/1024).toFixed(1) + " kB"
+
+                // Criar a célula do botão de exclusão
+                let cellExcluir = document.createElement("td");
+                let btnExcluir = document.createElement("input");
+                cellExcluir.classList.add("w3-center");
+                cellExcluir.style = "vertical-align: middle;";
+                btnExcluir.type = "button";
+                btnExcluir.value = "Excluir";
+                btnExcluir.classList.add("w3-btn", "w3-theme", "w3-red");
+                btnExcluir.addEventListener("click", function () {
+                    excluirImagem(imagem.name);
+                });
+                cellExcluir.appendChild(btnExcluir);
+
+                // Adicionar as células à linha da tabela
+                row.appendChild(cellImagem);
+                row.appendChild(cellTamanho);
+                row.appendChild(cellExcluir);
+
+                // Adicionar a linha ao tbody da tabela de pré-visualização
+                tbodyPrevImagens.appendChild(row);
+            }
+            }
+
+            function excluirImagem(nomeArquivo) {
+                // Criar uma nova lista de arquivos sem o arquivo a ser excluído
+
+                let novosArquivos = new DataTransfer();
+                for (let i = 0; i < inputImagem.files.length; i++) {
+                    if (inputImagem.files[i].name !== nomeArquivo) {
+                        novosArquivos.items.add(inputImagem.files[i]);
+                    }
+                }
+
+                // Atribuir a nova lista de arquivos ao input de imagem
+                inputImagem.files = novosArquivos.files;
+
+                // Remover a linha da tabela de pré-visualização
+                let deletedRow = document.getElementById("prevImg-"+nomeArquivo);
+                deletedRow.remove();
+            }
 
     </script>
 
