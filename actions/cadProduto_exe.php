@@ -13,8 +13,6 @@
     $marca          = $_POST["marca"];
     $conservacao    = $_POST["conservacao"];
     $tamanhoSelect  = $_POST["tamanho"];
-    
-    alert($preco);
 
     // Queries
     $insertCamiseta   = "INSERT INTO camiseta(titulo, descricao, preco, conservacao, data_hora_publicacao,id_vendedor, id_marca) VALUES(
@@ -25,6 +23,8 @@
         \"".$dataPublicacao->format('Y-m-d H:i:s')."\",
         ".$_SESSION["idVendedor"].",
         ".$marca.");";
+
+    echo $insertCamiseta;
 
     $selectIdCamiseta = "SELECT id FROM camiseta ORDER BY id DESC LIMIT 1;";
     $selectTamanhos   = "SELECT * FROM tamanho";
@@ -65,9 +65,11 @@
                 cLog($filename);
                 
                 if (mysqli_query($conn, $insertImagens))
-                    echo "<script>console.log(\"Cadastro de imagem realizado\");</script>";
-                else
-                echo "<script>console.log(\"Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");</script>";
+                    cLog("Imagem cadastrada com sucesso!");
+                else{
+                    alert("Erro ao inserir imagem no banco de dados!");
+                    cLog("Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");");
+                }
                 
             }
         }

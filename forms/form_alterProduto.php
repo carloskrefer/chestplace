@@ -3,6 +3,7 @@
 <?php
     include("../database/conectaBD.php");
     include("../common/functions.php");
+    
     session_start();
 
     $idCamiseta = $_GET["id"];
@@ -38,15 +39,18 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
     <link rel="stylesheet" href="../styles.css">
+    <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
+    <script src="../scripts/script_alterProduto.js"></script>
     <script src="../scripts/formFunctions.js"></script>
     <script src="../scripts/validacoes.js"></script>
 
 </head>
 
-<body onload="w3_show_nav('menuMedico')">
+<body>
 	<!-- Inclui MENU.PHP  -->
     <?php require '../common/header.php'; ?>
     <?php require '../database/conectaBD.php'; ?>
+    <?php echo"<script>var idVendedor = ".$_SESSION["idVendedor"].";</script>"?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
 	<div class="w3-main w3-container">
@@ -92,13 +96,13 @@
                                     <label class="w3-text-IE"><b>Marca</b>*</label>
                                     <select name="marca" id="marca" class="w3-input w3-border w3-light-grey " required>
                                         <?php
-                                            //Select das camisetas e imagens das camisetas do vendedor passado por _GET
+                                            // SELECT das marcas das camisetas
                                             $queryMarcas = "SELECT * FROM marca";
 
-                                            //Resultao do Select
+                                            // Resultao do SELECT das marcas
                                             $result = mysqli_query($conn, $queryMarcas);
 
-                                            //Percorrendo resultado do select
+                                            //Percorrendo cada uma das marcas
                                             if (mysqli_num_rows($result) > 0) {
                                                 while($row = mysqli_fetch_assoc($result)) {
                                                     if($row["id"] == $marca){
@@ -145,22 +149,21 @@
                                         <th class="w3-center">Tamanho</th>
                                         <th class="w3-center">Quantidade</th>
                                         <?php
-                                            //Select das camisetas e imagens das camisetas do vendedor passado por _GET
+                                            // SELECT dos tamanhos de camisetas
                                             $queryTamanhos = "SELECT * FROM tamanho";
 
-                                            //Resultao do Select
+                                            // Resultao do SELECT
                                             $resultTamanhos = mysqli_query($conn, $queryTamanhos);
-
                                             
-                                            //Percorrendo resultado do select
+                                            // Percorrendo resultado do SELECT
                                             if (mysqli_num_rows($resultTamanhos) > 0) {
                                                 while($rowTamanho = mysqli_fetch_assoc($resultTamanhos)) {
 
+                                                    // Para cada tamanho de camiseta, verificar estoque
                                                     $queryEstoque = "SELECT * FROM estoque WHERE id_camiseta = ".$idCamiseta." AND id_tamanho = ". $rowTamanho["id"];
                                                     $resultEstoque  = mysqli_query($conn, $queryEstoque);
 
                                                     if (mysqli_num_rows($resultEstoque) > 0) {
-                                                        
                                                         while($rowEstq = mysqli_fetch_assoc($resultEstoque)) {
                                                             echo "
                                                                 <tr>
@@ -198,15 +201,24 @@
                                 <p>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
                                     <?php
-                                        //Select das camisetas e imagens das camisetas do vendedor passado por _GET
+                                        // SELECT das imagens das camisetas
                                         $queryImagens = "SELECT * FROM imagem WHERE id_produto = ".$idCamiseta;
-                        
-                                        $resultImagens = mysqli_query($conn, $queryImagens);
+                                        $resultImagensFileInput = mysqli_query($conn, $queryImagens);
 
-                                        if(mysqli_num_rows($resultImagens) > 0){
-                                            echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"imagem/*\" enctype=\"multipart/form-data\" onchange=\"validaImagem(this);\" multiple/></label>";
+                                        if(mysqli_num_rows($resultImagensFileInput) > 0){
+                                            echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"image/*\" enctype=\"multipart/form-data\" onchange=\"validaImagem(this);\" multiple/></label>";
                                         } else {
-                                            echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"imagem/*\" enctype=\"multipart/form-data\" onchange=\"validaImagem(this);\" multiple required/></label>";
+                                            echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"image/*\" enctype=\"multipart/form-data\" onchange=\"validaImagem(this);\" multiple required/></label>";
+                                        }
+
+                                        // SELECT dos IDs das imagens
+                                        $queryIdImagens  = "SELECT id FROM imagem WHERE id_produto = ".$idCamiseta;
+                                        $resultIdImagens = mysqli_query($conn, $queryIdImagens);
+
+                                        if(mysqli_num_rows($resultImagensFileInput) > 0){
+                                            while($idImagemArray = mysqli_fetch_assoc($resultIdImagens)){
+                                                echo"<script>idImagensOriginal.push(".$idImagemArray["id"].")</script>";
+                                            }
                                         }
                                     
                                     ?>
@@ -217,24 +229,28 @@
 
 
                                     echo "
-                                        <table>
+                                        <table class=\"w3-table \" style=\"margin:auto;width:75%;\">
                                             <tr>
-                                                <th>Imagem</th>
-                                                <th>Opções</th>
+                                                <th class=\"w3-center\">Imagem</th>
+                                                <th class=\"w3-center\">Opções</th>
                                             </tr>
                                     ";
-                                    //Percorrendo resultado do select
+                        
+                                    $resultImagens = mysqli_query($conn, $queryImagens);
+
+                                    // Para cada imagem no BD
                                     if (mysqli_num_rows($resultImagens) > 0) {
                                         while($rowImagens = mysqli_fetch_assoc($resultImagens)) {
+                                            cLog(print_r($rowImagens["id"], TRUE));
                                             $blob = $rowImagens["imagem"];
                                             $base64 = base64_encode($blob);
                                             echo "
-                                                <tr>
-                                                    <td>
-                                                        <img width=\"75\" height=\"100\" src=\"data:image/png;base64," . $base64 . "\" />
+                                                <tr id=\"tr-".$rowImagens["id"]."\">
+                                                    <td class=\"w3-center \" style=\" vertical-align: middle;\">
+                                                        <img width=\"90\" height=\"100\" src=\"data:image/png;base64," . $base64 . "\" />
                                                     </td>
-                                                    <td>
-                                                        <a href=\"../actions/delImagem_exe.php?idImagem=".$rowImagens["id"]."&idCamiseta=".$idCamiseta."\">Excluir</a>
+                                                    <td class=\"w3-center \" style=\" vertical-align: middle;\">
+                                                        <input onclick=\"apagarImagem(".$rowImagens["id"].");\" type=\"button\" class=\"w3-btn w3-theme w3-red\" value=\"Excluir\">
                                                     </td>
                                                 </tr>
                                             ";
@@ -249,7 +265,7 @@
                         <tr>
                             <td colspan="2" style="text-align:center">
                             <p>
-                                <input type="button" onclick="validarFormulario();" value="Alterar" class="w3-btn w3-red">
+                                <input type="button" onclick="enviarFormulario();" value="Alterar" class="w3-btn w3-red">
                                 <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"if(validarImagem()){window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'}\">"?>
                             </p>
                             </td>
@@ -257,89 +273,37 @@
                     </table>
                     <br>
                 </form>
-			</div>
+                </form>
+            </div>
 			</p>
 		</div>
 
 	</div>
 
+
     <script>
+        var idImagensDeletar = [];
 
-        window.addEventListener("load", function(event) {
-            limitarCampos();
+        function enviarFormulario(){
+            if(
+                validarQuantidadeImagensDeletadas(idImagensOriginal, idImagensDeletar)&&
+                validarFormulario()
+                )
+            {
+                let formulario = document.getElementById("frmAlterProduto");
+                let formData = new FormData(formulario);
 
-            let preco = document.getElementById("preco");
-            if(preco.value == ""){
-                preco.value = "0.00";
-            }
+                formData.append('idImagensDeletar', JSON.stringify(idImagensDeletar));
 
-        });
-
-
-        function configurarPreco(input){
-
-            if(input.value == ""){
-                input.value = 0.00; 
-            }1
-            
-            // Armazena a posição atual do cursor
-            input.selectionStart = input.selectionEnd = input.value.length-3;
-
-            // Remove todos os caracteres não numéricos (exceto um ponto ou vírgula decimal)
-            input.value = input.value.replace(/[^0-9]/g, '');
-
-            // Substitui a vírgula pelo ponto como separador decimal, se necessário
-            // input.value = input.value.replace(',', '.');
-
-            // Formata o valor com duas casas decimais, se possível
-
-            var valor = parseFloat(input.value.replace(',', '.'));
-
-            
-            if (!isNaN(valor) && input.value.trim() !== '') {
-                valor = valor/100;
-                input.value = valor.toFixed(2);
-                if(valor > 999999.99){
-                    input.value = 999999.99; 
-                }
-            }
-
-        }
-
-        function configurarQtde(input){
-            input.value = input.value.replace(/\D+/g, '');
-        }
-
-        function limitarCampos(){
-            let titulo = document.getElementById("titulo");
-            titulo.maxLength = 255;
-
-            let descricao = document.getElementById("descricao");
-            descricao.maxLength = 2000;
-
-            let quantidades = document.getElementsByClassName("quantidade");
-            for(let i = 0; i < quantidades.length ; i++){
-                quantidades[i].max = 2147483647;
-                quantidades[i].min = 1;
+                enviarFormularioPost(formulario.action,formData)
+                .then( response => {
+                    alert("Anúncio atualizado com sucesso!");
+                    window.location.assign("../page_gerProdutos.php?id="+idVendedor);
+                })
+                .catch( error => {alert("Erro ao atualizar anúncio no banco de dados. ERRO: " + error)}) 
             }
         }
 
-        function validarFormulario(){
-            const formulario = document.getElementById("frmAlterProduto");
-            let valido = validarTitulo() &&
-                         validarDescricao() && 
-                         validarDataPubli() &&
-                         validarMarca() &&
-                         validarConservacao() &&
-                         validarTamanhoCheckbox() && 
-                         validarQuantidade() &&
-                         validarImagem();
-            if(valido){
-                formulario.submit();
-            }
-        }
-
-        
     </script>
 
 </body>

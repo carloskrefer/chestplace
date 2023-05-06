@@ -1,5 +1,6 @@
 <?php
     session_start();
+    header("Content-Type: application/json");
     include("../common/functions.php");
     include("../database/conectaBD.php");
 
@@ -11,6 +12,7 @@
     $marca          = $_POST["marca"];
     $conservacao    = $_POST["conservacao"];
     $tamanhoSelect  = $_POST["tamanho"];
+    $imagensExcluir = json_decode($_POST["idImagensDeletar"]);
 
     // echo $_POST["dataPublicacao"];
     $updateQuery = "UPDATE camiseta SET
@@ -30,7 +32,7 @@
         
         $resetEstoque = "DELETE FROM estoque WHERE id_camiseta = ".$idCamiseta;
 
-
+        //Reset do estoque
         if (mysqli_query($conn, $resetEstoque)){
             cLog("Estoque resetado.");
 
@@ -50,14 +52,14 @@
                         if(mysqli_query($conn, $insertQtdeEstq)){
                             cLog("Tamanho [".$rowTamanho["codigo"]."] adicionado com sucesso!");
                         } else {
-                            alert("Erro ao adicionar tamanho [".$rowTamanho["codigo"]."]! Tente novamente.");
+                            echo json_encode("Erro ao adicionar tamanho [".$rowTamanho["codigo"]."]! Tente novamente.");
                         }
                     }
                 }
             }
         }
 
-
+        // Adicionar Imagens
         if(isset($_FILES["imagem"])){
             // Loop através de cada arquivo enviado pelo formulário
             foreach ($_FILES["imagem"]["tmp_name"] as $key => $tmp_name) {
@@ -89,12 +91,20 @@
             }
         }
 
-        alert("Cadastro atualizado com sucesso!");
-        redirect("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);
+        // Apagar imagens
+        echo(implode(",", $imagensExcluir));
+        $deleteImagensQuery = "DELETE FROM imagem WHERE id IN (" . implode(",", $imagensExcluir) . ")";
+        if(mysqli_query($conn, $deleteImagensQuery)){
+            cLog("Imagens apagadas");
+        }
+
+
+        echo json_encode("Cadastro atualizado com sucesso!");
+        // redirect("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);
     }
     else{
-        alert("Erro ao atualizar dados de produto: " . mysqli_error($conn));
-        redirect("../forms/alterProduto?id=".$idCamiseta);
+        echo json_encode("Erro ao atualizar dados de produto: " . mysqli_error($conn));
+        // redirect("../forms/alterProduto?id=".$idCamiseta);
     }
         
     // $insertImages = "INSERT INTO imagem VALUES(".$idCamiseta.")";

@@ -1,3 +1,15 @@
+function validarFormulario(){
+    let valido = validarTitulo() &&
+                 validarDescricao() && 
+                 validarDataPubli() &&
+                 validarMarca() &&
+                 validarConservacao() &&
+                 validarTamanhoCheckbox() && 
+                 validarQuantidade() &&
+                 validarImagem();
+
+    return valido;
+}
 
 function validarTitulo(){
     const titulo = document.getElementById("titulo");
@@ -49,10 +61,6 @@ function validarDataPubli(){
         const dataDate = new Date(data).getTime()
 
         if(dataDate < dataAtual-300000){ // data de publicação anterior a agora
-
-            console.log("dkasjdlk");
-            console.log(dataDate)
-            console.log(dataAtual-300000)
 
             alert("Data inválida! A data não deve ser anterior à data atual.")
             exibirPopUpErro(dataPubli, "Data inválida! A data não deve ser anterior à data atual.")
@@ -130,13 +138,33 @@ function validarQuantidade(){
 
 function validarImagem(){
     const inputImage = document.getElementById("Imagem");
+    let tamanhoOk    = verificarTamanhoMaximo(Array.from(inputImage.files));
   
     if (inputImage.validity.valueMissing) {
         exibirPopUpErro(inputImage,"Campo obrigatório! Selecione pelo menos uma imagem.");
-        return false
-    } else if (inputImage.validity.badInput) {
+        return false;
+    } 
+    
+    if (inputImage.validity.badInput) {
         exibirPopUpErro(inputImage,"Arquivo inválido! A extensão desse arquivo não é suportado, por favor, envie arquivos '.jpg', '.png' ou '.gif'.");
-        return false    
+        return false;    
+    } 
+    
+    if (!tamanhoOk){
+        exibirPopUpErro(inputImage, "Arquivo inválido! O tamanho desse arquivo excede o limite de 64 KB");
+        return false;
+    }
+
+    return true;
+
+    // href=\"../actions/delImagem_exe.php?idImagem=".$rowImagens["id"]."&idCamiseta=".$idCamiseta."\"
+}
+
+function validarQuantidadeImagensDeletadas(arrayOriginal, arrayDeletadas){
+    let inputImage = document.getElementById("Imagem");
+    if((arrayOriginal.length == arrayDeletadas.length) && inputImage.files.length == 0){
+        exibirPopUpErro(inputImage, "Campo obrigatório! Selecione pelo menos uma imagem.");
+        return false;
     }
     return true;
 }
@@ -153,4 +181,39 @@ function exibirPopUpErro(campoInpt, mensagem){
     campoInpt.focus();
 }
 
+/**
+ * Verifica se todos os arquivos em um array têm um tamanho válido.
+ * @param {Array} arquivos - Um array de objetos do tipo `File` que representam os arquivos a serem verificados.
+ * @returns {boolean} Retorna `true` se todos os arquivos no array têm um tamanho válido (menor ou igual a 64 KB) ou `false` caso contrário.
+ */
+function verificarTamanhoMaximo(arquivos) {
+    var tamanhoMaximo = 65536; // tamanho máximo em bytes (64 KB)
+    let tamanhoOk = true;
+
+    
+    arquivos.forEach(function(arquivo) {
+        if (arquivo.size > tamanhoMaximo) {
+            tamanhoOk = false;
+        }
+    });
+    
+    return tamanhoOk;
+}
+
+/**
+* Envia uma requisição POST para a URL de destino
+* @param {string} action - A URL de destino para a requisição POST.
+* @param {FormData|URLSearchParams|Blob|string} dados - Os dados a serem enviados no corpo da requisição.
+* @returns {Promise} - Uma Promise que resolve para a resposta da requisição.
+*/
+function enviarFormularioPost(action, dados) {
+    return fetch(action, {
+        method: "POST",
+        body: dados
+    })        
+    .then(response => {response.text()})
+    .then(data => {return data})
+    .catch(error =>{throw new Error("Erro na requisição: " + error);
+});
+}
 
