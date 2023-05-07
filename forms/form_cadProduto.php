@@ -91,7 +91,7 @@
 
                                 <p>
                                     <label class="w3-text-IE"><b>Tamanhos/Quantidade</b>*</label>
-                                    <table id="tabelaTamanhos" style="width:100%">
+                                    <table class="w3-table w3-card" id="tabelaTamanhos" style="width:100%">
                                         <th class="w3-center">Disponível</th>
                                         <th class="w3-center">Tamanho</th>
                                         <th class="w3-center">Quantidade</th>
