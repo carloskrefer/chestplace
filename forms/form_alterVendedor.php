@@ -3,6 +3,7 @@
     session_start();
 
     include("../database/conectaBD.php");
+    include("../common/functions.php");
 
     //Select das camisetas e imagens das camisetas do vendedor passado por _GET
     $queryProdutos = "
@@ -21,6 +22,7 @@
                 $nomeEstabelecimento = $row["nome_estabelecimento"];
                 $cpf = $row["cpf"];
                 $cnpj = $row["cnpj"];
+                isset($cpf)? jsScript("let pessoaFisica = true;") : jsScript("let pessoaFisica = false");
                 $emailContato = $row["email_contato"];
                 $telefoneContato = $row["telefone_contato"];
                 $cep = $row["cep"];
@@ -46,7 +48,6 @@
     <link rel="stylesheet" href="../styles.css">
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
     <script src="../scripts/formFunctions.js"></script>
-    <script src="../scripts/validacoes.js"></script>
     <script src="../scripts/script_alterVendedor.js"></script>
     <script src="../scripts/viaCep/viaCep.js"></script>
 
@@ -68,7 +69,7 @@
                 <div class="w3-container w3-theme">
                     <h2>Alterar conta</h2>
                 </div>
-                <form id="altVendedorForm"class="w3-container" action="../actions/cadProduto_exe.php" method="post" enctype="multipart/form-data" onsubmit="">
+                <form id="altVendedorForm"class="w3-container" action="../actions/alterVendedor_exe.php" method="post" enctype="multipart/form-data" onsubmit="">
                     <table class='w3-table-all'>
                         
                         <tr>
@@ -170,7 +171,7 @@
                         <tr>
                             <td colspan="2" style="text-align:center">
                             <p>
-                                <input type="button" value="Salvar" onclick="validarFormulario();" class="w3-btn w3-red">
+                                <input type="button" value="Salvar" onclick="enviarFormulario();" class="w3-btn w3-red">
                                 <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
                             </p>
                             </td>
@@ -181,66 +182,8 @@
 			</div>
 			</p>
 		</div>
-
 	</div>
-
-	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível
-	<div class="w3-main w3-container">
-		<div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
-			<p class="w3-large">
-			<div class="w3-code cssHigh notranslate" style="border-left:4px solid blue;">
-                <div class="w3-container w3-theme">
-                    <h2>Alterar dados do vendedor</h2>
-                </div>
-                <form name="frmAlterVendedor" class="w3-container" action="../actions/alterVendedor_exe.php" method="post" enctype="multipart/form-data">
-                    <table class='w3-table-all'>
-                        <tr>
-                            <td style="width:50%;">
-                                <p>
-                                    <input type="hidden" id="Id" name="Id" value="">
-                                <p>
-                                    <label class="w3-text-IE"><b>Nome do estabelecimento</b>*</label>
-                                    <?php
-                                        //echo"<input class=\"w3-input w3-border w3-light-grey\" name=\"nomeEstabelecimento\" type=\"text\" value=\"".$nomeEstabelecimento."\" required>"
-                                    ?>
-                                </p>
-
-                                <?php
-                                    // if(is_null($cpf)){
-                                    //     echo"
-                                    //         <p>
-                                    //             <label class=\"w3-text-IE\"><b>CNPJ</b>*</label>
-                                    //             <input class=\"w3-input w3-border w3-light-grey\" name=\"cnpj\" type=\"text\" value=\"".$cnpj."\" required>
-                                    //         </p>
-                                    //         ";
-                                    //     } else {
-                                    //         echo"
-                                    //         <p>
-                                    //             <label class=\"w3-text-IE\"><b>CPF</b>*</label>
-                                    //             <input class=\"w3-input w3-border w3-light-grey\" name=\"cpf\" type=\"text\" value=\"".$cpf."\" required>
-                                    //         </p>
-                                    //         ";
-                                    // }
-                                ?>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align:center">
-                            <p>
-                                <input type="submit" value="Alterar" class="w3-btn w3-red">
-                                <?php //echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
-                            </p>
-                            </td>
-                        </tr>
-                    </table>
-                    <br>
-                </form>
-			</div>
-			</p>
-		</div>
-
-	</div> -->
-
+    
 </body>
 
 </html>

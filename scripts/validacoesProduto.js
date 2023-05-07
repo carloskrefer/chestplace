@@ -12,35 +12,35 @@ function validarFormulario(){
 }
 
 function validarTitulo(){
-    const titulo = document.getElementById("titulo");
+    const tituloHTML = document.getElementById("titulo");
 
-    titulo.value = titulo.value.trim();
+    tituloHTML.value = tituloHTML.value.trim();
+    const titulo = tituloHTML.value.replace(" ", "");
 
-    if(titulo.value.length > 2){
+    if(titulo.length > 2){
         const regex = /^(?=.*[a-zA-Z]).+$/;
         
-        if(titulo.value.match(regex)){
-            titulo.validity.valid = true;
+        if(titulo.match(regex)){
+            tituloHTML.validity.valid = true;
             return true;
         } else {
-            exibirPopUpErro(titulo,"Titúlo inválido! Título deve conter ao menos uma letra.");
+            exibirPopUpErro(tituloHTML,"Titúlo inválido! Título deve conter ao menos uma letra.");
         }
     } else {
-        exibirPopUpErro(titulo, "Titúlo inválido! Título deve conter ao 3 caracteres.")
+        exibirPopUpErro(tituloHTML, "Titúlo inválido! Título deve conter ao 3 caracteres.")
     }
     return false;
 }
 
 function validarDescricao(){
-    const descricao = document.getElementById("descricao");
+    const descricaoHTML = document.getElementById("descricao");
 
-    if(descricao.value.length > 0 && descricao.value.length < 2001){
-        descricao.validity.valid = true;
+    if(descricao.length > 0 && descricao.length < 2001){
+        descricaoHTML.validity.valid = true;
         return true;
     }
 
-    exibirPopUpErro(descricao,"Descrição inválida! Descrição deve entre 1 e 2000 caracteres.")
-
+    exibirPopUpErro(descricaoHTML,"Descrição inválida! Descrição deve ter entre 1 e 2000 caracteres.")
     return false;
 
 }

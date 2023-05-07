@@ -68,3 +68,7 @@ $("#altVendedorForm").ready(function(){
     
     })
 })
+
+function enviarFormulario(){
+    if(validarFormulario()) $("#altVendedorForm").submit();
+}

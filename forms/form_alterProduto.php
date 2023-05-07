@@ -42,7 +42,7 @@
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
     <script src="../scripts/script_alterProduto.js"></script>
     <script src="../scripts/formFunctions.js"></script>
-    <script src="../scripts/validacoes.js"></script>
+    <script src="../scripts/validacoesProduto.js"></script>
 
 </head>
 
