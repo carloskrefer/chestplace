@@ -25,6 +25,7 @@
                 isset($cpf)? jsScript("let pessoaFisica = true;") : jsScript("let pessoaFisica = false");
                 $emailContato = $row["email_contato"];
                 $telefoneContato = $row["telefone_contato"];
+                $idEndereco = $row["id_endereco"];
                 $cep = $row["cep"];
                 $uf = $row["uf"];
                 $cidade = $row["cidade"];
@@ -98,6 +99,9 @@
                             <td>
                                 <p style="text-align:center">
                                     <h3>Endereço</h3>
+                                </p>
+                                <p>
+                                    <input class="w3-input w3-border w3-light-grey" type="hidden" id="idEndereco" name="idEndereco" value="<?= $idEndereco?>">
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CEP</b></label>
