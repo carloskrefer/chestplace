@@ -145,7 +145,7 @@ body { background-color: #ffff4d; }
                       include("./database/conectaBD.php");
 
                       // Consulta SQL para selecionar os produtos com a data de postagem igual à data atual
-                      $sql = "SELECT titulo, preco FROM camiseta WHERE data_hora_publicacao = CURDATE()";
+                      $sql = "SELECT titulo, preco, imagem FROM camiseta, imagem WHERE data_hora_publicacao = CURDATE() and camiseta.id = imagem.id";
                     
                         // Conectar ao banco de dados e selecionar as camisetas filtradas
                         $ordem = $_GET['ordem'];
@@ -155,7 +155,7 @@ body { background-color: #ffff4d; }
                         } else if ($ordem === "mais-antigas"){
                           $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao ASC ";
                         }
-                          
+                      
                       
                       // Executa a consulta
                       $resultado = mysqli_query($conn, $sql);
@@ -169,7 +169,7 @@ body { background-color: #ffff4d; }
                               <div class=\"w3-col l3 s6\">
                               <div class=\"w3-container\">
                                 <div class=\"w3-display-container\">
-                                  <img src=\"./w3images/jeans2.jpg\" style=\"width:100%\">
+                                <img src="data:imagem/jpeg;base64,'.base64_encode($row['imagem']).'"/>
                                 </div>
                                 <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>
                               </div>
