@@ -15,6 +15,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -32,6 +33,25 @@
   <!-- Small screens -->
   <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
   
+  <!-- Modal de confirmação de deleção -->
+  <!-- <dialog id="dialog-delete" class="w3-border w3-border-amber" style="border-width: 5px !important;">
+    <h2 class="w3-center w3-xxlarge"><i class="fa fa-solid fa-exclamation-triangle"></i> Confirmação</h2>
+    <div class="w3-panel">
+      <h2>Você realmente quer apagar este anúncio?</h2>
+      <p>Todos os dados deste anúncio serão perdidos.</p>
+    </div>
+    <div class="w3-section w3-right-align">
+      <button class="w3-button w3-theme w3-section w3-padding w3-orange" type="submit">Apagar</button>
+      <button class="w3-button w3-theme w3-section w3-padding" type="button">Cancelar</button>
+    </div>
+  </dialog> -->
+
+
+
+
+
+  <script>document.getElementById("dialog-delete").showModal()</script>
+
   <!-- !PAGE CONTENT! -->
   <div class="w3-main">
   
@@ -150,6 +170,8 @@
         w3.css
       </a>
     </div>
+  </div>
+    
     <script>
 
       // Accordion 
