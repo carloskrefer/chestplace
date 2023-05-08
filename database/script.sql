@@ -56,7 +56,7 @@ CREATE TABLE marca(
 CREATE TABLE camiseta(
   id int(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, 
   titulo varchar(255) NOT NULL, 
-  descricao text DEFAULT '', 
+  descricao text, 
   preco float NOT NULL,
   conservacao ENUM('nova', 'seminova', 'usada', 'desgastada', 'muito desgasatda'),
   data_hora_publicacao datetime NOT NULL,
