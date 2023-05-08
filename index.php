@@ -131,32 +131,26 @@ body { background-color: #ffff4d; }
     </div>
   </div>
   <div class="w3-container w3-text-grey" id="jeans">
-    <p>8 items</p>
+    <p>Produtos</p>
   </div>
   <!-- Product grid -->
-  <div class="w3-row w3-grayscale">
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-          <div class="row">
-            <div class="col-sm-6 col-md-4">
-              
-                <div class="w3-container">
-                <?php
+  <?php
                       include("./database/conectaBD.php");
 
                       // Consulta SQL para selecionar os produtos com a data de postagem igual à data atual
-                      $sql = "SELECT titulo, preco, imagem FROM camiseta, imagem WHERE data_hora_publicacao = CURDATE() and camiseta.id = imagem.id";
+                      
                     
-                        // Conectar ao banco de dados e selecionar as camisetas filtradas
-                        $ordem = $_GET['ordem'];
-
-                        if ($ordem === "mais-recentes") {
-                          $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao DESC";
-                        } else if ($ordem === "mais-antigas"){
-                          $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao ASC ";
+                      // Conectar ao banco de dados e selecionar as camisetas filtradas
+                      if ( isset($_GET['ordem'])){
+                          $ordem = $_GET['ordem'];
+                          if (isset($ordem) === "mais-recentes") {
+                            $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao DESC";
+                          } else if (isset($ordem) === "mais-antigas"){
+                            $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao ASC ";
+                          }
+                        } else {
+                          $sql = "SELECT titulo, preco, imagem FROM camiseta, imagem WHERE data_hora_publicacao >= CURDATE() and imagem.id_produto = camiseta.id";
                         }
-                      
-                      
                       // Executa a consulta
                       $resultado = mysqli_query($conn, $sql);
 
@@ -167,43 +161,63 @@ body { background-color: #ffff4d; }
                               // Exibe as informações do produto
                               echo "
                               <div class=\"w3-col l3 s6\">
-                              <div class=\"w3-container\">
-                                <div class=\"w3-display-container\">
-                                <img src="data:imagem/jpeg;base64,'.base64_encode($row['imagem']).'"/>
+                                <div class=\"w3-container\">
+                                  <img src=\"data:imagem/jpeg;base64,".base64_encode($produto['imagem'])."\">
+                                  <p>".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
                                 </div>
-                                <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>
-                              </div>
-                            </div>
-                            ";
+                                
+                              </div>";
+
+
+                              // echo "
+                              // <div class=\"w3-col l3 s6\">
+                              // <div class=\"w3-container\">
+                              //   <div class=\"w3-display-container\">
+                              //   <img src=\"data:imagem/jpeg;base64,".base64_encode($produto['imagem'])."\">
+                              //   </div>
+                              //   <p>".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                              //   </div>
+                              // </div>
+                              // ";
                           }
                       }
 
                       // Fecha a conexão com o banco de dados
                       mysqli_close($conn);
-                      ?>
-
-              </div>
-            </div>
+                      
+    ?>      
+    <!-- <div class="w3-col l3 s6">
+      <div class="w3-container">
+        <img src="./w3images/jeans3.jpg" style="width:100%">
+        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
+      </div>
+      <div class="w3-container">
+        <div class="w3-display-container">
+          <img src="./w3images/jeans4.jpg" style="width:100%">
+          <span class="w3-tag w3-display-topleft">Sale</span>
+          <div class="w3-display-middle w3-display-hover">
+            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
           </div>
-      
+        </div>
+        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
       </div>
     </div>
     <div class="w3-col l3 s6">
       <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans2.jpg" style="width:100%">
-          <div class="w3-display-middle w3-display-hover">
-
-          </div>
-        </div>
-        <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
+        <img src="./w3images/jeans3.jpg" style="width:100%">
+        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
       </div>
       <div class="w3-container">
-        <img src="./w3images/jeans3.jpg" style="width:100%">
-        <p><? echo  $row ["titulo"]?><br><b><? echo  $row ["preco"]?></b></p>
+        <div class="w3-display-container">
+          <img src="./w3images/jeans4.jpg" style="width:100%">
+          <span class="w3-tag w3-display-topleft">Sale</span>
+          <div class="w3-display-middle w3-display-hover">
+            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
+          </div>
+        </div>
+        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
       </div>
     </div>
-
     <div class="w3-col l3 s6">
       <div class="w3-container">
         <img src="./w3images/jeans3.jpg" style="width:100%">
@@ -231,8 +245,8 @@ body { background-color: #ffff4d; }
         <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
       </div>
     </div>
-  </div>
-
+  </div> -->
+  
   <!-- Subscribe section -->
   <div class="w3-container w3-black w3-padding-32">
     <h1>Subscribe</h1>

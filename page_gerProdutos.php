@@ -3,7 +3,7 @@
   include("./database/conectaBD.php");
 
   session_start();
-
+  $_SESSION["idVendedor"] = $_GET['id'];
   $selectNomeEstabelecimento = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = ".$_SESSION["idVendedor"];
   $resultNomeEstabelecimento = mysqli_query($conn, $selectNomeEstabelecimento);
   while($row = mysqli_fetch_assoc($resultNomeEstabelecimento)) { $nomeEstabelecimento = $row["nome_estabelecimento"]; }
