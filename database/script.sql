@@ -60,6 +60,7 @@ CREATE TABLE camiseta(
   preco float NOT NULL,
   conservacao ENUM('nova', 'seminova', 'usada', 'desgastada', 'muito desgasatda'),
   data_hora_publicacao datetime NOT NULL,
+  data_hora_cadastro datetime NOT NULL,
   id_vendedor int(10) UNSIGNED NOT NULL,
   id_marca int(10) UNSIGNED DEFAULT NULL,
   

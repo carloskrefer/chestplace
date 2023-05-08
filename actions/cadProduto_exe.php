@@ -10,21 +10,23 @@
     $descricao      = $_POST["descricao"];
     $preco          = $_POST["preco"];
     $dataPublicacao = DateTime::createFromFormat('Y-m-d\TH:i', $_POST["dataPublicacao"]);
+    $dataCadastro   = date('Y-m-d H:i:s');
     $marca          = $_POST["marca"];
     $conservacao    = $_POST["conservacao"];
     $tamanhoSelect  = $_POST["tamanho"];
 
     // Queries
-    $insertCamiseta   = "INSERT INTO camiseta(titulo, descricao, preco, conservacao, data_hora_publicacao,id_vendedor, id_marca) VALUES(
+    $insertCamiseta   = "INSERT INTO camiseta(titulo, descricao, preco, conservacao, data_hora_publicacao, data_hora_cadastro,id_vendedor, id_marca) VALUES(
         \"".$titulo."\",
         \"".$descricao."\",
         \"".$preco."\",
         \"".$conservacao."\",
         \"".$dataPublicacao->format('Y-m-d H:i:s')."\",
+        \"".$dataCadastro."\",
         ".$_SESSION["idVendedor"].",
         ".$marca.");";
 
-    echo $insertCamiseta;
+    cLog($insertCamiseta);
 
     $selectIdCamiseta = "SELECT id FROM camiseta ORDER BY id DESC LIMIT 1;";
     $selectTamanhos   = "SELECT * FROM tamanho";
@@ -36,12 +38,12 @@
         alert("Cadastro realizado");
 
         // Resultados de queries
-        $resIdCamiseta = mysqli_query($conn, $selectIdCamiseta);
-        $resTamanhos   = mysqli_query($conn, $selectTamanhos);
+        $resIdCamiseta = mysqli_query($conn, $selectIdCamiseta); // Último id de camiseta
+        $resTamanhos   = mysqli_query($conn, $selectTamanhos); // Todos os tamanhos
         
         if (mysqli_num_rows($resIdCamiseta) > 0)
             while($row = mysqli_fetch_assoc($resIdCamiseta))
-                $idCamiseta = $row["id"];
+                $idCamiseta = $row["id"]; // Último id de camiseta
             
         
         // Loop através de cada arquivo enviado pelo formulário

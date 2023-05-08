@@ -93,7 +93,7 @@
         if (mysqli_num_rows($result) > 0) {
           while($row = mysqli_fetch_assoc($result)) {
             //Data de publicação convertida para DateTime do php
-            $dataPublicacao = new DateTime($row["data_hora_publicacao"]);
+            $dataCadastro = new DateTime($row["data_hora_cadastro"]);
             
             echo "
               <div class=\"w3-col l3 s6\">
@@ -103,7 +103,7 @@
 
             //Se o anuncio foi feito há menos de dois dias
             //Tag 'Novo'
-            if($dataHoraAtual->diff($dataPublicacao)->days < 2){
+            if($dataHoraAtual->diff($dataCadastro)->days < 2){
               echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
             }
 
