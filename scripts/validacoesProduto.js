@@ -35,7 +35,7 @@ function validarTitulo(){
 function validarDescricao(){
     const descricaoHTML = document.getElementById("descricao");
 
-    if(descricao.length > 0 && descricao.length < 2001){
+    if(descricao.value.length > 0 && descricao.value.length < 2001){
         descricaoHTML.validity.valid = true;
         return true;
     }
