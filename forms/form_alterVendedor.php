@@ -81,19 +81,19 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Nome do estabelecimento</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="nomeEstabelecimento" name="nomeEstabelecimento" type="text" title="Nome entre 10 e 100 letras." oninput="validarNomeEstabelecimento()" onblur="validarNomeEstabelecimento()" value="<?= $nomeEstabelecimento?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="nomeEstabelecimento" name="nomeEstabelecimento" type="text" title="Nome entre 10 e 100 letras."  value="<?= $nomeEstabelecimento?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CPF/CNPJ</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" oninput="<?= isset($cpf)? 'this.value = formatarCPF(this.value);': 'this.value = formatarCNPJ(this.value);'?>" onblur="validarCpfCnpj();" value="<?= isset($cpf)? $cpf : $cnpj?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" oninput="<?= isset($cpf)? 'this.value = formatarCPF(this.value);': 'this.value = formatarCNPJ(this.value);'?>" value="<?= isset($cpf)? $cpf : $cnpj?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Email para contato</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="emailContato" name="emailContato" type="text" onblur="validarEmailContato()"value="<?= $emailContato?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="emailContato" name="emailContato" type="text" value="<?= $emailContato?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Telefone para contato</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value); validarTelefoneContato();" value="<?= $telefoneContato?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value);" value="<?= $telefoneContato?>" required>
                                 </p>
                             </td>
 
@@ -106,28 +106,28 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CEP</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value); validarCEP();" value="<?= $cep?>">
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" value="<?= $cep?>">
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Rua</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua" onblur="validarRua();" value="<?= $rua?>">
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua" value="<?= $rua?>">
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Número</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" onblur="validarNumero();" value="<?= $numero?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" value="<?= $numero?>">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Bairro</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" onblur="validarBairro();" value="<?= $bairro?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" value="<?= $bairro?>">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Complemento</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" onblur="validarComplemento();" value="<?= $complemento?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" value="<?= $complemento?>">
                                     </div>
                                 </p>
                                 <p>

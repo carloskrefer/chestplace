@@ -1,7 +1,14 @@
-<?php 
-  session_start(); 
-?>
 <!DOCTYPE html>
+<?php 
+  include("./database/conectaBD.php");
+
+  session_start();
+
+  $selectNomeEstabelecimento = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = ".$_SESSION["idVendedor"];
+  $resultNomeEstabelecimento = mysqli_query($conn, $selectNomeEstabelecimento);
+  while($row = mysqli_fetch_assoc($resultNomeEstabelecimento)) { $nomeEstabelecimento = $row["nome_estabelecimento"]; }
+
+?>
 <html>
 <head>
 <title>Chestplace</title>
@@ -38,9 +45,13 @@
       </h3>
       <p class="w3-right">
         </p>
-        <a class="no-underline" href="./forms/form_alterVendedor.php" target="" style="display:flex; width:10vw;" >
-          <spam class="w3-large" style="text-decoration: underline;">Gabriel</spam>
-          <i class="fa fa-user w3-margin-right"></i>
+        <a class="no-underline w3-container w3-display-container w3-right" href="./forms/form_alterVendedor.php" target="" style=" display:flex;justify-content:space-between; width:65%;" >
+          <div class="w3-container"> 
+            <spam class="w3-large" style="text-decoration: underline;"><?= $nomeEstabelecimento ?></spam>
+          </div>   
+          <div>
+            <i class="fa fa-user w3-margin-right"></i>
+          </div>
         </a>
       <a class="no-underline" href="forms/form_cadProduto.php" title="Cadastrar novo produto">
         <i class="fa fa-solid fa-plus"></i>
