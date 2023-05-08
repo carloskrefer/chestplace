@@ -49,18 +49,4 @@ function validaImagem(input) {
     }
 }
 
-function formatarCPF(cpf) {
-    // Remove todos os caracteres não numéricos
-    const numeros = cpf.replace(/\D/g, '');
-  
-    // Aplica a formatação usando regex
-    return numeros.replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, '$1.$2.$3-$4');
-}
-
-function formatarCNPJ(cnpj){
-    const numeros = cnpj.replace(/\D/g, '');
-    
-    return numeros.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5')
-} 
-
 

@@ -48,6 +48,8 @@
 	<link rel="stylesheet" href="css/customize.css">
     <link rel="stylesheet" href="../styles.css">
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
+    <script src="../scripts/validacoesVendedor.js"></script>
+    <script src="../scripts/formats.js"></script>
     <script src="../scripts/formFunctions.js"></script>
     <script src="../scripts/script_alterVendedor.js"></script>
     <script src="../scripts/viaCep/viaCep.js"></script>
@@ -59,7 +61,6 @@
 	<!-- Inclui MENU.PHP  -->
     <?php require '../common/header.php'; ?>
     <?php require '../database/conectaBD.php'; ?>
-    <?php echo "<script>let cep = ".$cep."</script>"?>
 
 
         	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
@@ -80,19 +81,19 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Nome do estabelecimento</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="nomeEstabelecimento" name="nomeEstabelecimento" type="text" title="Nome entre 10 e 100 letras." value="<?= $nomeEstabelecimento?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="nomeEstabelecimento" name="nomeEstabelecimento" type="text" title="Nome entre 10 e 100 letras." oninput="validarNomeEstabelecimento()" onblur="validarNomeEstabelecimento()" value="<?= $nomeEstabelecimento?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CPF/CNPJ</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" oninput="<?= isset($cpf)? 'this.value = formatarCPF(this.value)': 'this.value = formatarCNPJ(this.value)'?>" value="<?= isset($cpf)? $cpf : $cnpj?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" oninput="<?= isset($cpf)? 'this.value = formatarCPF(this.value);': 'this.value = formatarCNPJ(this.value);'?>" onblur="validarCpfCnpj();" value="<?= isset($cpf)? $cpf : $cnpj?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Email para contato</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="emailContato" name="emailContato" type="text" value="<?= $emailContato?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="emailContato" name="emailContato" type="text" onblur="validarEmailContato()"value="<?= $emailContato?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Telefone para contato</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarCNPJ(this.value);" value="<?= $telefoneContato?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value); validarTelefoneContato();" value="<?= $telefoneContato?>" required>
                                 </p>
                             </td>
 
@@ -104,41 +105,72 @@
                                     <input class="w3-input w3-border w3-light-grey" type="hidden" id="idEndereco" name="idEndereco" value="<?= $idEndereco?>">
                                 </p>
                                 <p>
-                                    <label class="w3-text-IE"><b>CEP</b></label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" value="<?= $cep?>">
+                                    <label class="w3-text-IE"><b>CEP</b>*</label>
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value); validarCEP();" value="<?= $cep?>">
                                 </p>
                                 <p>
-                                    <label class="w3-text-IE"><b>Rua</b></label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua"" value="<?= $rua?>">
+                                    <label class="w3-text-IE"><b>Rua</b>*</label>
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua" onblur="validarRua();" value="<?= $rua?>">
                                 </p>
                                 <p>
                                     <div>
-                                        <label class="w3-text-IE"><b>Número</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" value="<?= $numero?>">
+                                        <label class="w3-text-IE"><b>Número</b>*</label>
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" onblur="validarNumero();" value="<?= $numero?>">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
-                                        <label class="w3-text-IE"><b>Bairro</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" value="<?= $bairro?>">
+                                        <label class="w3-text-IE"><b>Bairro</b>*</label>
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" onblur="validarBairro();" value="<?= $bairro?>">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Complemento</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" value="<?= $complemento?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" onblur="validarComplemento();" value="<?= $complemento?>">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="cidade" name="cidade" value="<?= $cidade?>" disabled>
+                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" value="<?= $cidade?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidade" name="cidade" value="<?= $cidade?>">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Estado</b></label>
-                                        <select class=" w3-select w3-border w3-round w3-padding" name="estadoSelect" id="estadoSelect" value="<?= $uf?>" disabled>
+                                        <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoSelect" value="<?= $uf?>">
+                                            <option value="">Selecione um estado</option>
+                                            <option value="AC" <?= $uf === 'AC' ? 'selected' : '' ?>>Acre</option>
+                                            <option value="AL" <?= $uf === 'AL' ? 'selected' : '' ?>>Alagoas</option>
+                                            <option value="AP" <?= $uf === 'AP' ? 'selected' : '' ?>>Amapá</option>
+                                            <option value="AM" <?= $uf === 'AM' ? 'selected' : '' ?>>Amazonas</option>
+                                            <option value="BA" <?= $uf === 'BA' ? 'selected' : '' ?>>Bahia</option>
+                                            <option value="CE" <?= $uf === 'CE' ? 'selected' : '' ?>>Ceará</option>
+                                            <option value="DF" <?= $uf === 'DF' ? 'selected' : '' ?>>Distrito Federal</option>
+                                            <option value="ES" <?= $uf === 'ES' ? 'selected' : '' ?>>Espírito Santo</option>
+                                            <option value="GO" <?= $uf === 'GO' ? 'selected' : '' ?>>Goiás</option>
+                                            <option value="MA" <?= $uf === 'MA' ? 'selected' : '' ?>>Maranhão</option>
+                                            <option value="MT" <?= $uf === 'MT' ? 'selected' : '' ?>>Mato Grosso</option>
+                                            <option value="MS" <?= $uf === 'MS' ? 'selected' : '' ?>>Mato Grosso do Sul</option>
+                                            <option value="MG" <?= $uf === 'MG' ? 'selected' : '' ?>>Minas Gerais</option>
+                                            <option value="PA" <?= $uf === 'PA' ? 'selected' : '' ?>>Pará</option>
+                                            <option value="PB" <?= $uf === 'PB' ? 'selected' : '' ?>>Paraíba</option>
+                                            <option value="PR" <?= $uf === 'PR' ? 'selected' : '' ?>>Paraná</option>
+                                            <option value="PE" <?= $uf === 'PE' ? 'selected' : '' ?>>Pernambuco</option>
+                                            <option value="PI" <?= $uf === 'PI' ? 'selected' : '' ?>>Piauí</option>
+                                            <option value="RJ" <?= $uf === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
+                                            <option value="RN" <?= $uf === 'RN' ? 'selected' : '' ?>>Rio Grande do Norte</option>
+                                            <option value="RS" <?= $uf === 'RS' ? 'selected' : '' ?>>Rio Grande do Sul</option>
+                                            <option value="RO" <?= $uf === 'RO' ? 'selected' : '' ?>>Rondônia</option>
+                                            <option value="RR" <?= $uf === 'RR' ? 'selected' : '' ?>>Roraima</option>
+                                            <option value="SC" <?= $uf === 'SC' ? 'selected' : '' ?>>Santa Catarina</option>
+                                            <option value="SP" <?= $uf === 'SP' ? 'selected' : '' ?>>São Paulo</option>
+                                            <option value="SE" <?= $uf === 'SE' ? 'selected' : '' ?>>Sergipe</option>
+                                            <option value="TO" <?= $uf === 'TO' ? 'selected' : '' ?>>Tocantins</option>
+                                            </select>
+                                        <select class=" w3-select w3-border w3-round w3-padding" name="estadoSelect" id="estadoSelect" value="<?= $uf?>">
                                             <option value="">Selecione um estado</option>
                                             <option value="AC" <?= $uf === 'AC' ? 'selected' : '' ?>>Acre</option>
                                             <option value="AL" <?= $uf === 'AL' ? 'selected' : '' ?>>Alagoas</option>
@@ -175,7 +207,7 @@
                         <tr>
                             <td colspan="2" style="text-align:center">
                             <p>
-                                <input type="button" value="Salvar" onclick="enviarFormulario();" class="w3-btn w3-red">
+                                <input type="button" id="salvar" value="Salvar" onclick="enviarFormulario();" class="w3-btn w3-red">
                                 <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
                             </p>
                             </td>

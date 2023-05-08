@@ -8,8 +8,8 @@
 
     // Infos do vendedor
     $nomeEstabelecimento = $_POST["nomeEstabelecimento"];
-    $cpf  = $isPessoaFisica ? $_POST["cpfCnpj"] : null;
-    $cnpj = $isPessoaFisica ? null : $_POST["cpfCnpj"];
+    $cpf  = $isPessoaFisica ? $_POST["cpfCnpj"] : "NULL";
+    $cnpj = $isPessoaFisica ? "NULL" : $_POST["cpfCnpj"];
     $emailContato = $_POST["emailContato"];
     $telefoneContato = $_POST["telefoneContato"];
 
@@ -25,27 +25,26 @@
 
 
     // Alterar dados vendedor
-    $alterVendQuery = "UPTDATE vendedor SET
-                       nome_estabelecimento = ".$nomeEstabelecimento.",
-                       cpf                  = ".$cpf.",
-                       cnpj                 = ".$cnpj.",
-                       email_contato        = ".$emailContato.",
-                       telefone_contato     = ".$telefoneContato."
+    $alterVendQuery = "UPDATE vendedor SET
+                       nome_estabelecimento = \"".$nomeEstabelecimento."\",
+                       cpf                  = \"".$cpf."\",
+                       cnpj                 = \"".$cnpj."\",
+                       email_contato        = \"".$emailContato."\",
+                       telefone_contato     = \"".$telefoneContato."\"
                        WHERE id_usuario     = ".$_SESSION["idVendedor"].";
     ";
 
     // Alterar endereço
-    $alterEndQuery = "UPTDATE endereco SET
-                      cep         = ".$cep.",
-                      rua         = ".$rua.",
-                      numero      = ".$numero.",
-                      complemento = ".$complemento.",
-                      bairro      = ".$bairro."
-                      cidade      = ".$cidade."
-                      uf          = ".$estado."
-                      WHERE id    = ".$idEndreco.";
+    $alterEndQuery = "UPDATE endereco SET
+                      cep         = \"".$cep."\",
+                      rua         = \"".$rua."\",
+                      numero      = \"".$numero."\",
+                      complemento = \"".$complemento."\",
+                      bairro      = \"".$bairro."\",
+                      cidade      = \"".$cidade."\",
+                      uf          = \"".$estado."\"
+                      WHERE id    = ".$idEndereco.";
     ";
-
 
     // Transaction de alterar
     mysqli_begin_transaction($conn);
