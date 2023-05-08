@@ -25,16 +25,15 @@ body { background-color: #ffff4d; }
     <img src="./imagens/logo_chestplace.png" style="width: 100%; margin-top: 10px;">
   </div>
   <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-    <a href="#" class="w3-bar-item w3-button">Shirts</a>
-    <a href="#" class="w3-bar-item w3-button">Dresses</a>
     <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
       Camisetas <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
-      <a href="#" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-caret-right w3-margin-right"></i>Skinny</a>
-      <a href="#" class="w3-bar-item w3-button">Relaxed</a>
-      <a href="#" class="w3-bar-item w3-button">Bootcut</a>
-      <a href="#" class="w3-bar-item w3-button">Straireqtught</a>
+          <label for="data-criacao-select">Filtrar por data de criação:</label>
+            <select id="data-criacao-select">
+              <option value="mais-recentes">Mais recentes</option>
+              <option value="mais-antigas">Mais antigas</option>
+          </select>
     </div>
     <a href="#" class="w3-bar-item w3-button">Jackets</a>
     <a href="#" class="w3-bar-item w3-button">Gymwear</a>
@@ -136,11 +135,9 @@ body { background-color: #ffff4d; }
   </div>
   <!-- Product grid -->
   <div class="w3-row w3-grayscale">
-  
-  
     <div class="w3-col l3 s6">
       <div class="w3-container">
-                <div class="row">
+          <div class="row">
             <div class="col-sm-6 col-md-4">
               
                 <div class="w3-container">
@@ -149,7 +146,17 @@ body { background-color: #ffff4d; }
 
                       // Consulta SQL para selecionar os produtos com a data de postagem igual à data atual
                       $sql = "SELECT titulo, preco FROM camiseta WHERE data_hora_publicacao = CURDATE()";
+                    
+                        // Conectar ao banco de dados e selecionar as camisetas filtradas
+                        $ordem = $_GET['ordem'];
 
+                        if ($ordem === "mais-recentes") {
+                          $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao DESC";
+                        } else if ($ordem === "mais-antigas"){
+                          $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao ASC ";
+                        }
+                          
+                      
                       // Executa a consulta
                       $resultado = mysqli_query($conn, $sql);
 
@@ -178,9 +185,8 @@ body { background-color: #ffff4d; }
               </div>
             </div>
           </div>
+      
       </div>
-    
-    
     </div>
     <div class="w3-col l3 s6">
       <div class="w3-container">
