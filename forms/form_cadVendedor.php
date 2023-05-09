@@ -63,12 +63,24 @@
                         <div>
                             <td>
                                 <label class="w3-text-IE"><b>Email</b>*</label>
+                                <input class="w3-input w3-border w3-light-grey" name="email" type="text" placeholder="Email"pattern="(^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$)" required>
+                            </td>
+                        </div>
+                        <div>
+                            <td>
+                                <label class="w3-text-IE"><b>Telefone para contato</b>*</label>
+                                <input class="w3-input w3-border w3-light-grey" name="telefone_contato" type="text" placeholder="Telefone para Contato"pattern="([0-9]{2,3})?(\([0-9]{2}\))([0-9]{4,5})([0-9]{4})" required>
+                            </td>
+                        </div>
+                        <div>
+                            <td>
+                                <label class="w3-text-IE"><b>Email para contato</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" name="email_contato" type="text" placeholder="Email"pattern="(^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$)" required>
                             </td>
                         </div>
                         <div>
                             <td>
-                                <label class="w3-text-IE"><b>CPF ou CNPJ</b>*</label>
+                                <label class="w3-text-IE"><b>CNPJ</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" onkeyup="validaCpfCnpj(this);" onblur="validaCpfCnpj(this)" id="cpf" name="cpf" type="text" placeholder="CPF/CNPJ (Apenas números)"pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})" required>
                                 <script>
 
@@ -127,12 +139,17 @@
                             <td>
                                 <label class="w3-text-IE"><b>Senha</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" id="senha" name="senha" type="password" placeholder="Senha" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
+                        <div>
+                            <td>
+                                        <input class="w3-input w3-border w3-light-grey" id="csenha" name="confirma_senha" type="password" placeholder="Confirme a senha" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
+                             </td>
+                        </div>        
                                     <p>
                                         <input type="checkbox" onclick="Mostrar()">Mostrar senha
                                     </p>
                                     <script>
                                         function Mostrar() {
-                                            var x = document.getElementById("senha");
+                                            var x = document.getElementById("senha","csenha");
                                             if (x.type === "password") {
                                                 x.type = "text";
                                             } else {
@@ -140,8 +157,22 @@
                                             }
                                         }
                                     </script>
+                               <p>
+                                <script> function validarSenha(){
+                                    senha = document.formulario.senha.value
+                                    confirma_senha = document.formulario.confirma_senha.value
+                                    if (senha == confirma_senha) alert
+                                    else alert("Senhas diferentes tente de novo")
+                                    }
+                               </script>
+                               <p>                                   
                             </td> 
                         </div>
+                        
+                        
+
+                        
+                        
                     <div class="w3-code cssHigh notranslate" style="border-left:4px solid blue;">
                         <div>
                             <td>
