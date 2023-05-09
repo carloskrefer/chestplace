@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php 
   include("./database/conectaBD.php");
-
+  require("./validacaoAcessoVendedor.php"); // Verifica se está logado e se de fato é vendedor. Se não, redireciona p/ index.php.
   session_start();
   $_SESSION["idVendedor"] = $_GET['id'];
   $selectNomeEstabelecimento = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = ".$_SESSION["idVendedor"];
