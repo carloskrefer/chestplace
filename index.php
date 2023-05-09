@@ -64,12 +64,14 @@ body { background-color: #cca310; }
     <p class="w3-left">Camisetas</p>
     <p class="w3-right">
       <?php
-        // Exibe nome do usuário logado, se não mostrará os botões de login e cadastro
+        // Exibe nome do usuário logado e o botão de logout, se não mostrará os botões de login e cadastro
         $usuarioLogou = isset($_SESSION ['nome_usuario']);
         if ($usuarioLogou) {
           $nomeUsuario = $_SESSION['nome_usuario'];
           echo <<<END
             <span style="margin-right: 10px;">Olá, $nomeUsuario </span>
+            <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='./logout.php'" 
+            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
           END;
         } else {
           echo <<<END
