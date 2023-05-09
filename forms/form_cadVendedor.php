@@ -28,21 +28,25 @@
                     <form id="cadForm"class="w3-container" action="../actions/cadVendedor_exe.php" method="post" enctype="multipart/form-data" onsubmit="return validarFormulario();">
                         <div>
                             <td>
+                                <label class="w3-text-IE"><b>Nome</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" name="nome" type="text" placeholder="Nome" maxlength="255" minlength="2" pattern="[a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]{1,}" required>
                             </td>
                         </div>
                         <div>
                             <td>
+                                <label class="w3-text-IE"><b>Nome do estabelicimento</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" name="nomeEstabelecimento" type="text" maxlength="255" minlength="2" pattern="[a-zA-z ]{1,}" placeholder="Nome do estabelecimento" required>
                             </td>
                         </div>
                         <div>
                             <td>
+                                <label class="w3-text-IE"><b>Email</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" name="email" type="text" placeholder="Email"pattern="(^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$)" required>
                             </td>
                         </div>
                         <div>
                             <td>
+                                <label class="w3-text-IE"><b>CNPJ</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" onkeyup="validaCpfCnpj(this);" onblur="validaCpfCnpj(this)" id="cpf" name="cpf" type="text" placeholder="CPF/CNPJ (Apenas números)"pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})" required>
                                 <script>
 
@@ -99,6 +103,7 @@
 
                         <div>
                             <td>
+                                <label class="w3-text-IE"><b>Senha</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" id="senha" name="senha" type="password" placeholder="Senha" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
                                     <p>
                                         <input type="checkbox" onclick="Mostrar()">Mostrar senha
@@ -123,43 +128,43 @@
                                 </p>
                                 
                                 <p>
-                                    <input class="w3-input w3-border w3-light-grey" type="hidden" id="idEndereco" name="idEndereco" value="<?= $idEndereco?>">
+                                    <input class="w3-input w3-border w3-light-grey" type="hidden" id="idEndereco" name="idEndereco" placeholder="Endereco">
                                 </p>
 
                                 <p>
                                     <label class="w3-text-IE"><b>CEP</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" value="<?= $cep?>">
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" placeholder= "CEP" required>
                                 </p>
 
                                 <p>
                                     <label class="w3-text-IE"><b>Rua</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua" value="<?= $rua?>">
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua" placeholder="Rua">
                                 </p>
 
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Número</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" value="<?= $numero?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" placeholder="Número" required>
                                     </div>
                                 </p>
 
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Bairro</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" value="<?= $bairro?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" placeholder="Bairro" required>
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Complemento</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" value="<?= $complemento?>">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" placeholder ="Complemento" required>
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" value="<?= $cidade?>">
-                                        <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidade" name="cidade" value="<?= $cidade?>">
+                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" placeholder="Cidade" required>
+                                        <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidade" name="cidade" placeholder="Cidade" required>
                                     </div>
                                 </p>
                                 <p>
@@ -216,123 +221,4 @@
         </div>
     </div>
 </body>
-</html>
-                                <p>
-                                    <label class="w3-text-IE"><b>CEP</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cep" name="cep" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" value="<?= $cep?>">
-                                </p>
-                                <p>
-                                    <label class="w3-text-IE"><b>Rua</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="rua" name="rua" value="<?= $rua?>">
-                                </p>
-                                <p>
-                                    <div>
-                                        <label class="w3-text-IE"><b>Número</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numero" name="numero" value="<?= $numero?>">
-                                    </div>
-                                </p>
-                                <p>
-                                    <div>
-                                        <label class="w3-text-IE"><b>Bairro</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairro" name="bairro" value="<?= $bairro?>">
-                                    </div>
-                                </p>
-                                <p>
-                                    <div>
-                                        <label class="w3-text-IE"><b>Complemento</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complemento" name="complemento" value="<?= $complemento?>">
-                                    </div>
-                                </p>
-                                <p>
-                                    <div>
-                                        <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" value="<?= $cidade?>">
-                                        <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidade" name="cidade" value="<?= $cidade?>">
-                                    </div>
-                                </p>
-                                <p>
-                                    <div>
-                                        <label class="w3-text-IE"><b>Estado</b></label>
-                                        <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoSelect" value="<?= $uf?>">
-                                            <option value="">Selecione um estado</option>
-                                            <option value="AC" <?= $uf === 'AC' ? 'selected' : '' ?>>Acre</option>
-                                            <option value="AL" <?= $uf === 'AL' ? 'selected' : '' ?>>Alagoas</option>
-                                            <option value="AP" <?= $uf === 'AP' ? 'selected' : '' ?>>Amapá</option>
-                                            <option value="AM" <?= $uf === 'AM' ? 'selected' : '' ?>>Amazonas</option>
-                                            <option value="BA" <?= $uf === 'BA' ? 'selected' : '' ?>>Bahia</option>
-                                            <option value="CE" <?= $uf === 'CE' ? 'selected' : '' ?>>Ceará</option>
-                                            <option value="DF" <?= $uf === 'DF' ? 'selected' : '' ?>>Distrito Federal</option>
-                                            <option value="ES" <?= $uf === 'ES' ? 'selected' : '' ?>>Espírito Santo</option>
-                                            <option value="GO" <?= $uf === 'GO' ? 'selected' : '' ?>>Goiás</option>
-                                            <option value="MA" <?= $uf === 'MA' ? 'selected' : '' ?>>Maranhão</option>
-                                            <option value="MT" <?= $uf === 'MT' ? 'selected' : '' ?>>Mato Grosso</option>
-                                            <option value="MS" <?= $uf === 'MS' ? 'selected' : '' ?>>Mato Grosso do Sul</option>
-                                            <option value="MG" <?= $uf === 'MG' ? 'selected' : '' ?>>Minas Gerais</option>
-                                            <option value="PA" <?= $uf === 'PA' ? 'selected' : '' ?>>Pará</option>
-                                            <option value="PB" <?= $uf === 'PB' ? 'selected' : '' ?>>Paraíba</option>
-                                            <option value="PR" <?= $uf === 'PR' ? 'selected' : '' ?>>Paraná</option>
-                                            <option value="PE" <?= $uf === 'PE' ? 'selected' : '' ?>>Pernambuco</option>
-                                            <option value="PI" <?= $uf === 'PI' ? 'selected' : '' ?>>Piauí</option>
-                                            <option value="RJ" <?= $uf === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
-                                            <option value="RN" <?= $uf === 'RN' ? 'selected' : '' ?>>Rio Grande do Norte</option>
-                                            <option value="RS" <?= $uf === 'RS' ? 'selected' : '' ?>>Rio Grande do Sul</option>
-                                            <option value="RO" <?= $uf === 'RO' ? 'selected' : '' ?>>Rondônia</option>
-                                            <option value="RR" <?= $uf === 'RR' ? 'selected' : '' ?>>Roraima</option>
-                                            <option value="SC" <?= $uf === 'SC' ? 'selected' : '' ?>>Santa Catarina</option>
-                                            <option value="SP" <?= $uf === 'SP' ? 'selected' : '' ?>>São Paulo</option>
-                                            <option value="SE" <?= $uf === 'SE' ? 'selected' : '' ?>>Sergipe</option>
-                                            <option value="TO" <?= $uf === 'TO' ? 'selected' : '' ?>>Tocantins</option>
-                                            </select>
-                                        <select class=" w3-select w3-border w3-round w3-padding" name="estadoSelect" id="estadoSelect" value="<?= $uf?>">
-                                            <option value="">Selecione um estado</option>
-                                            <option value="AC" <?= $uf === 'AC' ? 'selected' : '' ?>>Acre</option>
-                                            <option value="AL" <?= $uf === 'AL' ? 'selected' : '' ?>>Alagoas</option>
-                                            <option value="AP" <?= $uf === 'AP' ? 'selected' : '' ?>>Amapá</option>
-                                            <option value="AM" <?= $uf === 'AM' ? 'selected' : '' ?>>Amazonas</option>
-                                            <option value="BA" <?= $uf === 'BA' ? 'selected' : '' ?>>Bahia</option>
-                                            <option value="CE" <?= $uf === 'CE' ? 'selected' : '' ?>>Ceará</option>
-                                            <option value="DF" <?= $uf === 'DF' ? 'selected' : '' ?>>Distrito Federal</option>
-                                            <option value="ES" <?= $uf === 'ES' ? 'selected' : '' ?>>Espírito Santo</option>
-                                            <option value="GO" <?= $uf === 'GO' ? 'selected' : '' ?>>Goiás</option>
-                                            <option value="MA" <?= $uf === 'MA' ? 'selected' : '' ?>>Maranhão</option>
-                                            <option value="MT" <?= $uf === 'MT' ? 'selected' : '' ?>>Mato Grosso</option>
-                                            <option value="MS" <?= $uf === 'MS' ? 'selected' : '' ?>>Mato Grosso do Sul</option>
-                                            <option value="MG" <?= $uf === 'MG' ? 'selected' : '' ?>>Minas Gerais</option>
-                                            <option value="PA" <?= $uf === 'PA' ? 'selected' : '' ?>>Pará</option>
-                                            <option value="PB" <?= $uf === 'PB' ? 'selected' : '' ?>>Paraíba</option>
-                                            <option value="PR" <?= $uf === 'PR' ? 'selected' : '' ?>>Paraná</option>
-                                            <option value="PE" <?= $uf === 'PE' ? 'selected' : '' ?>>Pernambuco</option>
-                                            <option value="PI" <?= $uf === 'PI' ? 'selected' : '' ?>>Piauí</option>
-                                            <option value="RJ" <?= $uf === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
-                                            <option value="RN" <?= $uf === 'RN' ? 'selected' : '' ?>>Rio Grande do Norte</option>
-                                            <option value="RS" <?= $uf === 'RS' ? 'selected' : '' ?>>Rio Grande do Sul</option>
-                                            <option value="RO" <?= $uf === 'RO' ? 'selected' : '' ?>>Rondônia</option>
-                                            <option value="RR" <?= $uf === 'RR' ? 'selected' : '' ?>>Roraima</option>
-                                            <option value="SC" <?= $uf === 'SC' ? 'selected' : '' ?>>Santa Catarina</option>
-                                            <option value="SP" <?= $uf === 'SP' ? 'selected' : '' ?>>São Paulo</option>
-                                            <option value="SE" <?= $uf === 'SE' ? 'selected' : '' ?>>Sergipe</option>
-                                            <option value="TO" <?= $uf === 'TO' ? 'selected' : '' ?>>Tocantins</option>
-                                            </select>
-                                    </div>
-                                </p>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align:center">
-                            <p>
-                                <input type="button" id="salvar" value="Salvar" onclick="enviarFormulario();" class="w3-btn w3-red">
-                                <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
-                            </p>
-                            </td>
-                        </tr>
-                    </table>
-                    <br>
-                </form>
-			</div>
-			</p>
-		</div>
-	</div>
-    
-</body>
-
 </html>
