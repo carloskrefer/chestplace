@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<?php
+  session_start();
+  require './database/conectaBD.php'; 
+?>
 <html>
 <head>
 <title>Chestplace</title>
@@ -61,10 +65,9 @@ body { background-color: #cca310; }
     <p class="w3-right">
       <?php
         // Exibe nome do usuário logado, se não mostrará os botões de login e cadastro
-        session_start();
-        $usuarioLogou = isset($_SESSION ['nome']);
+        $usuarioLogou = isset($_SESSION ['nome_usuario']);
         if ($usuarioLogou) {
-          $nomeUsuario = $_SESSION['nome'];
+          $nomeUsuario = $_SESSION['nome_usuario'];
           echo <<<END
             <span style="margin-right: 10px;">Olá, $nomeUsuario </span>
           END;
@@ -130,7 +133,6 @@ body { background-color: #cca310; }
   </div >
   <!-- Product grid -->
   <?php
-                      include("./database/conectaBD.php");
                       // Verifica se o ordem pego pelo get esta iniciado, digo foi setado na caixa 
                       if ( isset($_GET['ordem'])){
                           $ordem = $_GET['ordem'];
