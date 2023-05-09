@@ -53,7 +53,7 @@
                 } 
             }                       
         } else { // Se login e senha não combinam
-            $_SESSION ['erro_autenticacao'] = true;
+            $_SESSION ['login_senha_invalidos'] = true;
             unset($_SESSION ['id_usuario']);
             unset($_SESSION ['nome_usuario'] );
             unset($_SESSION ['tipo_usuario']);

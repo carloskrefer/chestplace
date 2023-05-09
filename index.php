@@ -87,7 +87,7 @@ body { background-color: #cca310; }
     </p>
   </header>
 
-  <!-- MODAL LOGIN: pop up para realizar Login --> 
+  <!-- MODAL LOGIN: pop up para realizar Login -->
   <div id="id0L" class="w3-modal ">
     <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:400px">
       <div class="w3-center"> 
@@ -109,6 +109,7 @@ body { background-color: #cca310; }
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
           </p>
+          <p id="msgLoginInvalido" class="w3-center w3-text-red" style="display:none;">E-mail ou senha inválidos!</p>
           <button class="w3-button w3-block w3-theme w3-section w3-padding w3-cyan" type="submit">Entrar</button>
         </div>
       </form>
@@ -119,6 +120,16 @@ body { background-color: #cca310; }
       </div>
     </div>
   </div>
+  <?php
+    // Se falhou login, exibir modal de login e uma mensagem sobre o erro
+    if (isset($_SESSION ['login_senha_invalidos'])) {
+      echo <<<END
+      <script>document.getElementById("id0L").style.display = "block";</script>
+      <script>document.getElementById("msgLoginInvalido").style.display = "block";</script>
+      END;
+    } 
+    unset($_SESSION ['login_senha_invalidos']);
+  ?>
 
   <!-- MODAL CADASTRO: pop up com botões que redirecionam para diferentes tipos de cadastro (vendedor ou comprador) --> 
   <div id="modalCadastro" class="w3-modal ">
