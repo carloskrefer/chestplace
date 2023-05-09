@@ -1,4 +1,4 @@
-<?php >
+<?php
 
     session_start();
 
@@ -12,7 +12,7 @@
     }
 
     $sql_insere_vendedor = "INSERT INTO Vendedor (id) VALUES '';";
-	    
+?>	    
 
 <!DOCTYPE html>
 
