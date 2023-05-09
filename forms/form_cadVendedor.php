@@ -1,4 +1,4 @@
-<?php 
+<?php >
     include("../database/conectaBD.php");
     session_start();
 
