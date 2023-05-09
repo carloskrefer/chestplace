@@ -9,10 +9,8 @@
     ON vendedor.id_endereco = endereco.id
     WHERE id_usuario = ".$_SESSION["idVendedor"].";";
 
-//Resultao do Select
 $result = mysqli_query($conn, $queryProdutos);
 
-    //Percorrendo resultado do select
     if (mysqli_num_rows($result) > 0) {
         while($row = mysqli_fetch_assoc($result)) {
             $nomeEstabelecimento = $row["nome_estabelecimento"];
