@@ -127,10 +127,10 @@
                         <div>
                             <td>
                                 <label class="w3-text-IE"><b>Senha</b>*</label>
-                                <input class="w3-input w3-border w3-light-grey" id="senha" name="senha" type="password" placeholder="Senha" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
+                                <input class="w3-input w3-border w3-light-grey" id="senha" name="senha" type="password" placeholder="Senha" maxlenght="255" minlength="8" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
                         <div>
                             <td>
-                                        <input class="w3-input w3-border w3-light-grey" id="csenha" name="confirma_senha" type="password" placeholder="Confirme a senha" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
+                                <input class="w3-input w3-border w3-light-grey" id="csenha" name="confirma_senha" type="password" placeholder="Confirme a senha" maxlenght="255" minlength="8" pattern="([0-9a-zA-zzáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ-Z$*&@#]){8,}" required></div>
                              </td>
                         </div>        
                                     <p>
