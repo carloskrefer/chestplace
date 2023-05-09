@@ -1,8 +1,8 @@
-<?php
+<?php 
 
     session_start();
 
-    require 'database/conectaBD.php';
+    require '../database/conectaBD.php';
 
     
     $conn = new mysqli($servername, $username, $password, $database);
@@ -12,8 +12,8 @@
     }
 
     $sql_insere_vendedor = "INSERT INTO Vendedor (id) VALUES '';";
-?>	    
-
+	    
+?>
 <!DOCTYPE html>
 
 <html>
@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <?php require '../common/header.php'; ?>
+<?php require '../common/header.php'; ?>
     <div class="w3-main w3-container">
         <div class="w3-panel w3-padding-large w3-card-4 w3-light-grey">
             <p class="w3-large">
@@ -58,7 +58,7 @@
                         <div>
                             <td>
                                 <label class="w3-text-IE"><b>Telefone para contato</b>*</label>
-                                <input class="w3-input w3-border w3-light-grey" name="telefone_contato" type="text" placeholder="Telefone para Contato"pattern="([0-9]{2,3})?(\([0-9]{2}\))([0-9]{4,5})([0-9]{4})" required>
+                                <input class="w3-input w3-border w3-light-grey" name="telefone_contato" type="text" placeholder="Telefone para Contato" required>
                             </td>
                         </div>
                         <div>
@@ -138,11 +138,14 @@
                                     </p>
                                     <script>
                                         function Mostrar() {
-                                            var x = document.getElementById("senha","csenha");
-                                            if (x.type === "password") {
-                                                x.type = "text";
+                                            var senha = document.getElementById("senha");
+                                            var cSenha = document.getElementById("csenha");
+                                            if (senha.type === "password") {
+                                                senha.type = "text";
+                                                csenha.type = "text";
                                             } else {
-                                                x.type = "password";
+                                                senha.type = "password";
+                                                csenha.type = "password";
                                             }
                                         }
                                     </script>
@@ -205,7 +208,7 @@
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" placeholder="Cidade" required>
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" placeholder="Cidade" required>
                                         <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidade" name="cidade" placeholder="Cidade" required>
                                     </div>
                                 </p>
@@ -219,35 +222,35 @@
                             <td>
                                 <label class="w3-text-IE"><b>Estado</b></label>
 
-                                        <select class=" w3-select w3-border w3-round w3-padding" name="estadoSelect" id="estadoSelect" value="<?= $uf?>">
+                                        <select class=" w3-select w3-border w3-round w3-padding w3-light-grey" name="estadoSelect" id="estadoSelect" value="<?= $uf?>">
                                             <option value="">Selecione um estado</option>
-                                            <option value="AC" <?= $uf === 'AC' ? 'selected' : '' ?>>Acre</option>
-                                            <option value="AL" <?= $uf === 'AL' ? 'selected' : '' ?>>Alagoas</option>
-                                            <option value="AP" <?= $uf === 'AP' ? 'selected' : '' ?>>Amapá</option>
-                                            <option value="AM" <?= $uf === 'AM' ? 'selected' : '' ?>>Amazonas</option>
-                                            <option value="BA" <?= $uf === 'BA' ? 'selected' : '' ?>>Bahia</option>
-                                            <option value="CE" <?= $uf === 'CE' ? 'selected' : '' ?>>Ceará</option>
-                                            <option value="DF" <?= $uf === 'DF' ? 'selected' : '' ?>>Distrito Federal</option>
-                                            <option value="ES" <?= $uf === 'ES' ? 'selected' : '' ?>>Espírito Santo</option>
-                                            <option value="GO" <?= $uf === 'GO' ? 'selected' : '' ?>>Goiás</option>
-                                            <option value="MA" <?= $uf === 'MA' ? 'selected' : '' ?>>Maranhão</option>
-                                            <option value="MT" <?= $uf === 'MT' ? 'selected' : '' ?>>Mato Grosso</option>
-                                            <option value="MS" <?= $uf === 'MS' ? 'selected' : '' ?>>Mato Grosso do Sul</option>
-                                            <option value="MG" <?= $uf === 'MG' ? 'selected' : '' ?>>Minas Gerais</option>
-                                            <option value="PA" <?= $uf === 'PA' ? 'selected' : '' ?>>Pará</option>
-                                            <option value="PB" <?= $uf === 'PB' ? 'selected' : '' ?>>Paraíba</option>
-                                            <option value="PR" <?= $uf === 'PR' ? 'selected' : '' ?>>Paraná</option>
-                                            <option value="PE" <?= $uf === 'PE' ? 'selected' : '' ?>>Pernambuco</option>
-                                            <option value="PI" <?= $uf === 'PI' ? 'selected' : '' ?>>Piauí</option>
-                                            <option value="RJ" <?= $uf === 'RJ' ? 'selected' : '' ?>>Rio de Janeiro</option>
-                                            <option value="RN" <?= $uf === 'RN' ? 'selected' : '' ?>>Rio Grande do Norte</option>
-                                            <option value="RS" <?= $uf === 'RS' ? 'selected' : '' ?>>Rio Grande do Sul</option>
-                                            <option value="RO" <?= $uf === 'RO' ? 'selected' : '' ?>>Rondônia</option>
-                                            <option value="RR" <?= $uf === 'RR' ? 'selected' : '' ?>>Roraima</option>
-                                            <option value="SC" <?= $uf === 'SC' ? 'selected' : '' ?>>Santa Catarina</option>
-                                            <option value="SP" <?= $uf === 'SP' ? 'selected' : '' ?>>São Paulo</option>
-                                            <option value="SE" <?= $uf === 'SE' ? 'selected' : '' ?>>Sergipe</option>
-                                            <option value="TO" <?= $uf === 'TO' ? 'selected' : '' ?>>Tocantins</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
                                             </select>
                             </td>
                         </div>
