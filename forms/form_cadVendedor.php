@@ -10,18 +10,6 @@
         die("<strong> Falha de conexão: </strong>" . $conn->connect_error);
     }
 
-    $nome    = $conn->real_escape_string($_POST['nome']);   
-    $email   = $conn->real_escape_string($_POST['email']);
-    $senha   = $conn->real_escape_string($_POST['senha']);
-    $cpf   = $conn->real_escape_string($_POST['cpf']);
-    $nome_estabelicimento   = $conn->real_escape_string($_POST['nome_estabelicimento']);
-    $idEndereco   = $conn->real_escape_string($_POST['idEndereco']);
-    $rua   = $conn->real_escape_string($_POST['rua']);
-    $bairo   = $conn->real_escape_string($_POST['bairro']);
-    $complemento   = $conn->real_escape_string($_POST['complemento']);
-    $cidade   = $conn->real_escape_string($_POST['cidade']);
-    $estadoSelect  = $conn->real_escape_string($_POST['estadoSelect']);
-
     $sql_insere_vendedor = "INSERT INTO Vendedor (id) VALUES '';";
 	    
 
