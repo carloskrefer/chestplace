@@ -2,34 +2,6 @@
     include("../database/conectaBD.php");
     session_start();
 
-    $queryProdutos = "
-    SELECT *
-    FROM vendedor
-    INNER JOIN endereco
-    ON vendedor.id_endereco = endereco.id
-    WHERE id_usuario = ".$_SESSION["idVendedor"].";";
-
-$result = mysqli_query($conn, $queryProdutos);
-
-    if (mysqli_num_rows($result) > 0) {
-        while($row = mysqli_fetch_assoc($result)) {
-            $nomeEstabelecimento = $row["nome_estabelecimento"];
-            $cpf = $row["cpf"];
-            $cnpj = $row["cnpj"];
-            $emailContato = $row["email_contato"];
-            $telefoneContato = $row["telefone_contato"];
-            $idEndereco = $row["id_endereco"];
-            $cep = $row["cep"];
-            $uf = $row["uf"];
-            $cidade = $row["cidade"];
-            $rua = $row["rua"];
-            $numero = $row["numero"];
-            $complemento = $row["complemento"];
-            $bairro = $row["bairro"];
-            }   
-        }
-?>
-
 <!DOCTYPE html>
 
 <html>
