@@ -13,7 +13,7 @@
 <style>
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
-body { background-color: #ffff4d; }
+body { background-color: #cca310; }
 </style>
 </head>
 <body class="w3-content" style="max-width:1200px">
@@ -31,18 +31,13 @@ body { background-color: #ffff4d; }
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
           <label for="data-criacao-select">Filtrar por data de criação:</label>
             <select id="data-criacao-select">
+              <option value=""  disabled hidden selected>Filtro</option>
               <option value="mais-recentes">Mais recentes</option>
               <option value="mais-antigas">Mais antigas</option>
           </select>
     </div>
-    <a href="#" class="w3-bar-item w3-button">Jackets</a>
-    <a href="#" class="w3-bar-item w3-button">Gymwear</a>
-    <a href="#" class="w3-bar-item w3-button">Blazers</a>
-    <a href="#" class="w3-bar-item w3-button">Shoes</a>
   </div>
-  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contact</a> 
-  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding" onclick="document.getElementById('newsletter').style.display='block'">Newsletter</a> 
-  <a href="#footer"  class="w3-bar-item w3-button w3-padding">Subscribe</a>
+  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
 </nav>
 
 <!-- Top menu on small screens -->
@@ -121,134 +116,68 @@ body { background-color: #ffff4d; }
   </div>
 
   <!-- Image header -->
-  <div class="w3-display-container w3-container">
+  <div style = "background-color: #cca310" class="w3-display-container w3-container">
     <img src="./w3images/jeans.jpg" alt="Jeans" style="width:100%">
     <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
-      <h1 class="w3-jumbo w3-hide-small">New arrivals</h1>
-      <h1 class="w3-hide-large w3-hide-medium">New arrivals</h1>
-      <h1 class="w3-hide-small">COLLECTION 2016</h1>
+      <h1 class="w3-jumbo w3-hide-small">As melhores camisetas</h1>
+      <h1 class="w3-hide-large w3-hide-medium">Novas e Usadas</h1>
+      <h1 class="w3-hide-small">Confira abaixo</h1>
       <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>
     </div>
   </div>
   <div class="w3-container w3-text-grey" id="jeans">
     <p>Produtos</p>
-  </div>
+  </div >
   <!-- Product grid -->
   <?php
                       include("./database/conectaBD.php");
-
-                      // Consulta SQL para selecionar os produtos com a data de postagem igual à data atual
-                      
-                    
-                      // Conectar ao banco de dados e selecionar as camisetas filtradas
+                      // Verifica se o ordem pego pelo get esta iniciado, digo foi setado na caixa 
                       if ( isset($_GET['ordem'])){
                           $ordem = $_GET['ordem'];
                           if (isset($ordem) === "mais-recentes") {
-                            $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao DESC";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao DESC";
                           } else if (isset($ordem) === "mais-antigas"){
-                            $sql = "SELECT titulo, preco FROM camiseta ORDER BY data_hora_publicacao ASC ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao ASC ";
                           }
                         } else {
-                          $sql = "SELECT titulo, preco, imagem FROM camiseta, imagem WHERE data_hora_publicacao >= CURDATE() and imagem.id_produto = camiseta.id";
+                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ";
                         }
                       // Executa a consulta
                       $resultado = mysqli_query($conn, $sql);
 
                       // Verifica se há resultados
-                      if (mysqli_num_rows($resultado) > 0) {
+                      if (mysqli_num_rows($resultado) > 0) {  
                           // Loop pelos resultados
                           while ($produto = mysqli_fetch_assoc($resultado)) {
-                              // Exibe as informações do produto
-                              echo "
+                            $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$produto['id']." limit 1;";
+                            $resultadoimg = mysqli_query($conn, $sql);
+                            while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
+                              $imagemcamiseta = $rowimg['imagem'];
+                            }
+                            echo "
                               <div class=\"w3-col l3 s6\">
-                                <div class=\"w3-container\">
-                                  <img src=\"data:imagem/jpeg;base64,".base64_encode($produto['imagem'])."\">
-                                  <p>".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                <div style = \"background-color: #cca310\" class=\"w3-container\">
+                                  <div  class=\"w3-display-container\">
+                            ";
+                            // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
+                            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+                            //Coloca botões, título e preço do anúncio
+                            echo "
                                 </div>
-                                
-                              </div>";
-
-
-                              // echo "
-                              // <div class=\"w3-col l3 s6\">
-                              // <div class=\"w3-container\">
-                              //   <div class=\"w3-display-container\">
-                              //   <img src=\"data:imagem/jpeg;base64,".base64_encode($produto['imagem'])."\">
-                              //   </div>
-                              //   <p>".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
-                              //   </div>
-                              // </div>
-                              // ";
+                                <p class = \"w3-text-white\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                </div>
+                              </div>
+                            ";
                           }
                       }
-
                       // Fecha a conexão com o banco de dados
                       mysqli_close($conn);
                       
     ?>      
-    <!-- <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="./w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="./w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="./w3images/jeans3.jpg" style="width:100%">
-        <p>Washed Skinny Jeans<br><b>$20.50</b></p>
-      </div>
-      <div class="w3-container">
-        <div class="w3-display-container">
-          <img src="./w3images/jeans4.jpg" style="width:100%">
-          <span class="w3-tag w3-display-topleft">Sale</span>
-          <div class="w3-display-middle w3-display-hover">
-            <button class="w3-button w3-black">Buy now <i class="fa fa-shopping-cart"></i></button>
-          </div>
-        </div>
-        <p>Vintage Skinny Jeans<br><b class="w3-text-red">$14.99</b></p>
-      </div>
-    </div>
-
-    <div class="w3-col l3 s6">
-      <div class="w3-container">
-        <img src="./w3images/jeans4.jpg" style="width:100%">
-        <p>Vintage Skinny Jeans<br><b>$14.99</b></p>
-      </div>
-      <div class="w3-container">
-        <img src="./w3images/jeans1.jpg" style="width:100%">
-        <p>Ripped Skinny Jeans<br><b>$24.99</b></p>
-      </div>
-    </div>
-  </div> -->
+    
   
   <!-- Subscribe section -->
-  <div class="w3-container w3-black w3-padding-32">
+  <div style = "background-color: #cca310" class="w3-container w3-padding-32">
     <h1>Subscribe</h1>
     <p>To get special offers and VIP treatment:</p>
     <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
