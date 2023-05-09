@@ -28,6 +28,8 @@ $result = mysqli_query($conn, $queryProdutos);
             $numero = $row["numero"];
             $complemento = $row["complemento"];
             $bairro = $row["bairro"];
+            }   
+        }
 ?>
 
 <!DOCTYPE html>
