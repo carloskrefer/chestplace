@@ -3,11 +3,11 @@
   include("./database/conectaBD.php");
   require("./validacaoAcessoVendedor.php"); // Verifica se está logado e se de fato é vendedor. Se não, redireciona p/ index.php.
   session_start();
-  $_SESSION["idVendedor"] = $_GET['id'];
+
+  $_SESSION["idVendedor"] = $_SESSION ['id_usuario']; // id_usuario é setado no login.php
   $selectNomeEstabelecimento = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = ".$_SESSION["idVendedor"];
   $resultNomeEstabelecimento = mysqli_query($conn, $selectNomeEstabelecimento);
   while($row = mysqli_fetch_assoc($resultNomeEstabelecimento)) { $nomeEstabelecimento = $row["nome_estabelecimento"]; }
-
 ?>
 <html>
 <head>
@@ -82,9 +82,6 @@
     <div class="w3-container w3-text-grey" id="jeans">
       <p>
       <?php
-        include("./database/conectaBD.php");
-        $_SESSION["idVendedor"] = $_GET["id"];
-
         $queryQtde = "
         SELECT count(*) qtde 
         FROM camiseta c 
