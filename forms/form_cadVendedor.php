@@ -1,6 +1,26 @@
 <?php >
-    include("../database/conectaBD.php");
+
     session_start();
+
+    require 'database/conectaBD.php';
+
+    $conn = new mysqli($servername, $username, $password, $database);
+
+    if ($conn->connect_error) {
+        die("<strong> Falha de conexão: </strong>" . $conn->connect_error);
+    }
+
+    $nome    = $conn->real_escape_string($_POST['nome']);   
+    $email   = $conn->real_escape_string($_POST['email']);
+    $senha   = $conn->real_escape_string($_POST['senha']);
+    $cpf   = $conn->real_escape_string($_POST['cpf']);
+    $nome_estabelicimento   = $conn->real_escape_string($_POST['nome_estabelicimento']);
+    $idEndereco   = $conn->real_escape_string($_POST['idEndereco']);
+    $rua   = $conn->real_escape_string($_POST['rua']);
+    $bairo   = $conn->real_escape_string($_POST['bairro']);
+    $complemento   = $conn->real_escape_string($_POST['complemento']);
+    $cidade   = $conn->real_escape_string($_POST['cidade']);
+    $estadoSelect  = $conn->real_escape_string($_POST['estadoSelect']);
 
 <!DOCTYPE html>
 
@@ -45,7 +65,7 @@
                         </div>
                         <div>
                             <td>
-                                <label class="w3-text-IE"><b>CNPJ</b>*</label>
+                                <label class="w3-text-IE"><b>CPF ou CNPJ</b>*</label>
                                 <input class="w3-input w3-border w3-light-grey" onkeyup="validaCpfCnpj(this);" onblur="validaCpfCnpj(this)" id="cpf" name="cpf" type="text" placeholder="CPF/CNPJ (Apenas números)"pattern="([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})" required>
                                 <script>
 
