@@ -75,7 +75,7 @@ body { background-color: #cca310; }
           echo <<<END
             <button class="w3-btn w3-deep-orange w3-border" onclick="document.getElementById('id0L').style.display='block'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Entrar</button>
-            <button class="w3-btn w3-white w3-border" onclick="//inserir aqui o código que exibe o display do modal de cadastro" 
+            <button class="w3-btn w3-white w3-border" onclick="document.getElementById('modalCadastro').style.display='block'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
           END;
         }
@@ -114,6 +114,30 @@ body { background-color: #cca310; }
       <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
         <button onclick="document.getElementById('id0L').style.display='none'" type="button" class="w3-button w3-red">Cancelar</button>
         <span class="w3-right w3-padding w3-hide-small"><a href="#">Esqueceu a senha?</a></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CADASTRO: pop up com botões que redirecionam para diferentes tipos de cadastro (vendedor ou comprador) --> 
+  <div id="modalCadastro" class="w3-modal ">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:400px">
+      <div class="w3-center"> 
+        <span onclick="document.getElementById('modalCadastro').style.display='none'" class="w3-button w3-xlarge w3-transparent w3-display-topright" title="Fechar">×</span>
+      </div>
+
+      <h2 class="w3-center w3-xxlarge">Cadastrar</h2>
+
+      <div class="w3-container w3-card-4 w3-light-grey w3-margin">
+        <div class="w3-section">
+          <button onclick="//TODO: adicionar aqui o futuro link de cadastro do cliente" 
+            class="w3-button w3-block w3-theme w3-section w3-padding w3-amber" type="submit">Sou cliente (em breve!)</button>
+          <button onclick="window.location.href='./forms/form_cadVendedor.php'"
+            class="w3-button w3-block w3-theme w3-section w3-padding w3-orange" type="submit">Sou vendedor</button>
+        </div>
+      </div>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('modalCadastro').style.display='none'" type="button" class="w3-button w3-red">Cancelar</button>
       </div>
     </div>
   </div>
