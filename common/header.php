@@ -2,17 +2,20 @@
 
 <?php
     include("../database/conectaBD.php");
-    $selectNomeVendedor = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = " . $_SESSION["idVendedor"];
 
-    $result = mysqli_query($conn, $selectNomeVendedor);
-
-    if (mysqli_num_rows($result) > 0) {
-        while($row = mysqli_fetch_assoc($result)) {
-            $nome = $row["nome_estabelecimento"];
+    if(isset($_SESSION["idVendedor"])){
+        $selectNomeVendedor = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = " . $_SESSION["idVendedor"];
+    
+        $result = mysqli_query($conn, $selectNomeVendedor);
+    
+        if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $nome = $row["nome_estabelecimento"];
+            }
+        } else{
+            $nome = "ERRO!";
         }
-    } else{
-        $nome = "ERRO!";
-    }
+    } else { $nome = " "; }
 ?>
 
 <head>
