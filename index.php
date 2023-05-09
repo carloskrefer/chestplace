@@ -101,8 +101,8 @@ body { background-color: #cca310; }
             title="Deve informar um e-mail com até 255 caracteres." placeholder="usuario@dominio.com" required maxlength="255">
           <label class="w3-text-IE"><b>Senha</b></label>
           <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
-            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-!#$.%&*]).{6,255}" placeholder="" 
-            title="Deve conter ao menos um número, uma letra maiúscula, uma letra minúscula, um caracter especial (-!#$.%&*), e ter de 6 a 255 caracteres" 
+            pattern=".{8,255}" placeholder="" 
+            title="Deve informar uma senha com 6 a 255 caracteres" 
             required maxlength="255">
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
