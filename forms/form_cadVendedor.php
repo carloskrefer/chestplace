@@ -22,6 +22,9 @@
     $cidade   = $conn->real_escape_string($_POST['cidade']);
     $estadoSelect  = $conn->real_escape_string($_POST['estadoSelect']);
 
+    $sql_insere_vendedor = "INSERT INTO Vendedor (id) VALUES '';";
+	    
+
 <!DOCTYPE html>
 
 <html>
