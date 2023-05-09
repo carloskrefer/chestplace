@@ -139,12 +139,15 @@
                                     <script>
                                         function Mostrar() {
                                             var senha = document.getElementById("senha");
-                                            var cSenha = document.getElementById("csenha");
                                             if (senha.type === "password") {
                                                 senha.type = "text";
-                                                csenha.type = "text";
                                             } else {
                                                 senha.type = "password";
+                                            }
+                                            var csenha = document.getElementById("csenha");
+                                            if (csenha.type === "password") {
+                                                csenha.type = "text";
+                                            } else {
                                                 csenha.type = "password";
                                             }
                                         }
