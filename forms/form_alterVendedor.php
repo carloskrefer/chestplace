@@ -135,7 +135,7 @@
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidade" value="<?= $cidade?>">
+                                        <input disabled class="w3-input w3-border" type="text" id="displayCidade" value="<?= $cidade?>">
                                         <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidade" name="cidade" value="<?= $cidade?>">
                                     </div>
                                 </p>
