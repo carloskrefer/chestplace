@@ -33,12 +33,14 @@ body { background-color: #cca310; }
       Camisetas <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+      <form method="GET" action="">
           <label for="data-criacao-select">Filtrar por data de criação:</label>
-            <select id="data-criacao-select">
+            <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
               <option value=""  disabled hidden selected>Filtro</option>
               <option value="mais-recentes">Mais recentes</option>
               <option value="mais-antigas">Mais antigas</option>
           </select>
+      </form>
     </div>
   </div>
   <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
@@ -103,7 +105,7 @@ body { background-color: #cca310; }
             title="Deve informar um e-mail com até 255 caracteres." placeholder="usuario@dominio.com" required maxlength="255">
           <label class="w3-text-IE"><b>Senha</b></label>
           <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
-            pattern=".{8,255}" placeholder="" 
+             placeholder="" 
             title="Deve informar uma senha com 6 a 255 caracteres" 
             required maxlength="255">
           <p>

@@ -122,6 +122,11 @@
           while($row = mysqli_fetch_assoc($result)) {
             //Data de publicação convertida para DateTime do php
             $dataCadastro = new DateTime($row["data_hora_cadastro"]);
+            $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$row['id']." limit 1;";
+            $resultadoimg = mysqli_query($conn, $sql);
+            while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
+            $imagemcamiseta = $rowimg['imagem'];
+            }
             
             echo "
               <div class=\"w3-col l3 s6\">
@@ -135,8 +140,9 @@
               echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
             }
 
+
             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-            echo "<img src='./w3images/jeans1.jpg' style=\"width:100%;\">";
+            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
 
             //Coloca botões, título e preço do anúncio
             echo "
