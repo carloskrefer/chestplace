@@ -5,7 +5,7 @@ use chestplace;
 
 CREATE TABLE endereco(
 	id int(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
-    cep char(9) UNSIGNED NOT NULL,
+    cep char(9) NOT NULL,
     rua varchar(255) NOT NULL, 
     numero varchar(10) NOT NULL, 
     complemento varchar (255), 
