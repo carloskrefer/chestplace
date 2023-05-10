@@ -39,7 +39,10 @@ body { background-color: #cca310; }
               <option value=""  disabled hidden selected>Filtro</option>
               <option value="mais-recentes">Mais recentes</option>
               <option value="mais-antigas">Mais antigas</option>
+              <option value="nova">Novas</option>
+              <option value="usada">Usadas</option>
           </select>
+          
       </form>
     </div>
   </div>
@@ -71,7 +74,7 @@ body { background-color: #cca310; }
         if ($usuarioLogou) {
           $nomeUsuario = $_SESSION['nome_usuario'];
           echo <<<END
-            <span style="margin-right: 10px;">Olá,<a href="/chestplace/page_gerProdutos.php" > $nomeUsuario</a> </span>
+            <span style="margin-right: 10px;">Olá,<a href="/chestplace/page_gerProdutos.php " > $nomeUsuario</a> </span>
             <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='./logout.php'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
           END;
@@ -177,19 +180,29 @@ body { background-color: #cca310; }
     </div>
   <!-- Product grid -->
   <?php
-                      // Verifica se o ordem pego pelo get esta iniciado, digo foi setado na caixa 
-                      if ( isset($_GET['ordem'])){
-                          $ordem = $_GET['ordem'];
-                          if (isset($ordem) === "mais-recentes") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao DESC";
-                          } else if (isset($ordem) === "mais-antigas"){
+                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ";
+                    //predefine o sql para mostrar todas as camisetas postadas 
+                    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                      // Verifica se o parâmetro "selecao" foi passado na URL
+                      if (isset($_GET["ordem"])) {
+                          // Obtém o valor selecionado
+                          $valorSelecionado = $_GET["ordem"];
+                  
+                          // Atualiza a consulta SQL com base na opção selecionada
+                          if ($valorSelecionado == "mais-recentes") {
+                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao DESC";
+                          } elseif ($valorSelecionado == "mais-antigas") {
                             $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao ASC ";
-                          }
-                        } else {
-                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ";
-                        }
-                      // Executa a consulta
-                      $resultado = mysqli_query($conn, $sql);
+                          } elseif ($valorSelecionado == "nova") {
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() AND conservacao = 'nova' ";
+                          } elseif ($valorSelecionado == "usada") {
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() AND conservacao = 'usada' ";
+                          } 
+                      }
+                    }
+                    $resultado = mysqli_query($conn, $sql);
+                    
+                    
 
                       // Verifica se há resultados
                       if (mysqli_num_rows($resultado) > 0) {  
