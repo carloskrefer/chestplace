@@ -5,12 +5,12 @@ use chestplace;
 
 CREATE TABLE endereco(
 	id int(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
-    cep int(10) UNSIGNED NOT NULL, 
+    cep char(9) UNSIGNED NOT NULL,
     rua varchar(255) NOT NULL, 
     numero varchar(10) NOT NULL, 
     complemento varchar (255), 
     bairro varchar(255),
-	cidade varchar(255) NOT NULL,
+	  cidade varchar(255) NOT NULL,
     uf ENUM ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO') NOT NULL
 );
 
@@ -71,7 +71,7 @@ CREATE TABLE camiseta(
 CREATE TABLE imagem(
   id int(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   id_produto int(10) UNSIGNED NOT NULL, 
-  imagem blob NOT NULL,
+  imagem MEDIUMBLOB NOT NULL,
   FOREIGN KEY (id_produto) REFERENCES camiseta(id)
 );
 
