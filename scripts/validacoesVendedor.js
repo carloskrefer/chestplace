@@ -1,7 +1,13 @@
-function validarFormulario(){
-    let valido = validarNomeEstabelecimento() &&
-                 validarCpfCnpj() && 
-                 validarEmailContato() &&
+function validarFormulario(cadastro){
+    let valido = false;
+
+    // Caso seja formulário de cadastro, verificações de emailLogin e senha adicionados
+    if(cadastro){
+        valido = validarNomeEstabelecimento() &&
+                 validarEmail($("#emailLogin")) &&
+                 validarSenha() &&
+                 validarCpfCnpj(true) && 
+                 validarEmail($("#emailContato")) &&
                  validarTelefoneContato() &&
                  validarCEP() &&
                  validarRua() && 
@@ -9,10 +15,43 @@ function validarFormulario(){
                  validarBairro() &&
                  validarComplemento()&&
                  validarCidade();
+    } 
+    
+    // Caso seja validação de formulário de alteração.
+    else {
+        valido = validarNomeEstabelecimento() &&
+                 validarCpfCnpj(false) && 
+                 validarEmail($("#emailContato")) &&
+                 validarTelefoneContato() &&
+                 validarCEP() &&
+                 validarRua() && 
+                 validarNumero() && 
+                 validarBairro() &&
+                 validarComplemento()&&
+                 validarCidade();
+    }
 
     return valido;
 }
 
+
+
+
+/**
+ * Verifica se o nome do estabelecimento inserido no input '#nomeEstabelecimento' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - Nome com menos de 2 caracteres EX: "CF" => FALSE | "CFF" => TRUE
+ * - Nome apenas com números EX: "111" => FALSE | "111A" => TRUE
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ * 
+ * @example
+ * // Exemplo de uso
+ * const nomeEstabelecimentoValido = validarNomeEstabelecimento();
+ * console.log(nomeEstabelecimentoValido); // Saída: true ou false
+ */
 function validarNomeEstabelecimento(){
     const nomeEstabelecimento = $("#nomeEstabelecimento").val().replace(" ", "");
 
@@ -28,39 +67,120 @@ function validarNomeEstabelecimento(){
         return false;
     }
     
+    // Determina que o valor inserido em #nomeEstabelecimento é valido e desativa mensagem de erro
     $("#nomeEstabelecimento")[0].validity.valid = true;
     $("#nomeEstabelecimento")[0].setCustomValidity("");
     return true;
 }
 
-function validarCpfCnpj(){
-    let cpfCnpj = $("#cpfCnpj");
-    let cpfCnpjNumerico = cpfCnpj.val().replace(/\D/g, '');
 
-    // Validacoes CPF
-    let cpfTamanhoErrado = cpfCnpjNumerico.length !== 11;
-    let cpfNumsIguais =  (/^(\d)\1+$/.test(cpfCnpjNumerico));
-    let cpfInvalido = !validarCPF(cpfCnpjNumerico);
+
+
+/**
+ * Verifica se o CPF ou CNPJ inserido no input '#cpfCnpj' é válido.
+ * As validações são feitas por meio das funções 'validarCPF()' e 'validarCNPJ()'
+ * 
+ * @requires JQuery
+ * 
+ * @param {boolean} cadastro - **TRUE** para formulário de cadastro (não haverá a variável 'pessoaFisica' pré-definida) | **FALSE** para formulário de alteração (haverá a variável 'pessoaFisica' pré-definida) ) 
+ * 
+ * @returns {boolean} - **TRUE** caso seja válido | **FALSE** caso seja inválido
+ * 
+ * @example
+ * // Exemplo de uso para formulário de cadastro
+ * const cadastro = true;
+ * const cpfCnpjValido = validarCpfCnpj(cadastro);
+ * console.log(cpfCnpjValido); // Saída: true ou false
+ *
+ * // Exemplo de uso para formulário de alteração
+ * const cadastro = false;
+ * const cpfCnpjValido = validarCpfCnpj(cadastro);
+ * console.log(cpfCnpjValido); // Saída: true ou false
+ */
+function validarCpfCnpj(cadastro){
+    let cpfCnpjNumerico = $("#cpfCnpj").val().replace(/\D/g, '');
+    let valido = false;
+
+    if(cadastro) { var pessoaFisica = cpfCnpjNumerico.length == 11}
+
+    if(pessoaFisica) { valido = validarCPF(cpfCnpjNumerico);  }
+    else             { valido = validarCNPJ(cpfCnpjNumerico); }
+
+    return valido;
+}
+
+
+
+
+/**
+ * Verifica se o CPF passado e válido. Caso não seja, o campo '#cpfCnpj' será focado e notificado.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - CPF tamanho diferente de 11 caracteres EX: "012345678912" => FALSE | "01234567891" => TRUE
+ * - CPF com números iguais EX: "11111111111" => FALSE | "01234567891" => TRUE
+ * - CPF com dígito verificador inválido EX: "12345678909" => FALSE | "07081767125" => TRUE
+ * 
+ * @requires JQuery
+ * 
+ * @param {string} cpfNumerico - CPF que será validado (apenas com números, sem caracteres)
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ * 
+ * @example
+ * // Exemplo de uso
+ * const cpfNumerico = "01234567891";
+ * const cpfValido = validarCPF(cpfNumerico);
+ * console.log(cpfValido); // Saída: true ou false
+ */
+function validarCPF(cpfNumerico){
+
+    let cpfCnpj = $("#cpfCnpj");
+
+    let cpfTamanhoErrado = cpfNumerico.length !== 11;
+    let cpfNumsIguais =  (/^(\d)\1+$/.test(cpfNumerico));
+    let cpfInvalido = !validarDigitoVerificadorCPF(cpfNumerico);
+
+    if(cpfTamanhoErrado){
+        exibirPopUpErro(cpfCnpj, "CPF inválido! O CPF deve conter 11 dígitos.")
+        return false;
+    }
+
+    if(cpfInvalido || cpfNumsIguais){
+        exibirPopUpErro(cpfCnpj, "CPF inválido! O CPF inserido é inválido. Confira os dados informados e tente novamente.")
+        return false;
+    }
+
+    cpfCnpj.get(0).validity.valid = true;
+    cpfCnpj.get(0).setCustomValidity("");
+    return true;
+}
+
+
+
+
+/**
+ * Verifica se o CNPJ passado e válido. Caso não seja, o campo '#cpfCnpj' será focado e notificado.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - CNPJ tamanho diferente de 14 caracteres EX: "123456789123456" => FALSE | "12345678912345" => TRUE
+ * 
+ * @requires JQuery
+ * 
+ * @param {string} cnpjNumerico - CNPJ que será validado (apenas com números, sem caracteres)
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ * 
+ * @example
+ * // Exemplo de uso
+ * const cnpjNumerico = "12345678912345";
+ * const cnpjValido = validarCNPJ(cnpjNumerico);
+ * console.log(cnpjValido); // Saída: true ou false
+ * 
+ */
+function validarCNPJ(cnpjNumerico){
+
+    let cpfCnpj = $("#cpfCnpj");
 
     // Validacoes CNPJ
-    let cnpjTamanhoErrado = cpfCnpjNumerico.length !== 14
-
-    if(pessoaFisica){
-
-        if(cpfTamanhoErrado){
-            exibirPopUpErro(cpfCnpj, "CPF inválido! O CPF deve conter 11 dígitos.")
-            return false;
-        }
-
-        if(cpfInvalido || cpfNumsIguais){
-            exibirPopUpErro(cpfCnpj, "CPF inválido! O CPF inserido é inválido. Confira os dados informados e tente novamente.")
-            return false;
-        }
-
-        cpfCnpj.get(0).validity.valid = true;
-        cpfCnpj.get(0).setCustomValidity("");
-        return true;
-    }
+    let cnpjTamanhoErrado = cnpjNumerico.length !== 14;
 
     if(cnpjTamanhoErrado){
         exibirPopUpErro(cpfCnpj, "CNPJ inválido! O CNPJ deve conter 14 dígitos.");
@@ -72,23 +192,68 @@ function validarCpfCnpj(){
     return true;
 }
 
-function validarEmailContato(){
+
+
+
+/**
+ * Verifica se o valor do campo email passado é válido. Caso não seja, o campo 'emailInpt' (parâmetro) será focado e notificado.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - EMAIL possui '@'                       EX: "joaogmail.com" => FALSE | "joao@gmail.com" => TRUE;
+ * - EMAIL possui caracteres antes do '@'   EX: "@gmail.com"    => FALSE | "joao@gmail.com" => TRUE;
+ * - EMAIL possui caracteres depois do '@'  EX: "joao@"         => FALSE | "joao@gmail.com" => TRUE;
+ * - EMAIL possui '.' após nome do domínio  EX: "joao@gmail"    => FALSE | "joao@gmail.com" => TRUE;
+ * 
+ * @requires JQuery
+ * 
+ * @param {JQuery.Object} emailInpt - elemento **JQuery** do campo de input de email
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ * 
+ * @example
+ * // Exemplo de uso
+ * const emailInput = $("#emailInput");
+ * const emailValido = validarEmail(emailInput);
+ * console.log(emailValido); // Saída: true ou false
+ * 
+ */
+function validarEmail(emailInpt){
     // Expressão regular para validação de email
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     
     // Verifica se o email corresponde à expressão regular
-    let emailValido = regexEmail.test($("#emailContato").val())
+    let emailValido = regexEmail.test(emailInpt.val())
 
     if(!emailValido){
-        exibirPopUpErro($("#emailContato"), "Email inválido! Por favor, insira um email válido.")
+        exibirPopUpErro(emailInpt, "Email inválido! Por favor, insira um email válido.")
     } else{
-        $("#emailContato").get(0).validity.valid = true;
-        $("#emailContato").get(0).setCustomValidity("");
+        emailInpt.get(0).validity.valid = true;
+        emailInpt.get(0).setCustomValidity("");
     }
 
     return emailValido;
 }
 
+
+
+
+/**
+ * Verifica se o telefone de contato inserido no input '#telefoneContato' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - Número de telefone com menos de 8 dígitos EX: "1234567" => FALSE | "12345678" => TRUE
+ * - Número de telefone com mais de 11 dígitos EX: "123456789012" => FALSE | "12345678901" => TRUE
+ * - Número de telefone que não se encaixa nos padrões de telefone fixo, 400X, comum ou 0800
+ *   EX: "1111111111" => FALSE | "111111111" => TRUE
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const telefoneContatoValido = validarTelefoneContato();
+ * console.log(telefoneContatoValido); // Saída: true ou false
+ * 
+ */
 function validarTelefoneContato(){
     let telefone = $("#telefoneContato");
     let telefoneNumerico = telefone.val().replace(/\D/g, '');
@@ -119,6 +284,25 @@ function validarTelefoneContato(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se o CEP inserido no input '#cep' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - O CEP deve conter exatamente 8 dígitos.
+ * - Realiza uma chamada à API do ViaCEP para verificar se o CEP é válido.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const cepValido = validarCEP();
+ * console.log(cepValido); // Saída: true ou false
+ * 
+ */
 function validarCEP(){
     let cep = $("#cep");
     let cepNumerico = cep.val().replace(/\D/g, '');
@@ -141,6 +325,25 @@ function validarCEP(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se o nome da rua inserido no input '#rua' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - O nome da rua deve conter pelo menos um caractere.
+ * - O nome da rua não deve ultrapassar o limite de 255 caracteres.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const ruaValida = validarRua();
+ * console.log(ruaValida); // Saída: true ou false
+ * 
+ */
 function validarRua(){
     let rua = $("#rua").val();
 
@@ -159,6 +362,25 @@ function validarRua(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se o número do endereço inserido no input '#numero' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - Caso o endereço não possua número, o valor "s/n" é aceito.
+ * - O número do endereço não deve ultrapassar o limite de 255 caracteres.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const numeroValido = validarNumero();
+ * console.log(numeroValido); // Saída: true ou false
+ * 
+ */
 function validarNumero(){
     let numero = $("#numero").val();
 
@@ -177,6 +399,25 @@ function validarNumero(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se o nome do bairro inserido no input '#bairro' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - O nome do bairro deve conter pelo menos um caractere.
+ * - O nome do bairro não deve ultrapassar o limite de 255 caracteres.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const bairroValido = validarBairro();
+ * console.log(bairroValido); // Saída: true ou false
+ * 
+ */
 function validarBairro(){
     let bairro = $("#bairro").val();
 
@@ -195,6 +436,23 @@ function validarBairro(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se o complemento do endereço inserido no input '#complemento' é válido.
+ * Para verificar se é válido, a seguinte verificação é feita:
+ * - O complemento do endereço não deve ultrapassar o limite de 255 caracteres.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const complementoValido = validarComplemento();
+ * console.log(complementoValido); // Saída: true ou false
+ */
 function validarComplemento(){
     let complemento = $("#complemento").val();
 
@@ -208,6 +466,24 @@ function validarComplemento(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se o nome da cidade inserido no input '#cidade' é válido.
+ * Para verificar se é válido, a seguinte verificação é feita:
+ * - O nome da cidade não deve ultrapassar o limite de 255 caracteres.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ *
+ * @example
+ * // Exemplo de uso
+ * const cidadeValida = validarCidade();
+ * console.log(cidadeValida); // Saída: true ou false
+ * 
+ */
 function validarCidade(){
     let cidade = $("#cidade").val();
 
@@ -221,12 +497,72 @@ function validarCidade(){
     return true;
 }
 
+
+
+
+/**
+ * Verifica se a senha inserida no input '#senha' é válida.
+ * Para verificar se é válida, as seguintes verificações são feitas:
+ * - A senha deve conter pelo menos 8 caracteres.
+ * - A senha não deve ultrapassar o limite de 255 caracteres.
+ * - A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um caractere especial e um número.
+ * - As senhas digitadas nos campos '#senha' e '#confirmacaoSenha' devem ser iguais.
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válida | FALSE caso seja inválida
+ *
+ * @example
+ * // Exemplo de uso
+ * const senhaValida = validarSenha();
+ * console.log(senhaValida); // Saída: true ou false
+ * 
+ */
+function validarSenha(){
+    /*
+    * Senha deve conter (no mínimo)
+    * 1x letra maiúscula, 
+    * 1x letra minúscula,
+    * 1x caracter especial [!-@-#-$-%-^-&-*-(-)---_-+-=-{-}-[-]-|-\-/-:-;-.-,->-<-?]
+    */
+    const regexSenha = /^(?=.*[!@#$%^&*()\-_=+{}[\]|\\:;.,<>?])(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/;
+
+    let senhasDiferentes  = $("#senha").val() !== $("#confirmacaoSenha").val();
+    let senhaMuitoPequena = $("#senha").val().length < 8;
+    let senhaMuitoGrande  = $("#senha").val().length > 255;
+    let senhaFraca = !regexSenha.test($("#senha").val());
+
+    if(senhasDiferentes){
+        exibirPopUpErro($("#senha"),"As senhas não são iguais.");
+        return false;
+    }
+    if(senhaMuitoPequena){
+        exibirPopUpErro($("#senha"),"A senha deve conter pelo menos 8 caracteres.");
+        return false;
+    }
+    if(senhaMuitoGrande){
+        exibirPopUpErro($("#senha"),"A senha deve conter no mínimo 255 caracteres.");
+        return false;
+    }
+    if(senhaFraca){
+        exibirPopUpErro($("#senha"),"A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um caractere especial e um número.");
+        return false;
+    }
+
+    $("#senha").get(0).validity.valid = true;
+    return true;
+
+}
+
+
+
+
 /**
  * Verifica a validade de um CPF.
  * @param {string} cpf - O CPF a ser verificado.
  * @returns {boolean} - True se o CPF for válido, false caso contrário.
  */
-function validarCPF(cpf) {
+function validarDigitoVerificadorCPF(cpf) {
     // Converte o CPF em um array de números
     const numeros = cpf.split('').map(Number);
   
