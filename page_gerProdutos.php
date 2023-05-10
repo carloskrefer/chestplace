@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <?php 
   include("./database/conectaBD.php");
+  
   session_start();
+  
   require("./validacaoAcessoVendedor.php"); // Verifica se está logado e se de fato é vendedor. Se não, redireciona p/ index.php.
+  
+  $tipoPagina = "gerenciarProdutosVendedor";
+  
 
   $_SESSION["idVendedor"] = $_SESSION ['id_usuario']; // id_usuario é setado no login.php
   $selectNomeEstabelecimento = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = ".$_SESSION["idVendedor"];
@@ -22,17 +27,9 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 
-<body class="w3-content" style="max-width:1200px">
-  <!-- Top menu on small screens -->
-  <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-    <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
-    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
-  </header>
+<body>
+  <?php include("./common/header.php")?>
 
-
-  <!-- Small screens -->
-  <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
-  
   <!-- Modal de confirmação de deleção -->
   <!-- <dialog id="dialog-delete" class="w3-border w3-border-amber" style="border-width: 5px !important;">
     <h2 class="w3-center w3-xxlarge"><i class="fa fa-solid fa-exclamation-triangle"></i> Confirmação</h2>
@@ -53,30 +50,10 @@
   <script>document.getElementById("dialog-delete").showModal()</script>
 
   <!-- !PAGE CONTENT! -->
-  <div class="w3-main">
+  <div class="w3-main w3-content" style="max-width:1200px">
   
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
-    
-    <!-- Top header -->
-    <header class="w3-container w3-xlarge" style=" display:flex; align-items: center; justify-content: space-between; padding:0px 50px 0px 50px;">
-      <h3 class="w3-wide w3-left w3-padding-16" >
-        <img src="./imagens/logo_chestplace.png" style="width: 15%;">
-      </h3>
-      <p class="w3-right">
-        </p>
-        <a class="no-underline w3-container w3-display-container w3-right" href="./forms/form_alterVendedor.php" target="" style=" display:flex;justify-content:space-between; width:65%;" >
-          <div class="w3-container"> 
-            <spam class="w3-large" style="text-decoration: underline;"><?= $nomeEstabelecimento ?></spam>
-          </div>   
-          <div>
-            <i class="fa fa-user w3-margin-right"></i>
-          </div>
-        </a>
-      <a class="no-underline" href="forms/form_cadProduto.php" title="Cadastrar novo produto">
-        <i class="fa fa-solid fa-plus"></i>
-      </a>
-    </header>
 
 
     <div class="w3-container w3-text-grey" id="jeans">

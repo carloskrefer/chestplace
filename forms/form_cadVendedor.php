@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<?php session_start(); ?>
+<?php 
+    session_start(); 
+    $tipoPagina = "cadastroVendedor";
+?>
 
 
 
@@ -23,7 +26,8 @@
 
 <body>
 	<!-- Inclui MENU.PHP  -->
-    <?php require '../common/header.php'; ?>
+    <?php include("../database/conectaBD.php"); ?>
+    <?php $tipoPagina = "cadastroVendedor"; include('../common/header.php')?>
 
 
     <!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
@@ -39,17 +43,18 @@
                         
                         <tr>
                             <td style="width:50%;">
-                                <p style="text-align:center">
-                                    <h3>Dados</h3>
-                                
+                                <h3 style="text-align:left">Dados</h3>
+
                                 <p>
                                     <label class="w3-text-IE"><b>Nome usuário:</b>*</label>
                                     <input class="w3-input w3-border w3-light-grey " id="nome" name="nome" type="text" title="Nome do estabelecimento. No mínimo dois caracteres e no máximo 255." placeholder="João Doe" required>
                                 </p>
-                                </p>
+                                
+                                <p>
                                     <label class="w3-text-IE"><b>Email para login</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="emailLogin" name="emailLogin" type="text" title="Email que será utilizado para realização de login." placeholder="exemplo@dominio.com" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="emailLogin" name="emailLogin" type="text" title="Email que será utilizado para realização de login." placeholder="exemplo@dominio.com" required/>
                                 </p>
+
                                 <p>
                                     
                                     <label class="w3-text-IE"><b>Mostrar senha</b></label>
@@ -122,6 +127,14 @@
                                     </div>
                                 </p>
                                 <p>
+                                <!-- 
+                                    Há dois campos de SELECT pois o campo ESTADO é definido pelo CEP, logo não pode ser modificado pelo usuário.
+                                    Assim, um dos SELECTS de ESTADO fica DISABLED mas continua sendo exibido para o usuário enquanto o outro
+                                    Fica escondido do usuário por CSS mas ainda é passado para o formulário de CADASTRO ou ALTERAÇÃO por POST
+
+                                    Não foi usado o campo INPUT[text] porque a API do viaCEP retorna apenas a UF, não o nome do estado. Então,
+                                    para evitar o uso de PHP ou JS para exibir o NOME do estado foi utilizado o campo select.
+                                -->
                                     <div>
                                         <label class="w3-text-IE"><b>Estado</b></label>
                                         <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoSelect" title="Estado do endereço do estabelecimento">

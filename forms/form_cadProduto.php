@@ -1,4 +1,6 @@
-<?php session_start() ?>
+<?php session_start(); $tipoPagina = "cadastroProduto"?>
+
+
 
 <!DOCTYPE html>
 
@@ -17,8 +19,8 @@
 
 <body >
 	<!-- Inclui MENU.PHP  -->
-    <?php require "../common/header.php"; ?>
     <?php require '../database/conectaBD.php'; ?>
+    <?php require "../common/header.php"; ?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
 	<div class="w3-main w3-container">

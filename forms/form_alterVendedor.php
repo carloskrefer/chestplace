@@ -2,12 +2,14 @@
 <?php
     session_start();
 
+    $tipoPagina = "alteracaoVendedor";
+
     include("../database/conectaBD.php");
     include("../common/functions.php");
 
     //Select das camisetas e imagens das camisetas do vendedor passado por _GET
-    $queryProdutos = "
-        SELECT *
+    $queryProdutos = 
+    "   SELECT *
         FROM vendedor
         INNER JOIN endereco
         ON vendedor.id_endereco = endereco.id
@@ -20,19 +22,19 @@
         if (mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_assoc($result)) {
                 $nomeEstabelecimento = $row["nome_estabelecimento"];
-                $cpf = $row["cpf"];
+                $cpf  = $row["cpf"];
                 $cnpj = $row["cnpj"];
                 isset($cpf)? jsScript("let pessoaFisica = true;") : jsScript("let pessoaFisica = false");
-                $emailContato = $row["email_contato"];
+                $emailContato    = $row["email_contato"];
                 $telefoneContato = $row["telefone_contato"];
-                $idEndereco = $row["id_endereco"];
-                $cep = $row["cep"];
-                $uf = $row["uf"];
-                $cidade = $row["cidade"];
-                $rua = $row["rua"];
-                $numero = $row["numero"];
-                $complemento = $row["complemento"];
-                $bairro = $row["bairro"];
+                $idEndereco      = $row["id_endereco"];
+                $cep             = $row["cep"];
+                $uf              = $row["uf"];
+                $cidade          = $row["cidade"];
+                $rua             = $row["rua"];
+                $numero          = $row["numero"];
+                $complemento     = $row["complemento"];
+                $bairro          = $row["bairro"];
             }   
         }
 ?>
@@ -138,6 +140,15 @@
                                     </div>
                                 </p>
                                 <p>
+
+                                <!-- 
+                                    Há dois campos de SELECT pois o campo ESTADO é definido pelo CEP, logo não pode ser modificado pelo usuário.
+                                    Assim, um dos SELECTS de ESTADO fica DISABLED mas continua sendo exibido para o usuário enquanto o outro
+                                    Fica escondido do usuário por CSS mas ainda é passado para o formulário de CADASTRO ou ALTERAÇÃO por POST
+
+                                    Não foi usado o campo INPUT[text] porque a API do viaCEP retorna apenas a UF, não o nome do estado. Então,
+                                    para evitar o uso de PHP ou JS para exibir o NOME do estado foi utilizado o campo select.
+                                -->
                                     <div>
                                         <label class="w3-text-IE"><b>Estado</b></label>
                                         <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoSelect" value="<?= $uf?>">
@@ -219,7 +230,6 @@
 			</p>
 		</div>
 	</div>
-    
 </body>
 
 </html>
