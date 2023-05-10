@@ -119,7 +119,7 @@
 
 
             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"width:13vw; height: 30vh; object-fit:cover;\">";
 
             //Coloca botões, título e preço do anúncio
             echo "

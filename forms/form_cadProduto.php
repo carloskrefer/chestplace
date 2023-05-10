@@ -130,7 +130,7 @@
                                 </p>
                                 <p>
                                     <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
-                                    <input type="file" id="Imagem" name="imagem[]" accept="image/*" enctype="multipart/form-data" onchange="validaImagem(this);" class="clickable" multiple required/></label>
+                                    <input type="file" id="Imagem" name="imagem[]" accept="image/*" enctype="multipart/form-data" onchange="validarImagem(this);" class="clickable" multiple required/></label>
                                 </p>
                                 
                                 <table class="w3-table " style="margin:auto;width:75%;" id="previewTable">
@@ -138,6 +138,7 @@
                                         <tr>
                                             <th class="w3-center">Imagem</th>
                                             <th class="w3-center">Tamanho</th>
+                                            <th class="w3-center">Extensão</th>
                                             <th class="w3-center">Opções</th>
                                         </tr>
                                     </thead>
@@ -306,10 +307,28 @@
                 cellImagem.appendChild(img);
                 
                 // Criar célula de tamanho
-                let cellTamanho = document.createElement("td");
+                let imgTamanhoMB = (imagem.size/1024/1024).toFixed(1);
+                let imgTamanhoKB = (imagem.size/1024).toFixed(1);
+                let cellTamanho  = document.createElement("td");
                 cellTamanho.classList.add("w3-center");
+                if(imgTamanhoMB > 1) {
+                    cellTamanho.classList.add("w3-bold");
+                    cellTamanho.classList.add("w3-text-red");
+                }
                 cellTamanho.style = "vertical-align: middle;";
-                cellTamanho.textContent =  (imagem.size/1024).toFixed(1) + " kB"
+                cellTamanho.textContent = imgTamanhoMB < 0.1 ? imgTamanhoKB + " KB" : imgTamanhoMB + " MB";
+
+                // Criar célula de extensão
+                let extensao = imagem.name.replace(/^.*\.(.+)$/, '$1');
+                let formatosValidos = ["jpg", "jpeg", "gif", "png"];
+                let cellExtensaoArquivo = document.createElement("td");
+                cellExtensaoArquivo.classList.add("w3-center");
+                if(!formatosValidos.includes(extensao)) {
+                    cellExtensaoArquivo.classList.add("w3-bold");
+                    cellExtensaoArquivo.classList.add("w3-text-red");
+                }
+                cellExtensaoArquivo.style = "vertical-align: middle;";
+                cellExtensaoArquivo.textContent =  extensao;
 
                 // Criar a célula do botão de exclusão
                 let cellExcluir = document.createElement("td");
@@ -327,6 +346,7 @@
                 // Adicionar as células à linha da tabela
                 row.appendChild(cellImagem);
                 row.appendChild(cellTamanho);
+                row.appendChild(cellExtensaoArquivo);
                 row.appendChild(cellExcluir);
 
                 // Adicionar a linha ao tbody da tabela de pré-visualização

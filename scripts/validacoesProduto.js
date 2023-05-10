@@ -139,19 +139,20 @@ function validarQuantidade(){
 function validarImagem(){
     const inputImage = document.getElementById("Imagem");
     let tamanhoOk    = verificarTamanhoMaximo(Array.from(inputImage.files));
+    let extensaoOk   = verificarExtensaoArquivos(Array.from(inputImage.files));
   
     if (inputImage.validity.valueMissing) {
         exibirPopUpErro(inputImage,"Campo obrigatório! Selecione pelo menos uma imagem.");
         return false;
     } 
     
-    if (inputImage.validity.badInput) {
+    if (!extensaoOk) {
         exibirPopUpErro(inputImage,"Arquivo inválido! A extensão desse arquivo não é suportado, por favor, envie arquivos '.jpg', '.png' ou '.gif'.");
         return false;    
     } 
     
     if (!tamanhoOk){
-        exibirPopUpErro(inputImage, "Arquivo inválido! O tamanho desse arquivo excede o limite de 16 MB");
+        exibirPopUpErro(inputImage, "Arquivo inválido! O tamanho desse arquivo excede o limite de 1 MB");
         return false;
     }
 
@@ -184,21 +185,41 @@ function exibirPopUpErro(campoInpt, mensagem){
 /**
  * Verifica se todos os arquivos em um array têm um tamanho válido.
  * @param {Array} arquivos - Um array de objetos do tipo `File` que representam os arquivos a serem verificados.
- * @returns {boolean} Retorna `true` se todos os arquivos no array têm um tamanho válido (menor ou igual a 16 MB) ou `false` caso contrário.
+ * @returns {boolean} Retorna `true` se todos os arquivos no array têm um tamanho válido (menor ou igual a 1 MB) ou `false` caso contrário.
  */
 function verificarTamanhoMaximo(arquivos) {
-    var tamanhoMaximo = 16777216; // tamanho máximo em bytes (16 MB)
+    var tamanhoMaximo = 1048576; // tamanho máximo em bytes (1 MB)
     let tamanhoOk = true;
 
-    
-    arquivos.forEach(function(arquivo) {
-        if (arquivo.size > tamanhoMaximo) {
-            tamanhoOk = false;
-        }
+    arquivos.forEach((arquivo) => { 
+        if (arquivo.size > tamanhoMaximo) tamanhoOk = false; 
     });
     
     return tamanhoOk;
 }
+
+
+
+
+function verificarExtensaoArquivos(arquivos){
+    let extensaoOk = true;
+
+    arquivos.forEach((arquivo)=>{
+        if(
+            (arquivo.type !== "image/png" &&
+            arquivo.type !== "image/jpg" &&
+            arquivo.type !== "image/jpeg" &&
+            arquivo.type !== "image/gif")
+          ){
+            extensaoOk = false;
+          }
+    })
+
+    return extensaoOk;
+}
+
+
+
 
 /**
 * Envia uma requisição POST para a URL de destino
