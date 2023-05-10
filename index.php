@@ -33,12 +33,17 @@ body { background-color: #cca310; }
       Camisetas <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+      <form method="GET" action="">
           <label for="data-criacao-select">Filtrar por data de criação:</label>
-            <select id="data-criacao-select">
+            <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
               <option value=""  disabled hidden selected>Filtro</option>
               <option value="mais-recentes">Mais recentes</option>
               <option value="mais-antigas">Mais antigas</option>
+              <option value="nova">Novas</option>
+              <option value="usada">Usadas</option>
           </select>
+          
+      </form>
     </div>
   </div>
   <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
@@ -69,7 +74,7 @@ body { background-color: #cca310; }
         if ($usuarioLogou) {
           $nomeUsuario = $_SESSION['nome_usuario'];
           echo <<<END
-            <span style="margin-right: 10px;">Olá, $nomeUsuario </span>
+            <span style="margin-right: 10px;">Olá,<a href="/chestplace/page_gerProdutos.php " > $nomeUsuario</a> </span>
             <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='./logout.php'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
           END;
@@ -103,7 +108,7 @@ body { background-color: #cca310; }
             title="Deve informar um e-mail com até 255 caracteres." placeholder="usuario@dominio.com" required maxlength="255">
           <label class="w3-text-IE"><b>Senha</b></label>
           <input class="w3-input w3-border" name="Senha" id="Senha" type="password"  
-            pattern=".{8,255}" placeholder="" 
+             placeholder="" 
             title="Deve informar uma senha com 6 a 255 caracteres" 
             required maxlength="255">
           <p>
@@ -154,35 +159,50 @@ body { background-color: #cca310; }
       </div>
     </div>
   </div>
-
-  <!-- Image header -->
-  <div style = "background-color: #cca310" class="w3-display-container w3-container">
-    <img src="./w3images/jeans.jpg" alt="Jeans" style="width:100%">
-    <div class="w3-display-topleft w3-text-white" style="padding:24px 48px">
-      <h1 class="w3-jumbo w3-hide-small">As melhores camisetas</h1>
-      <h1 class="w3-hide-large w3-hide-medium">Novas e Usadas</h1>
-      <h1 class="w3-hide-small">Confira abaixo</h1>
-      <p><a href="#jeans" class="w3-button w3-black w3-padding-large w3-large">SHOP NOW</a></p>
-    </div>
-  </div>
   <div class="w3-container w3-text-grey" id="jeans">
-    <p>Produtos</p>
-  </div >
+      <p>
+      <?php
+        $queryQtde = "
+        SELECT count(*) qtde 
+        FROM camiseta ";
+
+        $result = mysqli_query($conn, $queryQtde);
+
+        if (mysqli_num_rows($result) > 0) {
+          while($row = mysqli_fetch_assoc($result)) {
+            echo $row["qtde"]." produtos";
+          }
+        } else {
+          echo "0 results";
+        }
+      ?>  
+      </p>
+    </div>
   <!-- Product grid -->
   <?php
-                      // Verifica se o ordem pego pelo get esta iniciado, digo foi setado na caixa 
-                      if ( isset($_GET['ordem'])){
-                          $ordem = $_GET['ordem'];
-                          if (isset($ordem) === "mais-recentes") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao DESC";
-                          } else if (isset($ordem) === "mais-antigas"){
+                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ";
+                    //predefine o sql para mostrar todas as camisetas postadas 
+                    if ($_SERVER["REQUEST_METHOD"] == "GET") {
+                      // Verifica se o parâmetro "selecao" foi passado na URL
+                      if (isset($_GET["ordem"])) {
+                          // Obtém o valor selecionado
+                          $valorSelecionado = $_GET["ordem"];
+                  
+                          // Atualiza a consulta SQL com base na opção selecionada
+                          if ($valorSelecionado == "mais-recentes") {
+                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao DESC";
+                          } elseif ($valorSelecionado == "mais-antigas") {
                             $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao ASC ";
-                          }
-                        } else {
-                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ";
-                        }
-                      // Executa a consulta
-                      $resultado = mysqli_query($conn, $sql);
+                          } elseif ($valorSelecionado == "nova") {
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() AND conservacao = 'nova' ";
+                          } elseif ($valorSelecionado == "usada") {
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() AND conservacao = 'usada' ";
+                          } 
+                      }
+                    }
+                    $resultado = mysqli_query($conn, $sql);
+                    
+                    
 
                       // Verifica se há resultados
                       if (mysqli_num_rows($resultado) > 0) {  
