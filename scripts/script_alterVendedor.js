@@ -1,32 +1,42 @@
+// Quando o formulário de alteração estiver carregado (ready), executar função
 $("#altVendedorForm").ready(function(){
     
+    // Esconde o estadoSelect (displayEstadoSelect continua sendo exibido);
     $("#estadoSelect").hide();
 
+    // Ao usuário sair do campo '#cep', executar função
     $("#cep").blur(function(){
     
-        // Nova variável "cep" somente com dígitos.
+        // CEP somente com números
         var cep = $(this).val().replace(/\D/g, '');
     
-        //Verifica se campo cep possui valor informado.
+        // Verifica se CEP não é vazio
         if(cep !== ""){
     
-            //Expressão regular para validar o CEP.
+            // REGEX para ver se CEP possui 8 dígitos
             var validacep = /^[0-9]{8}$/;
     
-            //Valida o formato do CEP.
+            // Se o CEP possuir 8 dígitos
             if(validacep.test(cep)) {
     
-                //Preenche os campos com "..." enquanto consulta webservice.
+                // Preenche os campos com "..." enquanto consulta API.
                 $("#rua").val("...");
                 $("#bairro").val("...");
                 $("#displayCidade").val("...");
                 $("#displayEstadoSelect").val("...");
     
                 
-                //Consulta o webservice viacep.com.br/
+                // Consulta a API do viacep.com.br/
+
+                // Desativa botão de salvar enquanto sistema consulta dados do CEP
                 $("#salvar").prop("disabled", true);
-                $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                // Vai pegar o JSON retornado pela consulta do viaCEP [JSON => 'dados']
+                $.getJSON(`https://viacep.com.br/ws/${cep}/json/?callback=?`, function(dados) {
+
+                    // Se NÃO houve erro ao procurar o CEP
                     if (!("erro" in dados)) {
+
                         //Atualiza os campos com os valores da consulta.
                         $("#rua").val(dados.logradouro);
                         $("#bairro").val(dados.bairro);
@@ -36,9 +46,12 @@ $("#altVendedorForm").ready(function(){
                         $("#displayEstadoSelect").val(dados.uf);
                         $("#ibge").val(dados.ibge);
                         $("#salvar").prop("disabled", false);
-                    } //end if.
+                    }
+
+                    // Se HOUVE erro ao procurar o CEP
                     else {
-                        //CEP pesquisado não foi encontrado.
+
+                        // Deixar campos de endereço vazios
                         $("#rua").val('');
                         $("#bairro").val('');
                         $("#cidade").val('');
@@ -46,25 +59,22 @@ $("#altVendedorForm").ready(function(){
                         $("#displayCidade").val('');
                         $("#displayEstadoSelect").val('');
                         $("#ibge").val('');
+
+                        // Notificar que CEP não foi encontrado e habilitar botão de salvar
                         exibirPopUpErro($("#cep"),"CEP não encontrado.");
                         $("#cep").focus();
                         $("#salvar").prop("disabled", false);
                     }
                 });
-    
-                // consultarCEP(cep)
-                // .then(endereco =>{
-                //     $("#cep").val(cep);
-                //     $("#rua").val(endereco.logradouro);
-                //     $("#cidade").val(endereco.localidade);
-                //     $("#estadoSelect").val(endereco.uf);
-                //     $("#bairro").val(endereco.bairro)
-                // })
-                // .catch(error => console.log(error))
             }
+
+            // Se o CEP NÃO possuir 8 dígitos
             else {
-                // cep é inválido
+
+                // Notificar que CEP é inválido e habilitar botão de salvar
                 exibirPopUpErro($("#cep"),"CEP inválido.");
+                $("#cep").focus();
+                $("#salvar").prop("disabled", false);
             }
         }
     
@@ -75,7 +85,7 @@ $("#altVendedorForm").ready(function(){
 })
 
 function enviarFormulario(){
-    if(validarFormulario()) $("#altVendedorForm").submit();
+    if(validarFormulario(false)) $("#altVendedorForm").submit();
 }
 
 function limitarCampos(){
