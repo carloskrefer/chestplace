@@ -151,7 +151,7 @@ function validarImagem(){
     } 
     
     if (!tamanhoOk){
-        exibirPopUpErro(inputImage, "Arquivo inválido! O tamanho desse arquivo excede o limite de 64 KB");
+        exibirPopUpErro(inputImage, "Arquivo inválido! O tamanho desse arquivo excede o limite de 16 MB");
         return false;
     }
 
@@ -184,10 +184,10 @@ function exibirPopUpErro(campoInpt, mensagem){
 /**
  * Verifica se todos os arquivos em um array têm um tamanho válido.
  * @param {Array} arquivos - Um array de objetos do tipo `File` que representam os arquivos a serem verificados.
- * @returns {boolean} Retorna `true` se todos os arquivos no array têm um tamanho válido (menor ou igual a 64 KB) ou `false` caso contrário.
+ * @returns {boolean} Retorna `true` se todos os arquivos no array têm um tamanho válido (menor ou igual a 16 MB) ou `false` caso contrário.
  */
 function verificarTamanhoMaximo(arquivos) {
-    var tamanhoMaximo = 65536; // tamanho máximo em bytes (64 KB)
+    var tamanhoMaximo = 16777216; // tamanho máximo em bytes (16 MB)
     let tamanhoOk = true;
 
     
