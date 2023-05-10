@@ -71,7 +71,7 @@ body { background-color: #cca310; }
         if ($usuarioLogou) {
           $nomeUsuario = $_SESSION['nome_usuario'];
           echo <<<END
-            <span style="margin-right: 10px;">Olá, $nomeUsuario </span>
+            <span style="margin-right: 10px;">Olá,<a href="/chestplace/page_gerProdutos.php" > $nomeUsuario</a> </span>
             <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='./logout.php'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
           END;
@@ -156,10 +156,25 @@ body { background-color: #cca310; }
       </div>
     </div>
   </div>
-
   <div class="w3-container w3-text-grey" id="jeans">
-    <p>Produtos</p>
-  </div >
+      <p>
+      <?php
+        $queryQtde = "
+        SELECT count(*) qtde 
+        FROM camiseta ";
+
+        $result = mysqli_query($conn, $queryQtde);
+
+        if (mysqli_num_rows($result) > 0) {
+          while($row = mysqli_fetch_assoc($result)) {
+            echo $row["qtde"]." produtos";
+          }
+        } else {
+          echo "0 results";
+        }
+      ?>  
+      </p>
+    </div>
   <!-- Product grid -->
   <?php
                       // Verifica se o ordem pego pelo get esta iniciado, digo foi setado na caixa 
