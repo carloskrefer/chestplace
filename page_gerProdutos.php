@@ -61,7 +61,7 @@
     <!-- Top header -->
     <header class="w3-container w3-xlarge" style=" display:flex; align-items: center; justify-content: space-between; padding:0px 50px 0px 50px;">
       <h3 class="w3-wide w3-left w3-padding-16" >
-        <img src="./imagens/logo_chestplace.png" style="width: 15%;">
+        <a href= "./index.php"><img src="./imagens/logo_chestplace.png" style="width: 15%;"></a>
       </h3>
       <p class="w3-right">
         </p>
