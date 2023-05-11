@@ -25,32 +25,18 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="./styles.css">
+  <script src="./scripts/jQuery/jquery-3.6.4.min.js"></script>
+  
 </head>
 
 <body>
   <?php include("./common/header.php")?>
+  <?php include("./common/modalConfirmacao.php")?>
 
-  <!-- Modal de confirmação de deleção -->
-  <!-- <dialog id="dialog-delete" class="w3-border w3-border-amber" style="border-width: 5px !important;">
-    <h2 class="w3-center w3-xxlarge"><i class="fa fa-solid fa-exclamation-triangle"></i> Confirmação</h2>
-    <div class="w3-panel">
-      <h2>Você realmente quer apagar este anúncio?</h2>
-      <p>Todos os dados deste anúncio serão perdidos.</p>
-    </div>
-    <div class="w3-section w3-right-align">
-      <button class="w3-button w3-theme w3-section w3-padding w3-orange" type="submit">Apagar</button>
-      <button class="w3-button w3-theme w3-section w3-padding" type="button">Cancelar</button>
-    </div>
-  </dialog> -->
-
-
-
-
-
-  <script>document.getElementById("dialog-delete").showModal()</script>
+  <!-- <script>document.getElementById("modalDeNotificao").showModal()</script> -->
 
   <!-- !PAGE CONTENT! -->
-  <div class="w3-main w3-content" style="max-width:1200px">
+  <div class="w3-main w3-content w3-margin-bottom" style="max-width:1200px">
   
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
@@ -119,13 +105,13 @@
 
 
             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"width:13vw; height: 30vh; object-fit:cover;\">";
+            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\">";
 
             //Coloca botões, título e preço do anúncio
             echo "
                   <div class=\"w3-display-middle w3-display-hover\">
                     <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
-                    <button onclick=\"goToDeletarProduto(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Apagar</button>
+                    <button onclick=\"confirmarDelecao(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Apagar</button>
                   </div>
                 </div>
                 <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>
@@ -151,41 +137,6 @@
       </a>
     </div>
   </div>
-    
-    <script>
-
-      // Accordion 
-      function myAccFunc() {
-        var x = document.getElementById("demoAcc");
-        if (x.className.indexOf("w3-show") == -1) {
-          x.className += " w3-show";
-        } else {
-          x.className = x.className.replace(" w3-show", "");
-        }
-      }
-
-      // Click on the "Jeans" link on page load to open the accordion for demo purposes
-      document.getElementById("myBtn").click();
-
-      // Open and close sidebar
-      function w3_open() {
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("myOverlay").style.display = "block";
-      }
-      
-      function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("myOverlay").style.display = "none";
-      }
-
-      function goToAlterProduto(id){
-        window.location.href='./forms/form_alterProduto.php?id=' + id;
-      }
-
-      function goToDeletarProduto(id){
-        window.location.href="./actions/delProduto_exe.php?id=" + id;
-      }
-
-    </script>
+  <script src="./scripts/script_gerProdutos.js"></script>
 </body>
 </html>
