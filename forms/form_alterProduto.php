@@ -288,7 +288,7 @@
                         <tr>
                             <td colspan="2" style="text-align:center">
                             <p>
-                                <input type="button" onclick="enviarFormulario();" value="Alterar" class="w3-btn w3-red">
+                                <input type="button" onclick="confirmarAlteracao();" value="Alterar" class="w3-btn w3-red">
                                 <input type="button" value="Cancelar" class="w3-btn w3-theme" onclick="confirmarCancelamento()">
                             </p>
                             </td>
@@ -439,6 +439,21 @@
 
             $("#btnPrimario-modalDeNotificao").off();
             $("#btnPrimario-modalDeNotificao").on("click", function() { window.location.href="../page_gerProdutos.php" });
+        }
+
+        function confirmarAlteracao(){
+            showModalConfirmacao(
+                "<i class=\"w3-text-amber fa fa-solid fa-exclamation-triangle\"></i> &nbsp;",
+                "Você tem certeza?",
+                "Ao confirmar, todos os dados salvos anteriormente serão substituídos pelos novos dados inseridos. ",
+                "",
+                "w3-boder-amber",
+                "Sim",
+                "Não"
+            );
+
+            $("#btnPrimario-modalDeNotificao").off();
+            $("#btnPrimario-modalDeNotificao").on("click", function() { enviarFormulario() });
         }
 
     </script>
