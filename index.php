@@ -271,19 +271,19 @@ nav { background-color: #3C486B!important; }
 
       <div class="w3-col s4 w3-justify">
         <h4>Contato</h4>
-        <p><i class="fa fa-fw fa-map-marker"></i>Chestplace Comércio Eletrônico Ltda<br>Rua Tocantins, 23 - Vargem Maior<br>Curitiba/PR - CEP: 82.830-100</p>
-        <p><i class="fa fa-fw fa-phone"></i>0800 365 4589</p>
-        <p><i class="fa fa-fw fa-envelope"></i>contato@chestplace.com.br</p>
+        <p><i class="fa fa-fw fa-map-marker" style="color:#F45050;"></i> Chestplace Comércio Eletrônico Ltda<br>Rua Tocantins, 23 - Vargem Maior<br>Curitiba/PR - CEP: 82.830-100</p>
+        <p><i class="fa fa-fw fa-phone" style="color:#F45050;"></i> 0800 365 4589</p>
+        <p><i class="fa fa-fw fa-envelope" style="color:#F45050;"></i> contato@chestplace.com.br</p>
         <h4>Formas de pagamento</h4>
-        <p><i class="fa fa-fw fa-barcode"></i> Boleto</p>
-        <p><i class="fa fa-fw fa-credit-card"></i> Cartão de crédito</p>
+        <p><i class="fa fa-fw fa-barcode" style="color:#F45050;"></i> Boleto</p>
+        <p><i class="fa fa-fw fa-credit-card" style="color:#F45050;"></i> Cartão de crédito</p>
         <br>
-        <i class="fa fa-facebook-official w3-hover-opacity w3-large"></i>
-        <i class="fa fa-instagram w3-hover-opacity w3-large"></i>
-        <i class="fa fa-snapchat w3-hover-opacity w3-large"></i>
-        <i class="fa fa-pinterest-p w3-hover-opacity w3-large"></i>
-        <i class="fa fa-twitter w3-hover-opacity w3-large"></i>
-        <i class="fa fa-linkedin w3-hover-opacity w3-large"></i>
+        <i class="fa fa-facebook-official w3-hover-opacity w3-large" style="color:#F45050;"></i>
+        <i class="fa fa-instagram w3-hover-opacity w3-large" style="color:#F45050;"></i>
+        <i class="fa fa-snapchat w3-hover-opacity w3-large" style="color:#F45050;"></i>
+        <i class="fa fa-pinterest-p w3-hover-opacity w3-large" style="color:#F45050;"></i>
+        <i class="fa fa-twitter w3-hover-opacity w3-large" style="color:#F45050;"></i>
+        <i class="fa fa-linkedin w3-hover-opacity w3-large" style="color:#F45050;"></i>
       </div>
     </div>
   </footer>
