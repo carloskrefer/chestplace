@@ -17,13 +17,14 @@
 <style>
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
-body { background-color: #cca310; }
+body { background-color: #F0F0F0; }
+nav { background-color: #3C486B!important; }
 </style>
 </head>
 <body class="w3-content" style="max-width:1200px">
 
 <!-- Sidebar/menu -->
-<nav class="w3-sidebar w3-bar-block w3-white w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
+<nav class="w3-sidebar w3-bar-block w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
     <img src="./imagens/logo_chestplace.png" style="width: 100%; margin-top: 10px;">
@@ -80,8 +81,8 @@ body { background-color: #cca310; }
           END;
         } else {
           echo <<<END
-            <button class="w3-btn w3-deep-orange w3-border" onclick="document.getElementById('id0L').style.display='block'" 
-            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Entrar</button>
+            <button class="w3-btn w3-border" onclick="document.getElementById('id0L').style.display='block'" 
+            style="font-size: 15px; font-weight: 700; margin-right: 10px; background-color: #F45050;">Entrar</button>
             <button class="w3-btn w3-white w3-border" onclick="document.getElementById('modalCadastro').style.display='block'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
           END;
@@ -215,7 +216,7 @@ body { background-color: #cca310; }
                             }
                             echo "
                               <div class=\"w3-col l3 s6\">
-                                <div style = \"background-color: #cca310\" class=\"w3-container\">
+                                <div style = \"background-color: #F0F0F0\" class=\"w3-container\">
                                   <div  class=\"w3-display-container\">
                             ";
                             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
@@ -223,7 +224,7 @@ body { background-color: #cca310; }
                             //Coloca botões, título e preço do anúncio
                             echo "
                                 </div>
-                                <p class = \"w3-text-white\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
                                 </div>
                               </div>
                             ";
@@ -236,49 +237,46 @@ body { background-color: #cca310; }
     
   
   <!-- Subscribe section -->
-  <div style = "background-color: #cca310" class="w3-container w3-padding-32">
-    <h1>Subscribe</h1>
-    <p>To get special offers and VIP treatment:</p>
-    <p><input class="w3-input w3-border" type="text" placeholder="Enter e-mail" style="width:100%"></p>
-    <button type="button" class="w3-button w3-red w3-margin-bottom">Subscribe</button>
+  <div style = "background-color: #F0F0F0" class="w3-container w3-padding-32">
+    <h1>Ofertas</h1>
+    <p>Inscreva-se em nossa Newsletter para receber notícias e ofertas exclusivas:</p>
+    <p><input class="w3-input w3-border" type="text" placeholder="usuario@dominio.com" style="width:100%"></p>
+    <button type="button" class="w3-button w3-margin-bottom" style="background-color: #F45050;">Autorizo o envio de e-mails promocionais</button>
   </div>
   
   <!-- Footer -->
   <footer class="w3-padding-64 w3-light-grey w3-small w3-center" id="footer">
     <div class="w3-row-padding">
       <div class="w3-col s4">
-        <h4>Contact</h4>
-        <p>Questions? Go ahead.</p>
+        <h4>Enviar e-mail</h4>
+        <p>Dúvidas, sugestões ou solicitações.</p>
         <form action="/action_page.php" target="_blank">
-          <p><input class="w3-input w3-border" type="text" placeholder="Name" name="Name" required></p>
-          <p><input class="w3-input w3-border" type="text" placeholder="Email" name="Email" required></p>
-          <p><input class="w3-input w3-border" type="text" placeholder="Subject" name="Subject" required></p>
-          <p><input class="w3-input w3-border" type="text" placeholder="Message" name="Message" required></p>
-          <button type="submit" class="w3-button w3-block w3-black">Send</button>
+          <p><input class="w3-input w3-border" type="text" placeholder="Nome" name="Name" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Seu e-mail" name="Email" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Título" name="Subject" required></p>
+          <p><input class="w3-input w3-border" type="text" placeholder="Mensagem" name="Message" required></p>
+          <button type="submit" class="w3-button w3-block w3-black">Enviar</button>
         </form>
       </div>
 
       <div class="w3-col s4">
-        <h4>About</h4>
-        <p><a href="#">About us</a></p>
-        <p><a href="#">We're hiring</a></p>
-        <p><a href="#">Support</a></p>
-        <p><a href="#">Find store</a></p>
-        <p><a href="#">Shipment</a></p>
-        <p><a href="#">Payment</a></p>
-        <p><a href="#">Gift card</a></p>
-        <p><a href="#">Return</a></p>
-        <p><a href="#">Help</a></p>
+        <h4>Sobre</h4>
+        <p><a href="#">Quem somos</a></p>
+        <p><a href="#">Trabalhe conosco</a></p>
+        <p><a href="#">Suporte</a></p>
+        <p><a href="#">Transporte</a></p>
+        <p><a href="#">Pagamentos</a></p>
+        <p><a href="#">Cartões presente</a></p>
       </div>
 
       <div class="w3-col s4 w3-justify">
-        <h4>Store</h4>
-        <p><i class="fa fa-fw fa-map-marker"></i> Company Name</p>
-        <p><i class="fa fa-fw fa-phone"></i> 0044123123</p>
-        <p><i class="fa fa-fw fa-envelope"></i> ex@mail.com</p>
-        <h4>We accept</h4>
-        <p><i class="fa fa-fw fa-cc-amex"></i> Amex</p>
-        <p><i class="fa fa-fw fa-credit-card"></i> Credit Card</p>
+        <h4>Contato</h4>
+        <p><i class="fa fa-fw fa-map-marker"></i>Chestplace Comércio Eletrônico Ltda<br>Rua Tocantins, 23 - Vargem Maior<br>Curitiba/PR - CEP: 82.830-100</p>
+        <p><i class="fa fa-fw fa-phone"></i>0800 365 4589</p>
+        <p><i class="fa fa-fw fa-envelope"></i>contato@chestplace.com.br</p>
+        <h4>Formas de pagamento</h4>
+        <p><i class="fa fa-fw fa-barcode"></i> Boleto</p>
+        <p><i class="fa fa-fw fa-credit-card"></i> Cartão de crédito</p>
         <br>
         <i class="fa fa-facebook-official w3-hover-opacity w3-large"></i>
         <i class="fa fa-instagram w3-hover-opacity w3-large"></i>
@@ -290,7 +288,7 @@ body { background-color: #cca310; }
     </div>
   </footer>
 
-  <div class="w3-black w3-center w3-padding-24">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
+  <div class="w3-center w3-padding-24" style="background-color: #F0F0F0;">Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">w3.css</a></div>
 
   <!-- End page content -->
 </div>
