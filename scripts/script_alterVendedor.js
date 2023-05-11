@@ -107,3 +107,18 @@ function limitarCampos(){
 function formatarCampos(){
     $("#cpfCnpj, #telefoneContato, #cep").trigger("input");
 }
+
+function confirmarCancelamento(){
+    showModalConfirmacao(
+        "<i class=\"w3-text-amber fa fa-solid fa-exclamation-triangle\"></i> &nbsp;",
+        "Você tem certeza?",
+        "Ao confirmar, todas as alterações não salvas serão perdidas. ",
+        "",
+        "w3-boder-amber",
+        "Sim",
+        "Não"
+    );
+
+    $("#btnPrimario-modalDeNotificao").off();
+    $("#btnPrimario-modalDeNotificao").on("click", function() { window.location.href="../page_gerProdutos.php" });
+}

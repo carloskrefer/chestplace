@@ -53,8 +53,6 @@
     <script src="../scripts/validacoesVendedor.js"></script>
     <script src="../scripts/formats.js"></script>
     <script src="../scripts/formFunctions.js"></script>
-    <script src="../scripts/script_alterVendedor.js"></script>
-    <script src="../scripts/viaCep/viaCep.js"></script>
 
 
 </head>
@@ -63,6 +61,7 @@
 	<!-- Inclui MENU.PHP  -->
     <?php require '../common/header.php'; ?>
     <?php require '../database/conectaBD.php'; ?>
+    <?php require '../common/modalConfirmacao.php'; ?>
 
 
         	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
@@ -219,7 +218,7 @@
                             <td colspan="2" style="text-align:center">
                             <p>
                                 <input type="button" id="salvar" value="Salvar" onclick="enviarFormulario();" class="w3-btn w3-red">
-                                <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'\">"?>
+                                <input type="button" value="Cancelar" class="w3-btn w3-theme" onclick="confirmarCancelamento()">
                             </p>
                             </td>
                         </tr>
@@ -230,6 +229,9 @@
 			</p>
 		</div>
 	</div>
+
+    <script src="../scripts/script_alterVendedor.js"></script>
+    <script src="../scripts/viaCep/viaCep.js"></script>
 </body>
 
 </html>
