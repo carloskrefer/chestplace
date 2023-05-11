@@ -116,13 +116,13 @@ nav { background-color: #3C486B!important; }
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
           </p>
           <p id="msgLoginInvalido" class="w3-center w3-text-red" style="display:none;">E-mail ou senha inválidos!</p>
-          <button class="w3-button w3-block w3-theme w3-section w3-padding w3-cyan" type="submit">Entrar</button>
+          <button class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Entrar</button>
         </div>
       </form>
 
       <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
         <button onclick="document.getElementById('id0L').style.display='none'" type="button" class="w3-button w3-red">Cancelar</button>
-        <span class="w3-right w3-padding w3-hide-small"><a href="#">Esqueceu a senha?</a></span>
+        <span class="w3-right w3-padding w3-hide-small"><a href="#">Esqueceu a senha? (em breve)</a></span>
       </div>
     </div>
   </div>
@@ -149,9 +149,9 @@ nav { background-color: #3C486B!important; }
       <div class="w3-container w3-card-4 w3-light-grey w3-margin">
         <div class="w3-section">
           <button onclick="//TODO: adicionar aqui o futuro link de cadastro do cliente" 
-            class="w3-button w3-block w3-theme w3-section w3-padding w3-amber" type="submit">Sou cliente (em breve!)</button>
+            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente (em breve!)</button>
           <button onclick="window.location.href='./forms/form_cadVendedor.php'"
-            class="w3-button w3-block w3-theme w3-section w3-padding w3-orange" type="submit">Sou vendedor</button>
+            class="w3-button w3-block w3-theme w3-section w3-padding w3-orange" type="submit" style="font-weight:700;">Sou vendedor</button>
         </div>
       </div>
 
