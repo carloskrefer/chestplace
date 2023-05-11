@@ -51,8 +51,9 @@ nav { background-color: #3C486B!important; }
 </nav>
 
 <!-- Top menu on small screens -->
-<header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
-  <div class="w3-bar-item w3-padding-24 w3-wide">LOGO</div>
+<header class="w3-bar w3-top w3-hide-large w3-xlarge" style="background-color: #3C486B!important;">
+  
+  <img style="width: 218px; margin-top: 26px; margin-left: 16px;" src="./imagens/logo_chestplace.png">
   <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
 </header>
 
@@ -245,7 +246,7 @@ nav { background-color: #3C486B!important; }
   </div>
   
   <!-- Footer -->
-  <footer class="w3-padding-64 w3-light-grey w3-small w3-center" id="footer">
+  <footer class="w3-padding-64 w3-light-grey w3-small w3-center" style="margin-left: 16px; margin-right: 16px;" id="footer">
     <div class="w3-row-padding">
       <div class="w3-col s4">
         <h4>Enviar e-mail</h4>
