@@ -1,4 +1,17 @@
-function showModalConfirmacao(icone,titulo, subtitulo, texto, corW3CSS, botaoPrimario){
+function limparModal(){
+        
+    // Textos
+    $("#titulo-modalDeNotificao").text("");
+    $("#subtitulo-modalDeNotificao").text("");
+    $("#texto-modalDeNotificao").text("");
+
+    // Botões
+    $("#btnPrimario-modalDeNotificao").text("");
+    $("#btnSecundario-modalDeNotificao").text("Cancelar");
+
+}
+
+function showModalConfirmacao(icone,titulo, subtitulo, texto, corW3CSS, botaoPrimario, botaoSecundario){
     limparModal();
 
     // Estilo
@@ -12,8 +25,9 @@ function showModalConfirmacao(icone,titulo, subtitulo, texto, corW3CSS, botaoPri
 
     // Botões
     $("#btnPrimario-modalDeNotificao").text(botaoPrimario);
-
     $("#btnSecundario-modalDeNotificao").text("Cancelar");
+    if(botaoSecundario !== undefined) $("#btnSecundario-modalDeNotificao").text(botaoSecundario);
+
     $("#btnSecundario-modalDeNotificao").on("click",function(){$("#modalDeNotificao").get(0).close()});
 
     // Mostrar

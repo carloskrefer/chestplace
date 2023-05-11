@@ -11,3 +11,4 @@
     </div>
   </dialog>
   <script src="./scripts/modalConfirmacao.js"></script>
+  <script src="../scripts/modalConfirmacao.js"></script>

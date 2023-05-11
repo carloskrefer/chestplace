@@ -28,18 +28,6 @@
         window.location.href="./actions/delProduto_exe.php?id=" + id;
     }
 
-    function limparModal(){
-        
-        // Textos
-        $("#titulo-modalDeNotificao").text("");
-        $("#subtitulo-modalDeNotificao").text("");
-        $("#texto-modalDeNotificao").text("");
-
-        // Botões
-        $("#btnPrimario-modalDeNotificao").text("");
-
-    }
-
     function confirmarDelecao(id){
         showModalConfirmacao(
             "<i class=\"w3-text-amber fa fa-solid fa-exclamation-triangle\"></i> &nbsp;",
