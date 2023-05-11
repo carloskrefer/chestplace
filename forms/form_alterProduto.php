@@ -52,6 +52,7 @@
 	<!-- Inclui MENU.PHP  -->
     <?php require '../common/header.php'; ?>
     <?php require '../database/conectaBD.php'; ?>
+    <?php require '../common/modalConfirmacao.php'; ?>
     <?php echo"<script>var idVendedor = ".$_SESSION["idVendedor"].";</script>"?>
 
 	<!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
@@ -288,7 +289,7 @@
                             <td colspan="2" style="text-align:center">
                             <p>
                                 <input type="button" onclick="enviarFormulario();" value="Alterar" class="w3-btn w3-red">
-                                <?php echo"<input type=\"button\" value=\"Cancelar\" class=\"w3-btn w3-theme\" onclick=\"if(validarImagem()){window.location.href='../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."'}\">"?>
+                                <input type="button" value="Cancelar" class="w3-btn w3-theme" onclick="confirmarCancelamento()">
                             </p>
                             </td>
                         </tr>
@@ -423,6 +424,21 @@
             // Remover a linha da tabela de pré-visualização
             let deletedRow = document.getElementById("prevImg-"+nomeArquivo);
             deletedRow.remove();
+        }
+        
+        function confirmarCancelamento(){
+            showModalConfirmacao(
+                "<i class=\"w3-text-amber fa fa-solid fa-exclamation-triangle\"></i> &nbsp;",
+                "Você tem certeza?",
+                "Ao confirmar, todas as alterações não salvas serão perdidas. ",
+                "",
+                "w3-boder-amber",
+                "Sim",
+                "Não"
+            );
+
+            $("#btnPrimario-modalDeNotificao").off();
+            $("#btnPrimario-modalDeNotificao").on("click", function() { window.location.href="../page_gerProdutos.php" });
         }
 
     </script>
