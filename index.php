@@ -33,7 +33,7 @@ nav { background-color: #3C486B!important; }
     <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
       Camisetas <i class="fa fa-caret-down"></i>
     </a>
-    <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium">
+    <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium" style="color:white;">
       <form method="GET" action="">
           <label for="data-criacao-select">Filtrar por data de criação:</label>
             <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
@@ -52,9 +52,8 @@ nav { background-color: #3C486B!important; }
 
 <!-- Top menu on small screens -->
 <header class="w3-bar w3-top w3-hide-large w3-xlarge" style="background-color: #3C486B!important;">
-  
   <img style="width: 218px; margin-top: 26px; margin-left: 16px;" src="./imagens/logo_chestplace.png">
-  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()"><i class="fa fa-bars"></i></a>
+  <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" style="color:#F9D949;" onclick="w3_open()"><i class="fa fa-bars"></i></a>
 </header>
 
 <!-- Overlay effect when opening sidebar on small screens -->
@@ -82,9 +81,9 @@ nav { background-color: #3C486B!important; }
           END;
         } else {
           echo <<<END
-            <button class="w3-btn w3-border" onclick="document.getElementById('id0L').style.display='block'" 
+            <button type="button" class="w3-button w3-border" onclick="document.getElementById('id0L').style.display='block'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px; background-color: #F45050;">Entrar</button>
-            <button class="w3-btn w3-white w3-border" onclick="document.getElementById('modalCadastro').style.display='block'" 
+            <button type="button" class="w3-button w3-white w3-border" onclick="document.getElementById('modalCadastro').style.display='block'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
           END;
         }
@@ -217,7 +216,7 @@ nav { background-color: #3C486B!important; }
                             }
                             echo "
                               <div class=\"w3-col l3 s6\">
-                                <div style = \"background-color: #F0F0F0\" class=\"w3-container\">
+                                <div style = \"background-color: #F0F0F0; padding-right: 0px; padding-left: 0px;\" class=\"w3-container\">
                                   <div  class=\"w3-display-container\">
                             ";
                             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
