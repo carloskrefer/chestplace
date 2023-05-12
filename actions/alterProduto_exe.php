@@ -4,6 +4,7 @@
     include("../common/functions.php");
     include("../database/conectaBD.php");
 
+    // Coletando dados do formulário
     $idCamiseta     = $_POST["idCamiseta"];
     $titulo         = $_POST["titulo"];
     $descricao      = $_POST["descricao"];
@@ -14,58 +15,64 @@
     $tamanhoSelect  = $_POST["tamanho"];
     $imagensExcluir = json_decode($_POST["idImagensDeletar"]);
 
-    // echo $_POST["dataPublicacao"];
+    // Query para UPDATE de dados
     $updateQuery = "UPDATE camiseta SET
-        titulo=\"".$titulo."\",
-        descricao=\"".$descricao."\",
-        preco=\"".$preco."\",
-        conservacao=\"".$conservacao."\",
-        data_hora_publicacao=\"".$dataPublicacao->format('Y-m-d H:i:s')."\",
-        id_vendedor=".$_SESSION["idVendedor"].",
-        id_marca=".$marca."
-        WHERE id = ".$idCamiseta."
+        titulo               = \"".$titulo."\",
+        descricao            = \"".$descricao."\",
+        preco                = \"".$preco."\",
+        conservacao          = \"".$conservacao."\",
+        data_hora_publicacao = \"".$dataPublicacao->format('Y-m-d H:i:s')."\",
+        id_vendedor          = ".$_SESSION["idVendedor"].",
+        id_marca             = ".$marca."
+        WHERE id             = ".$idCamiseta."
     ;";
 
-    echo $updateQuery;
+    // BEGIN TRANSACTION de atualização de novos valores
+    mysqli_begin_transaction($conn);
 
-    if (mysqli_query($conn, $updateQuery)){
-        
-        $resetEstoque = "DELETE FROM estoque WHERE id_camiseta = ".$idCamiseta;
+    try{
+        // Executar UPDATE de anúncio [camiseta]
+        mysqli_query($conn, $updateQuery);
 
-        //Reset do estoque
-        if (mysqli_query($conn, $resetEstoque)){
-            cLog("Estoque resetado.");
+        // Executar DELETE de quantidade do estoque | RESET do estoque [estoque]
+        mysqli_query($conn, "DELETE FROM estoque WHERE id_camiseta = ".$idCamiseta);
 
-            $selectTamanhos = $selectTamanhos   = "SELECT * FROM tamanho"; 
-            $resTamanhos    = mysqli_query($conn, $selectTamanhos);
+        // SELECT de todos os tamanhos [tamanho]
+        $resTamanhos = mysqli_query($conn, "SELECT * FROM tamanho;");
 
-            // Percorre cada um dos tamanhos no BD
-            if (mysqli_num_rows($resTamanhos) > 0) {
-                while($rowTamanho = mysqli_fetch_assoc($resTamanhos)){
- 
-                    if(isset($_POST["quantidade_".$rowTamanho["codigo"]])){
+        // Para cada tamanho cadastrado no BD [tamanho]
+        while($rowTamanho = mysqli_fetch_assoc($resTamanhos)){
 
-                        $quantidade = $_POST["quantidade_".$rowTamanho["codigo"]];
+            // Se a quantidade desse tamanho foi inserida pelo usuário no formulário
+            if(isset($_POST["quantidade_".$rowTamanho["codigo"]])){
 
-                        $insertQtdeEstq = "INSERT INTO estoque(id_camiseta, id_tamanho, quantidade) VALUES (".$idCamiseta.",".$rowTamanho["id"].", ".$quantidade.");";
-                        
-                        if(mysqli_query($conn, $insertQtdeEstq)){
-                            cLog("Tamanho [".$rowTamanho["codigo"]."] adicionado com sucesso!");
-                        } else {
-                            echo json_encode("Erro ao adicionar tamanho [".$rowTamanho["codigo"]."]! Tente novamente.");
-                        }
-                    }
-                }
+                // Set da variável quantidade para o valor passado por POST com a quantidade do tamanho
+                $quantidade = $_POST["quantidade_".$rowTamanho["codigo"]];
+
+                $insertQtdeEstq = "INSERT INTO estoque(id_camiseta, id_tamanho, quantidade) VALUES (".$idCamiseta.",".$rowTamanho["id"].", ".$quantidade.");";
+
+                // INSERT no BD do tamanho tamanho e quantidade
+                mysqli_query($conn, $insertQtdeEstq);
+
+                // INSERT no BD + debug
+                // if(mysqli_query($conn, $insertQtdeEstq)){
+                //     cLog("Tamanho [".$rowTamanho["codigo"]."] adicionado com sucesso!");
+                // } else {
+                //     echo json_encode("Erro ao adicionar tamanho [".$rowTamanho["codigo"]."]! Tente novamente.");
+                // }
             }
         }
 
-        // Adicionar Imagens
+        // Adicionar Imagens no BD [imagem]
         if(isset($_FILES["imagem"])){
+
             // Loop através de cada arquivo enviado pelo formulário
             foreach ($_FILES["imagem"]["tmp_name"] as $key => $tmp_name) {
+
                 // Verifica se o arquivo é uma imagem
                 $file_type = $_FILES["imagem"]["type"][$key];
                 if (strpos($file_type, "image/") === 0) {
+
                     // Lê o conteúdo do arquivo de imagem
                     $filename = $_FILES["imagem"]["name"][$key];
                     $file_size = $_FILES["imagem"]["size"][$key];
@@ -73,40 +80,34 @@
                     $handle = fopen($file_tmp, "r");
                     $content = fread($handle, $file_size);
                     fclose($handle);
+
                     // Escapa os caracteres especiais do conteúdo
                     $content = mysqli_real_escape_string($conn, $content);
-                    // Insere o conteúdo no banco de dados
+
+                    // Query INSERT da imagem no BD [imagem]
                     $sql = "INSERT INTO imagem (id_produto, imagem) VALUES(\"".$idCamiseta."\",\"".$content."\")";
                     
                     cLog($filename);
         
-                    if (mysqli_query($conn, $sql)){
-                        cLog("Cadastro de imagem realizada com sucesso");
-                    }
-                    else{
-                        cLog("Erro ao inserir imagem no banco de dados:" . mysqli_error($conn));
-                    }
+                    // INSERT da imagem no BD [imagem]
+                    mysqli_query($conn, $sql);
                     
                 }
             }
         }
 
-        // Apagar imagens
-        echo(implode(",", $imagensExcluir));
+        // Apagar imagens no BD [imagem]
         $deleteImagensQuery = "DELETE FROM imagem WHERE id IN (" . implode(",", $imagensExcluir) . ")";
-        if(mysqli_query($conn, $deleteImagensQuery)){
-            cLog("Imagens apagadas");
-        }
+        mysqli_query($conn, $deleteImagensQuery);
 
 
-        echo json_encode("Cadastro atualizado com sucesso!");
-        // redirect("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);
+        mysqli_commit($conn); // Termina transaction
+
+    } catch (Exception $e){
+        mysqli_rollback($conn);
+        echo json_encode("Houve um erro ao atualizar dados do anúncio. Tente novamente mais tarde.");
+        cLog($e);
     }
-    else{
-        echo json_encode("Erro ao atualizar dados de produto: " . mysqli_error($conn));
-        // redirect("../forms/alterProduto?id=".$idCamiseta);
-    }
-        
-    // $insertImages = "INSERT INTO imagem VALUES(".$idCamiseta.")";
+
 
 ?>
