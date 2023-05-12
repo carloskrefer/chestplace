@@ -28,6 +28,11 @@
 	<!-- Inclui MENU.PHP  -->
     <?php include("../database/conectaBD.php"); ?>
     <?php $tipoPagina = "cadastroVendedor"; include('../common/header.php')?>
+	
+    $queryVendedor = SELECT * FROM vendedor WHERE id = "id.Vendedor";
+    cLog($queryVendedor)
+    if [NOT] EXISTS SELECT * FROM vendedor WHERE id = "id.Vendedor";
+    
 
 
     <!-- Conteúdo Principal: deslocado para direita em 270 pixels quando a sidebar é visível -->
