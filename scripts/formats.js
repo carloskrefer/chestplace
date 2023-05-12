@@ -157,13 +157,19 @@ function formatarCEP(cep){
  * 
  */
 function formatarQuantidade(quantidade){
+    // Deixar somente números
+    quantidade = quantidade.replace(/\D/, "");
+
+    // Se não houver nada
     if(quantidade == '') return 0;
 
-    quantidade = parseInt(quantidade.replace(/\D/, ""));
+    // Passar para int (tirar possíveis '0' no início)
+    quantidade = parseInt(quantidade);
 
+    // Se for o valor for maior que o máximo permitido, o valor irá se alterar para o máximo.
     if(quantidade > 999999) return 999999;
 
-    return quantidade
+    return quantidade;
 }
 
 

@@ -31,17 +31,6 @@ function limitarCampos(){
     }
 }
 
-function configurarMensagensValidacao(){
-    let inputs = document.document.querySelectorAll("input");
-
-    for(let i = 0; i < inputs.length; i++){
-        inputs[i].addEventListener("invalid", function(event) {
-            event.preventDefault(); // Impede que a mensagem de erro padrão apareça
-            inputs[i].setCustomValidity("Por favor, preencha este campo com uma informação válida."); // Define uma mensagem de erro personalizada
-        });
-    }
-}
-
 function configurarTamanhoCheckbox(){
     // Seleciona todos os checkboxes
     var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -66,31 +55,6 @@ function configurarDataHoraPubli(){
     input.value = agora.toISOString().slice(0,16);
 
     console.log(agora.toISOString());
-}
-
-function configurarPreco(input){
-
-    if(input.value == '') input.value= "0.00"; ;
-
-    // Armazena a posição atual do cursor
-    input.selectionStart = input.selectionEnd = input.value.length;
-
-    // Remove todos os caracteres não numéricos (exceto um ponto ou vírgula decimal)
-    input.value = input.value.replace(/[^0-9]/g, '');
-
-    // Formata o valor com duas casas decimais, se possível
-    var valor = parseFloat(input.value.replace(',', '.'));
-    if (!isNaN(valor) && input.value.trim() !== '') {
-        valor = valor/100;
-        input.value = valor.toFixed(2);
-        if(valor > 999999.99){
-            input.value = 999999.99; 
-
-        }
-    }
-
-    // Define a posição do cursor para a posição armazenada
-    // input.setSelectionRange(cursorPos, cursorPos);
 }
 
 function configurarQtde(input){

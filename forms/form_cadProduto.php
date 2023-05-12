@@ -103,14 +103,14 @@
                                             // SELECT de todos os tamanhos
                                             $result = mysqli_query($conn, "SELECT * FROM tamanho");
     
-                                            // Inserindo row com opcões de tamanho (checkbox, descricao, quantidade)
+                                            // Inserindo table row com opcões de tamanho (checkbox, descricao, quantidade)
                                             if (mysqli_num_rows($result) > 0) {
                                                 while($row = mysqli_fetch_assoc($result)) {
                                                     echo "
                                                         <tr>
                                                             <td class=\"w3-center\"     ><input onclick=\"checkTamanho(this,'quantidade_".$row["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" value=\"".$row["codigo"]."\" class=\"tamanho\"></td>
                                                             <td class=\"w3-left-align\" >".$row["codigo"]." - ".$row["descricao"]."</td>
-                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%; text-align:center\" min=\"0\" pattern\"\d+\" onkeyup=\"configurarQtde(this)\" onblur=\"configurarQtde(this)\" class=\"quantidade\" required></td>
+                                                            <td class=\"w3-center\"     ><input name=\"quantidade_".$row["codigo"]."\" id=\"quantidade_".$row["codigo"]."\" type=\"text\" style=\"width:50%; text-align:center\" min=\"0\" pattern\"\d+\" onkeyup=\"this.value = formatarQuantidade(this.value)\" onblur=\"this.value = formatarQuantidade(this.value)\" class=\"quantidade\" required></td>
                                                         </tr>
                                                     ";
                                                 }
@@ -127,7 +127,6 @@
                                     </label>
                                 </p>
                                 <p>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
                                     <input type="file" id="Imagem" name="imagem[]" accept="image/*" enctype="multipart/form-data" onchange="validarImagem(this);" class="clickable" multiple required/></label>
                                 </p>
                                 
