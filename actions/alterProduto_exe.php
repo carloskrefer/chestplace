@@ -96,17 +96,25 @@
             }
         }
 
-        // Apagar imagens no BD [imagem]
-        $deleteImagensQuery = "DELETE FROM imagem WHERE id IN (" . implode(",", $imagensExcluir) . ")";
-        mysqli_query($conn, $deleteImagensQuery);
+        // Apagar imagens no BD [imagem] se houver
+        $imagensExcluir = implode(",", $imagensExcluir);
+        if($imagensExcluir !== ""){
+            $deleteImagensQuery = "DELETE FROM imagem WHERE id IN (". $imagensExcluir . ")";
+            mysqli_query($conn, $deleteImagensQuery);
+        }
 
 
         mysqli_commit($conn); // Termina transaction
 
     } catch (Exception $e){
         mysqli_rollback($conn);
-        echo json_encode("Houve um erro ao atualizar dados do anúncio. Tente novamente mais tarde.");
         cLog($e);
+        echo json_encode(
+            array(
+                "error" => true,
+                "message" => "Houve um erro ao atualizar dados do anúncio. Tente novamente mais tarde."
+            )
+        );
     }
 
 
