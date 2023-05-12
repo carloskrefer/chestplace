@@ -13,9 +13,9 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
-    <script src="../scripts/formFunctions.js"></script>
+    <script src="../scripts/vendedor/produto/checkboxConfig.js"></script>
     <script src="../scripts/formats.js"></script>
-    <script src="../scripts/validacoesProduto.js"></script>
+    <script src="../scripts/vendedor/produto/validacoesProduto.js"></script>
 
 </head>
 
@@ -162,7 +162,7 @@
 
 	</div>
     
-    <script src="../scripts/script_cadProduto.js"></script>
+    <script src="../scripts/vendedor/produto/script_cadProduto.js"></script>
 
 
 </body>

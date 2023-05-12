@@ -50,9 +50,8 @@
 	<link rel="stylesheet" href="css/customize.css">
     <link rel="stylesheet" href="../styles.css">
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
-    <script src="../scripts/validacoesVendedor.js"></script>
+    <script src="../scripts/vendedor/validacoesVendedor.js"></script>
     <script src="../scripts/formats.js"></script>
-    <script src="../scripts/formFunctions.js"></script>
 
 
 </head>
@@ -230,7 +229,7 @@
 		</div>
 	</div>
 
-    <script src="../scripts/script_alterVendedor.js"></script>
+    <script src="../scripts/vendedor/script_alterVendedor.js"></script>
     <script src="../scripts/viaCep/viaCep.js"></script>
 </body>
 

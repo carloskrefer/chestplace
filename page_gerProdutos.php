@@ -137,6 +137,6 @@
       </a>
     </div>
   </div>
-  <script src="./scripts/script_gerProdutos.js"></script>
+  <script src="./scripts/vendedor/produto/script_gerProdutos.js"></script>
 </body>
 </html>

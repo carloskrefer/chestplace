@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="../styles.css">
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
     <script src="../scripts/formats.js"></script>
-    <script src="../scripts/formFunctions.js"></script>
+    <script src="../scripts/vendedor/produto/checkboxConfig.js"></script>
     <script>
         /**
          * -----------INIT VARIAVEIS-----------
@@ -291,8 +291,8 @@
 	</div>
 
 
-    <script src="../scripts/script_alterProduto.js"></script>
-    <script src="../scripts/validacoesProduto.js"></script>
+    <script src="../scripts/vendedor/produto/script_alterProduto.js"></script>
+    <script src="../scripts/vendedor/produto/validacoesProduto.js"></script>
 
 </body>
 
