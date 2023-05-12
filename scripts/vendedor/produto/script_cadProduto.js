@@ -179,7 +179,7 @@ function confirmarCancelamento(){
         "Não"
     );
 
-    $("#btnPrimario-modalDeNotificao").off();
-    $("#btnPrimario-modalDeNotificao").on("click", function() { window.location.href="../page_gerProdutos.php" });
+    $("#btnPrimario-modalDeNotificacao").off();
+    $("#btnPrimario-modalDeNotificacao").on("click", function() { window.location.href="../page_gerProdutos.php" });
 }
 

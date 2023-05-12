@@ -91,7 +91,7 @@ function enviarFormulario(){
 function limitarCampos(){
     let limiteCpfCnpj = 18;
 
-    if(pessoaFisica){ limiteCpfCnpj = 14; }
+    if($("#cpfCnpj").data("pessoafisica")){ limiteCpfCnpj = 14; }
 
     $("#nomeEstabelecimento").attr("maxlength", 255)
     $("#cpfCnpj").attr("maxlength", limiteCpfCnpj)
@@ -119,6 +119,6 @@ function confirmarCancelamento(){
         "Não"
     );
 
-    $("#btnPrimario-modalDeNotificao").off();
-    $("#btnPrimario-modalDeNotificao").on("click", function() { window.location.href="../page_gerProdutos.php" });
+    $("#btnPrimario-modalDeNotificacao").off();
+    $("#btnPrimario-modalDeNotificacao").on("click", function() { window.location.href="../page_gerProdutos.php"; });
 }

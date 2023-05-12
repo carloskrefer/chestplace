@@ -100,11 +100,23 @@ function validarNomeEstabelecimento(){
 function validarCpfCnpj(cadastro){
     let cpfCnpjNumerico = $("#cpfCnpj").val().replace(/\D/g, '');
     let valido = false;
+    let pessoaFisica = $("#cpfCnpj").data("pessoafisica");
+    let pessoaJuridica = !pessoaFisica;
 
-    if(cadastro) { var pessoaFisica = cpfCnpjNumerico.length == 11}
+    if(cadastro) { 
+        pessoaFisica = cpfCnpjNumerico.length == 11
+        pessoaJuridica = cpfCnpjNumerico.length == 14;
+    }
 
-    if(pessoaFisica) { valido = validarCPF(cpfCnpjNumerico);  }
-    else             { valido = validarCNPJ(cpfCnpjNumerico); }
+    if(pessoaFisica) {
+         valido = validarCPF(cpfCnpjNumerico); 
+    }
+    else if(pessoaJuridica)
+    { 
+        valido = validarCNPJ(cpfCnpjNumerico); 
+    } else {
+        exibirPopUpErro($("#cpfCnpj"), "Campo inválido! Por favor, insira um documento válido.");
+    }
 
     return valido;
 }
@@ -601,6 +613,9 @@ function validarDigitoVerificadorCPF(cpf) {
 
 /**
  * Exibe uma mensagem de erro personalizada em um campo de formulário.
+ * 
+ * @requires JQuery
+ * 
  * @param {HTMLInputElement} campoInpt - O campo de entrada em que a mensagem de erro será exibida.
  * @param {string} mensagem - A mensagem de erro a ser exibida.
  */

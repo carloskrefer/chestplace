@@ -4,8 +4,11 @@ let tablePrevImagens = document.getElementById("previewTable");
 let tbodyPrevImagens =tablePrevImagens.querySelector("tbody");
 
 window.addEventListener("load", function(event) {
+    
+    // Settar tamanho máximo e mínimo dos campos
     limitarCampos();
 
+    // Definir valor padrão de preço (caso necessário)
     let preco = document.getElementById("preco");
     if(preco.value == ""){
         preco.value = "0.00";
@@ -171,8 +174,8 @@ function confirmarCancelamento(){
         "Não"
     );
 
-    $("#btnPrimario-modalDeNotificao").off();
-    $("#btnPrimario-modalDeNotificao").on("click", function() { window.location.href="../page_gerProdutos.php" });
+    $("#btnPrimario-modalDeNotificacao").off();
+    $("#btnPrimario-modalDeNotificacao").on("click", function() { window.location.href="../page_gerProdutos.php" });
 }
 
 function confirmarAlteracao(){
@@ -186,8 +189,8 @@ function confirmarAlteracao(){
         "Não"
     );
 
-    $("#btnPrimario-modalDeNotificao").off();
-    $("#btnPrimario-modalDeNotificao").on("click", function() {  $("#modalDeNotificao").get(0).close();  enviarFormulario();});
+    $("#btnPrimario-modalDeNotificacao").off();
+    $("#btnPrimario-modalDeNotificacao").on("click", function() {  $("#modalDeNotificacao").get(0).close();  enviarFormulario();});
 }
 
 

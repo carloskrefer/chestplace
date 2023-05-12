@@ -24,7 +24,7 @@
                 $nomeEstabelecimento = $row["nome_estabelecimento"];
                 $cpf  = $row["cpf"];
                 $cnpj = $row["cnpj"];
-                isset($cpf)? jsScript("let pessoaFisica = true;") : jsScript("let pessoaFisica = false");
+                $pessoaFisica = json_encode(isset($cpf));
                 $emailContato    = $row["email_contato"];
                 $telefoneContato = $row["telefone_contato"];
                 $idEndereco      = $row["id_endereco"];
@@ -49,10 +49,6 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel="stylesheet" href="css/customize.css">
     <link rel="stylesheet" href="../styles.css">
-    <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
-    <script src="../scripts/vendedor/validacoesVendedor.js"></script>
-    <script src="../scripts/formats.js"></script>
-
 
 </head>
 
@@ -85,7 +81,7 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CPF/CNPJ</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" oninput="<?= isset($cpf)? 'this.value = formatarCPF(this.value);': 'this.value = formatarCNPJ(this.value);'?>" value="<?= isset($cpf)? $cpf : $cnpj?>" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" data-pessoafisica="<?= $pessoaFisica?>" oninput="<?= isset($cpf)? 'this.value = formatarCPF(this.value);': 'this.value = formatarCNPJ(this.value);'?>" value="<?= isset($cpf)? $cpf : $cnpj?>" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Email para contato</b>*</label>
@@ -228,7 +224,9 @@
 			</p>
 		</div>
 	</div>
-
+    <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
+    <script src="../scripts/vendedor/validacoesVendedor.js"></script>
+    <script src="../scripts/formats.js"></script>
     <script src="../scripts/vendedor/script_alterVendedor.js"></script>
     <script src="../scripts/viaCep/viaCep.js"></script>
 </body>

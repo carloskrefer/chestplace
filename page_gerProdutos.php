@@ -33,7 +33,7 @@
   <?php include("./common/header.php")?>
   <?php include("./common/modalConfirmacao.php")?>
 
-  <!-- <script>document.getElementById("modalDeNotificao").showModal()</script> -->
+  <!-- <script>document.getElementById("modalDeNotificacao").showModal()</script> -->
 
   <!-- !PAGE CONTENT! -->
   <div class="w3-main w3-content w3-margin-bottom" style="max-width:1200px">

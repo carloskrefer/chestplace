@@ -78,7 +78,7 @@
                                 <p>
                                 <p>
                                     <label class="w3-text-IE"><b>CPF/CNPJ</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" type="text" oninput="this.value = formatarCPFCNPJ(this.value)" onblur="this.value = formatarCPFCNPJ(this.value)" title="CPF ou CNPJ da sua conta de vendedor." placeholder="XXX.XXX.XXX-XX ou YY.YYY.YYY/YYYY-YY" />
+                                    <input class="w3-input w3-border w3-light-grey " id="cpfCnpj" name="cpfCnpj" data-pessoafisica="" type="text" oninput="this.value = formatarCPFCNPJ(this.value)" onblur="this.value = formatarCPFCNPJ(this.value)" title="CPF ou CNPJ da sua conta de vendedor." placeholder="XXX.XXX.XXX-XX ou YY.YYY.YYY/YYYY-YY" />
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Email para contato</b>*</label>

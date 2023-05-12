@@ -38,7 +38,7 @@
             "Apagar"
         );
 
-        $("#btnPrimario-modalDeNotificao").off();
-        $("#btnPrimario-modalDeNotificao").on("click", function() { goToDeletarProduto(id) });
+        $("#btnPrimario-modalDeNotificacao").off();
+        $("#btnPrimario-modalDeNotificacao").on("click", function() { goToDeletarProduto(id) });
 
     }
