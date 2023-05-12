@@ -26,8 +26,8 @@ CREATE TABLE usuario(
 CREATE TABLE vendedor(
   id_usuario int(10) UNSIGNED NOT NULL PRIMARY KEY, 
   nome_estabelecimento varchar(255) NOT NULL, 
-  cpf char(11), 
-  cnpj char(14),
+  cpf char(14), 
+  cnpj char(18),
   id_endereco int(10) UNSIGNED NOT NULL,
   email_contato varchar(255) NOT NULL,
   telefone_contato varchar(30) NOT NULL,
@@ -194,3 +194,7 @@ INSERT INTO tamanho (codigo, descricao) VALUES ('XG', 'Extra Grande');
 INSERT INTO tamanho (codigo, descricao) VALUES ('XGG', 'Extra Grande Grande');
 INSERT INTO tamanho (codigo, descricao) VALUES ('XXG', 'Duplo Extra Grande');
 INSERT INTO tamanho (codigo, descricao) VALUES ('XXXG', 'Triplo Extra Grande');
+
+USE CHESTPLACE;
+DELETE FROM imagem WHERE id IN (1);
+SELECT  id, imagem FROM imagem where id_produto =33 limit 1;
