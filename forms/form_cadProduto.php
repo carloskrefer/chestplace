@@ -14,12 +14,13 @@
 	<link rel="stylesheet" href="css/customize.css">
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
     <script src="../scripts/formFunctions.js"></script>
+    <script src="../scripts/formats.js"></script>
     <script src="../scripts/validacoesProduto.js"></script>
 
 </head>
 
 <body >
-	<!-- Inclui MENU.PHP  -->
+	<!-- Inclusões necessárias  -->
     <?php require '../database/conectaBD.php'; ?>
     <?php require "../common/header.php"; ?>
     <?php require "../common/modalConfirmacao.php"; ?>
@@ -36,9 +37,6 @@
                     <table class='w3-table-all'>
                         <tr>
                             <td style="width:50%;">
-                                <!-- <p>
-                                    <input type="hidden" id="idProduto" name="idProduto" value="">
-                                <p> -->
                                 <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
                                     <input class="w3-input w3-border w3-light-grey " id="titulo" name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
@@ -49,7 +47,7 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Preço</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " onkeyup="configurarPreco(this);" onblur="configurarPreco(this)" type="text" name="preco" id="preco" required>
+                                    <input class="w3-input w3-border w3-light-grey " oninput="configurarPreco(this)" onkeyup="configurarPreco(this);" onblur="configurarPreco(this)" type="text" name="preco" id="preco" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Data de publicação*</b></label>
@@ -60,21 +58,23 @@
                                     <label class="w3-text-IE"><b>Marca</b>*</label>
                                     <select name="marca" id="marca" class="w3-input w3-border w3-light-grey " required>
                                         <option value=""  disabled hidden selected>Escolha a marca</option>
+                                        
+                                        <!-- 
+                                            PONTO PARA REVISÃO
+
+                                            CONTINUAR COMO SELECT BOX OU MUDAR PARA INPUT TEXT?
+                                         -->
+                                        
+                                        
                                         <?php
-                                            //Select das camisetas e imagens das camisetas do vendedor passado por _GET
-                                            $queryMarcas = "SELECT * FROM marca";
 
-                                            //Resultao do Select
-                                            $result = mysqli_query($conn, $queryMarcas);
+                                            // Resultao do SELECT de todas as marcas
+                                            $marcas = mysqli_query($conn, "SELECT * FROM marca");
 
-                                            //Percorrendo resultado do select
-                                            if (mysqli_num_rows($result) > 0) {
-                                                while($row = mysqli_fetch_assoc($result)) {
-                                                    if($row["id"] == $marca){
-                                                        echo"<option value=".$marca.">".$row["nome"]."</option>";
-                                                    } else{
-                                                        echo"<option value=".$row["id"].">".$row["nome"]."</option>";
-                                                    }
+                                            // Inserindo cada uma das marcas no <select></select>
+                                            if (mysqli_num_rows($marcas) > 0) {
+                                                while($marca = mysqli_fetch_assoc($marcas)) {
+                                                    echo"<option value=".$marca["id"].">".$marca["nome"]."</option>";
                                                 }
                                             }
                                         ?>
@@ -100,14 +100,10 @@
                                         <th class="w3-center">Tamanho</th>
                                         <th class="w3-center">Quantidade</th>
                                         <?php
-                                            //Select das camisetas e imagens das camisetas do vendedor passado por _GET
-                                            $queryTamanhos = "
-                                                SELECT * FROM tamanho";
+                                            // SELECT de todos os tamanhos
+                                            $result = mysqli_query($conn, "SELECT * FROM tamanho");
     
-                                            //Resultao do Select
-                                            $result = mysqli_query($conn, $queryTamanhos);
-    
-                                            //Percorrendo resultado do select
+                                            // Inserindo row com opcões de tamanho (checkbox, descricao, quantidade)
                                             if (mysqli_num_rows($result) > 0) {
                                                 while($row = mysqli_fetch_assoc($result)) {
                                                     echo "
