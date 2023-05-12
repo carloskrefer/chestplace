@@ -11,8 +11,8 @@
 
     // Dados do vendedor
     $nomeEstabelecimento = $_POST["nomeEstabelecimento"];
-    $cnpj                = (strlen($_POST["cpfCnpj"]) == 18) ? $_POST["cpfCnpj"] : "null";
-    $cpf                 = (strlen($_POST["cpfCnpj"]) == 14) ? $_POST["cpfCnpj"] : "null";
+    $cnpj                = (strlen($_POST["cpfCnpj"]) == 18) ? $_POST["cpfCnpj"] : NULL;
+    $cpf                 = (strlen($_POST["cpfCnpj"]) == 14) ? $_POST["cpfCnpj"] : NULL;
     $emailContato        = $_POST["emailContato"];
     $telefoneContato     = $_POST["telefoneContato"];
 
