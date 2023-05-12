@@ -5,11 +5,11 @@
     include("../common/functions.php");
     include("../database/conectaBD.php");
     
-    // Dados passados por post 
+    // Dados do produto passados por post 
     $titulo         = $_POST["titulo"];
     $descricao      = $_POST["descricao"];
     $preco          = $_POST["preco"];
-    $dataPublicacao = DateTime::createFromFormat('Y-m-d\TH:i', $_POST["dataPublicacao"]);
+    $dataPublicacao = DateTime::createFromFormat('Y-m-d\TH:i', $_POST["dataPublicacao"]); 
     $dataCadastro   = date('Y-m-d H:i:s');
     $marca          = $_POST["marca"];
     $conservacao    = $_POST["conservacao"];
@@ -23,84 +23,83 @@
         \"".$conservacao."\",
         \"".$dataPublicacao->format('Y-m-d H:i:s')."\",
         \"".$dataCadastro."\",
-        ".$_SESSION["idVendedor"].",
-        ".$marca.");";
+          ".$_SESSION["idVendedor"].",
+          ".$marca.");";
 
     cLog($insertCamiseta);
 
-    $selectIdCamiseta = "SELECT id FROM camiseta ORDER BY id DESC LIMIT 1;";
-    $selectTamanhos   = "SELECT * FROM tamanho";
+    
+    $resTamanhos   = mysqli_query($conn, "SELECT * FROM tamanho");
+    
+    // inicia transaction
+    mysqli_begin_transaction($conn);
 
-    // echo $insertCamiseta;
+    try{
 
-    if (mysqli_query($conn, $insertCamiseta)){
-        
-        alert("Cadastro realizado");
+        // INSERT na tabela CAMISETA
+        mysqli_query($conn, $insertCamiseta);
+        $idCamiseta = mysqli_insert_id($conn);
 
-        // Resultados de queries
-        $resIdCamiseta = mysqli_query($conn, $selectIdCamiseta); // Último id de camiseta
-        $resTamanhos   = mysqli_query($conn, $selectTamanhos); // Todos os tamanhos
-        
-        if (mysqli_num_rows($resIdCamiseta) > 0)
-            while($row = mysqli_fetch_assoc($resIdCamiseta))
-                $idCamiseta = $row["id"]; // Último id de camiseta
-            
-        
-        // Loop através de cada arquivo enviado pelo formulário
+
+        // Loop por cada arquivo enviado pelo formulário para inserir no BD
         foreach ($_FILES["imagem"]["tmp_name"] as $key => $tmp_name) {
             $file_type = $_FILES["imagem"]["type"][$key];
             if (strpos($file_type, "image/") === 0) {
                 
                 // Lê o conteúdo do arquivo de imagem
-                $filename = $_FILES["imagem"]["name"][$key];
+                $filename  = $_FILES["imagem"]["name"][$key];
                 $file_size = $_FILES["imagem"]["size"][$key];
-                $file_tmp = $_FILES["imagem"]["tmp_name"][$key];
-                $handle = fopen($file_tmp, "r");
-                $content = fread($handle, $file_size);
+                $file_tmp  = $_FILES["imagem"]["tmp_name"][$key];
+                $handle    = fopen($file_tmp, "r");
+                $content   = fread($handle, $file_size);
                 fclose($handle);
                 
                 $content = mysqli_real_escape_string($conn, $content);
                 
-                // Queries
+                // INSERT de imagens na tabela IMAGENS
+
+                // INSERT Query
                 $insertImagens = "INSERT INTO imagem (id_produto, imagem) VALUES(\"".$idCamiseta."\",\"".$content."\")";
 
                 cLog($filename);
                 
-                if (mysqli_query($conn, $insertImagens))
-                    cLog("Imagem cadastrada com sucesso!");
-                else{
-                    alert("Erro ao inserir imagem no banco de dados!");
-                    cLog("Erro ao inserir imagem no banco de dados:" . mysqli_error($conn) . "\");");
-                }
+                mysqli_query($conn, $insertImagens);
+
+                cLog("Imagem cadastrada com sucesso!");
                 
             }
         }
-        
-        // Percorre cada um dos tamanhos no BD
+
+        // Loop por cada um dos tamanhos no BD
         if (mysqli_num_rows($resTamanhos) > 0) {
             while($row = mysqli_fetch_assoc($resTamanhos)){
                 
-                // Para cada tamanho selecionado
-                foreach($tamanhoSelect as $tam){
-                
-                    // Quantidade desse tamanho
-                    $qtdeTamanho = $_POST["quantidade_".$tam];
+                // Se o tamanho tiver sido selecionado
+                if(in_array($row["codigo"], $tamanhoSelect)){
 
-                    if($row["codigo"] == $tam){
-                        // Queries
-                        $insertTC  = "INSERT INTO estoque (id_camiseta, id_tamanho, quantidade) VALUES (".$idCamiseta.",".$row["id"].",".$qtdeTamanho.");";
-                        if(mysqli_query($conn, $insertTC))
-                            cLog("Deu certo a inserção do tamanho " . $tam);
-                    }
+                    // Quantidade desse tamanho
+                    $qtdeTamanho = $_POST["quantidade_".$row["codigo"]];
+
+                    // Query
+                    $insertTC  = "INSERT INTO estoque (id_camiseta, id_tamanho, quantidade) VALUES (".$idCamiseta.",".$row["id"].",".$qtdeTamanho.");";
                     
+                    // INSERT no BD
+                    mysqli_query($conn, $insertTC);
+
+                    clog("Tamanho cadastrado no BD.");
                 }
             }
         }
 
-        redirect("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);  
+        alert("Cadastro realizado com sucesso");
+        mysqli_commit($conn); // Termina transaction
+        redirect("../page_gerProdutos.php?");  
     }
-    else
-        alert("Erro ao cadastrar produto:" . mysqli_error($conn));
+    catch(Exception $e){
+        alert("Houve um erro ao cadastrar a camiseta no Banco de dados. Por favor, tente novamente mais tarde.");
+        mysqli_rollback($conn); // Desfazer transaction
+        cLog($e);
+    }
 
-    echo "<a href=\"../page_gerProdutos.php?id=".$_SESSION["idVendedor"]."\">Voltar</a>" ;  
+    
 ?>
