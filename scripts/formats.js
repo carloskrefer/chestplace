@@ -140,3 +140,57 @@ function formatarCEP(cep){
     cep = cep.replace(/\D/, "");
     return cep.replace(/^(\d{5})(\d{3})$/, "$1-$2");
 }
+
+
+
+
+
+/**
+ * Formata uma determinada quantidade para que só aceite números. 
+ * Retorna 0 caso a quantidade esteja vazia.
+ * @param   {string} quantidade - A quantidade que será formatada.
+ * @returns {string} - A quantidade formatada só com números.
+ *
+ * @example
+ * formatarQuantidade('12e'); // Retorna '12'
+ * formatarQuantidade('012'); // Retorna '12'
+ * 
+ */
+function formatarQuantidade(quantidade){
+    if(quantidade == '') return 0;
+
+    quantidade = parseInt(quantidade.replace(/\D/, ""));
+
+    if(quantidade > 999999) return 999999;
+
+    return quantidade
+}
+
+
+
+
+function configurarPreco(input){
+
+    if (input.value == ""){
+        input.value = 0.00; 
+    }
+
+    // Armazena a posição atual do cursor
+    input.selectionStart = input.selectionEnd = input.value.length-3;
+
+    // Remove todos os caracteres não numéricos (exceto um ponto ou vírgula decimal)
+    input.value = input.value.replace(/[^0-9]/g, '');
+
+    // Formata o valor com duas casas decimais, se possível
+    var valor = parseFloat(input.value.replace(',', '.'));
+
+
+    if (!isNaN(valor) && input.value.trim() !== '') {
+        valor = valor/100;
+        input.value = valor.toFixed(2);
+        if(valor > 999999.99){
+            input.value = 999999.99; 
+        }
+    }
+
+}

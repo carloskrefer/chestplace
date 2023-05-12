@@ -27,6 +27,7 @@ function limitarCampos(){
     for(let i = 0; i < quantidades.length ; i++){
         quantidades[i].max = 2147483647;
         quantidades[i].min = 1;
+        quantidades[i].addEventListener("input", () => { quantidades[i].value = formatarQuantidade(quantidades[i].value)})
     }
 }
 
@@ -69,14 +70,13 @@ function configurarDataHoraPubli(){
 
 function configurarPreco(input){
 
+    if(input.value == '') input.value= "0.00"; ;
+
     // Armazena a posição atual do cursor
     input.selectionStart = input.selectionEnd = input.value.length;
 
     // Remove todos os caracteres não numéricos (exceto um ponto ou vírgula decimal)
     input.value = input.value.replace(/[^0-9]/g, '');
-
-    // Substitui a vírgula pelo ponto como separador decimal, se necessário
-    // input.value = input.value.replace(',', '.');
 
     // Formata o valor com duas casas decimais, se possível
     var valor = parseFloat(input.value.replace(',', '.'));

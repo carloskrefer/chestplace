@@ -1,4 +1,5 @@
 function validarFormulario(){
+
     let valido = validarTitulo() &&
                  validarDescricao() && 
                  validarDataPubli() &&
@@ -157,8 +158,6 @@ function validarImagem(){
     }
 
     return true;
-
-    // href=\"../actions/delImagem_exe.php?idImagem=".$rowImagens["id"]."&idCamiseta=".$idCamiseta."\"
 }
 
 function validarQuantidadeImagensDeletadas(arrayOriginal, arrayDeletadas){
@@ -219,22 +218,4 @@ function verificarExtensaoArquivos(arquivos){
 }
 
 
-
-
-/**
-* Envia uma requisição POST para a URL de destino
-* @param {string} action - A URL de destino para a requisição POST.
-* @param {FormData|URLSearchParams|Blob|string} dados - Os dados a serem enviados no corpo da requisição.
-* @returns {Promise} - Uma Promise que resolve para a resposta da requisição.
-*/
-function enviarFormularioPost(action, dados) {
-    return fetch(action, {
-        method: "POST",
-        body: dados
-    })        
-    .then(response => {response.text()})
-    .then(data => {return data})
-    .catch(error =>{throw new Error("Erro na requisição: " + error);
-});
-}
 

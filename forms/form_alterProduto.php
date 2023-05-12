@@ -311,7 +311,7 @@
 	</div>
 
 
-    <script src="../scripts/script2_alterProduto.js"></script>
+    <script src="../scripts/script_alterProduto.js"></script>
     <script src="../scripts/validacoesProduto.js"></script>
 
 </body>
