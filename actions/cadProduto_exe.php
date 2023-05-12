@@ -29,7 +29,7 @@
     cLog($insertCamiseta);
 
     
-    $resTamanhos   = mysqli_query($conn, "SELECT * FROM tamanho");
+    $resTamanhos = mysqli_query($conn, "SELECT * FROM tamanho");
     
     // inicia transaction
     mysqli_begin_transaction($conn);

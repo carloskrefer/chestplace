@@ -46,7 +46,7 @@
     <script src="../scripts/formFunctions.js"></script>
     <script>
         /**
-         * -----------INIT-----------
+         * -----------INIT VARIAVEIS-----------
          */
         // Deleção de imagens
         var idImagensDeletar = [];
@@ -79,47 +79,39 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
-                                    <?php
-                                        echo"<input class=\"w3-input w3-border w3-light-grey\" name=\"titulo\" id=\"titulo\" type=\"text\" value=\"".$titulo."\" required/>"
-                                    ?>
+                                    <input class="w3-input w3-border w3-light-grey" name="titulo" id="titulo" type="text" value="<?= $titulo ?>" required/>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Descrição</b>*</label>
-                                    <?php
-                                        echo"<textarea class=\"w3-input w3-border w3-light-grey \" name=\"descricao\" id=\"descricao\" cols=\"30\" rows=\"10\" placeholder=\"Insira a descrição do seu produto\" required>".$descricao."</textarea>"
-                                    ?>
+                                    <textarea class="w3-input w3-border w3-light-grey " name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required> <?= $descricao ?> </textarea>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Preço</b>*</label>
-                                    <?php
-                                        echo"<input class=\"w3-input w3-border w3-light-grey \" oninput=\"configurarPreco(this);\" onblur=\"configurarPreco(this)\" type=\"text\" name=\"preco\" id=\"preco\" value=\"".number_format($preco,2,".","")."\" required>";
-                                    ?>
+                                    <input class="w3-input w3-border w3-light-grey " oninput="configurarPreco(this);" onblur="configurarPreco(this)" type="text" name="preco" id="preco" value="<?= number_format($preco,2,".","") ?>"required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Data de publicação*</b></label>
-                                    <?php
-                                        echo"<input class=\"w3-input w3-border w3-light-grey \" name=\"dataPublicacao\" id=\"dataPublicacao\" type=\"datetime-local\" placeholder=\"dd/mm/aaaa\" title=\"dd/mm/aaaa\" title=\"Formato: dd/mm/aaaa\" value=\"".$data_hora_publicacao."\">";
-                                    ?>
-                                    
+                                    <input class="w3-input w3-border w3-light-grey " name="dataPublicacao" id="dataPublicacao" type="datetime-local" placeholder="dd/mm/aaaa" title="dd/mm/aaaa" title="Formato: dd/mm/aaaa" value="<?= $data_hora_publicacao ?>">
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Marca</b>*</label>
                                     <select name="marca" id="marca" class="w3-input w3-border w3-light-grey " required>
                                         <?php
-                                            // SELECT das marcas das camisetas
+                                            // SELECT de todas marcas das camisetas cadastradas
                                             $queryMarcas = "SELECT * FROM marca";
 
                                             // Resultao do SELECT das marcas
                                             $result = mysqli_query($conn, $queryMarcas);
 
-                                            //Percorrendo cada uma das marcas
+                                            // Para cada uma das marcas
                                             if (mysqli_num_rows($result) > 0) {
                                                 while($row = mysqli_fetch_assoc($result)) {
-                                                    if($row["id"] == $marca){
-                                                        echo"<option value=".$marca." selected>".$row["nome"]."</option>";
-                                                    } else{
-                                                        echo"<option value=".$row["id"].">".$row["nome"]."</option>";
-                                                    }
+                                                    
+                                                    // Se a marca for a marca da camiseta a ser alterada, selecionar opção
+                                                    $selected = ($row["id"] == $marca) ? "selected" : ""; 
+
+                                                    echo"<option value=".$row["id"]." $selected>".$row["nome"]."</option>";
+
                                                 }
                                             }
                                         ?>
@@ -139,12 +131,10 @@
                                                 "Muito desgastada" => "muito desgastada",
                                             );
 
+                                            // Para cada $chave e $valor do ENUM
                                             foreach ($enum as $chave => $valor) {
-                                                if($conservacao == $valor){
-                                                    echo "<option value\"".$valor."\" selected>".$chave."</option>";
-                                                }else {
-                                                    echo "<option value\"".$valor."\">".$chave."</option>";
-                                                }
+                                                // Se for o valor for o estado de conservação da camiseta a ser alterada, selecionar opção
+                                                echo "<option value='$valor'". ($conservacao == $valor ? " selected" : "") .">$chave</option>";
                                             }
                                             
 
@@ -159,40 +149,33 @@
                                         <th class="w3-center">Tamanho</th>
                                         <th class="w3-center">Quantidade</th>
                                         <?php
-                                            // SELECT dos tamanhos de camisetas
+                                            // SELECT de todos os tamanhos de camisetas [tamanho]
                                             $queryTamanhos = "SELECT * FROM tamanho";
-
-                                            // Resultao do SELECT
                                             $resultTamanhos = mysqli_query($conn, $queryTamanhos);
                                             
-                                            // Percorrendo resultado do SELECT
+                                            // Para cada tamanho que no BD [tamanho]
                                             if (mysqli_num_rows($resultTamanhos) > 0) {
                                                 while($rowTamanho = mysqli_fetch_assoc($resultTamanhos)) {
 
-                                                    // Para cada tamanho de camiseta, verificar estoque
-                                                    $queryEstoque = "SELECT * FROM estoque WHERE id_camiseta = ".$idCamiseta." AND id_tamanho = ". $rowTamanho["id"];
+                                                    // SELECT dos dados de determinado tamanho da camiseta
+                                                    $queryEstoque = "SELECT * FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = ". $rowTamanho["id"];
                                                     $resultEstoque  = mysqli_query($conn, $queryEstoque);
+                                                    $rowEstq = mysqli_fetch_assoc($resultEstoque);
 
-                                                    if (mysqli_num_rows($resultEstoque) > 0) {
-                                                        while($rowEstq = mysqli_fetch_assoc($resultEstoque)) {
-                                                            echo "
-                                                                <tr>
-                                                                    <td class=\"w3-center\"     ><input class=\"tamanho\" onclick=\"checkTamanho(this,'inpt-".$rowTamanho["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\" checked></td>
-                                                                    <td class=\"w3-left-align\" >".$rowTamanho["codigo"]." - ".$rowTamanho["descricao"]."</td>
-                                                                    <td class=\"w3-center\"     ><input class=\"quantidade\" id=\"inpt-".$rowTamanho["codigo"]."\" name=\"quantidade_".$rowTamanho["codigo"]."\" type=\"text\" style=\"width:50%; text-align:center\" min=0 step=\"1\" oninput=\"this.value = formatarQuantidade(this.value)\" onblur=\"this.value = formatarQuantidade(this.value)\" value=\"".$rowEstq["quantidade"]."\"required></td>
-                                                                </tr>
-                                                            ";
-                                                        }
-                                                    } else {
-                                                        echo "
-                                                            <tr>
-                                                                <td class=\"w3-center\"     ><input class=\"tamanho\" onclick=\"checkTamanho(this,'inpt-".$rowTamanho["codigo"]."')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\"></td>
-                                                                <td class=\"w3-left-align\" >".$rowTamanho["codigo"]." - ".$rowTamanho["descricao"]."</td>
-                                                                <td class=\"w3-center\"     ><input class=\"quantidade\" id=\"inpt-".$rowTamanho["codigo"]."\" name=\"quantidade_".$rowTamanho["codigo"]."\" type=\"text\" style=\"width:50%; text-align:center\" min=0 step=\"1\" oninput=\"this.value = formatarQuantidade(this.value)\" onblur=\"this.value = formatarQuantidade(this.value)\" disabled required></td>
-                                                            </tr>
-                                                        ";
-                                                    }
+                                                    // Se houver estoque para determinado tamanho, marcar checkbox,
+                                                    // habilitar campo de qtde, preencher campo de qtde com qtde disponível
+                                                    $checked = mysqli_num_rows($resultEstoque) > 0 ? "checked" : "";
+                                                    $disabled = mysqli_num_rows($resultEstoque) > 0 ? "" : "disabled";
+                                                    $quantidade = isset($rowEstq["quantidade"]) ? $rowEstq["quantidade"] : "";
 
+
+                                                    echo "
+                                                        <tr>
+                                                            <td class=\"w3-center\"><input class=\"tamanho\" onclick=\"checkTamanho(this, 'inpt-{$rowTamanho["codigo"]}')\" type=\"checkbox\" name=\"tamanho[]\" id=\"tamanho\" class=\"tamanho\" $checked></td>
+                                                            <td class=\"w3-left-align\">{$rowTamanho["codigo"]} - {$rowTamanho["descricao"]}</td>
+                                                            <td class=\"w3-center\"><input class=\"quantidade\" id=\"inpt-{$rowTamanho["codigo"]}\" name=\"quantidade_{$rowTamanho["codigo"]}\" type=\"text\" style=\"width:50%; text-align:center\" min=0 step=\"1\" oninput=\"this.value = formatarQuantidade(this.value)\" onblur=\"this.value = formatarQuantidade(this.value)\" value=\"$quantidade\" $disabled required></td>
+                                                        </tr>
+                                                    ";
 
                                                 }
                                             }
@@ -209,26 +192,24 @@
                                     </label>
                                 </p>
                                 <p>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="16777215"/>
                                     <?php
-                                        // SELECT das imagens das camisetas
+                                        // SELECT de todas as imagens da camiseta
                                         $queryImagens = "SELECT * FROM imagem WHERE id_produto = ".$idCamiseta;
                                         $resultImagensFileInput = mysqli_query($conn, $queryImagens);
 
-                                        if(mysqli_num_rows($resultImagensFileInput) > 0){
-                                            echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"image/*\" enctype=\"multipart/form-data\" onchange=\"validarImagem(this);\" multiple/></label>";
-                                        } else {
-                                            echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"image/*\" enctype=\"multipart/form-data\" onchange=\"validarImagem(this);\" multiple required/></label>";
-                                        }
+                                        // Se não houver nenhuma, é necessário
+                                        $required = mysqli_num_rows($resultImagensFileInput) > 0 ? "" : "required";
+                                        
+                                        echo "<input type=\"file\" id=\"Imagem\" name=\"imagem[]\" accept=\"image/*\" enctype=\"multipart/form-data\" onchange=\"validarImagem(this);\" multiple $required/></label>";
 
-                                        // SELECT dos IDs das imagens
+
+                                        // SELECT dos IDs das imagens cadastradas no bd
                                         $queryIdImagens  = "SELECT id FROM imagem WHERE id_produto = ".$idCamiseta;
                                         $resultIdImagens = mysqli_query($conn, $queryIdImagens);
 
-                                        if(mysqli_num_rows($resultImagensFileInput) > 0){
-                                            while($idImagemArray = mysqli_fetch_assoc($resultIdImagens)){
-                                                echo"<script>idImagensOriginal.push(".$idImagemArray["id"].")</script>";
-                                            }
+                                        // Adicionando cada uma das imagens previamente cadastradas no array 'idImagensOriginal' do JS
+                                        while($idImagemArray = mysqli_fetch_assoc($resultIdImagens)){
+                                            jsScript("idImagensOriginal.push({$idImagemArray["id"]})");
                                         }
                                     
                                     ?>
@@ -250,46 +231,45 @@
                                     </tbody>
                                 </table>
                                 <br><br>
+                                <table class="w3-table w3-stripped w3-card w3-bordered w3-hoverable " style="margin:auto;width:75%;">
+                                    <thead>
+                                        <tr><th class="w3-center" colspan="2">Imagens já cadastradas</th></tr>
+                                        <tr>
+                                            <th class="w3-center">Imagem</th>
+                                            <th class="w3-center">Opções</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
 
-                                <?php
+                                        // SELECT de todas as imagens da camiseta a ser alterada
+                                        $resultImagens = mysqli_query($conn, $queryImagens);
 
+                                        // Para cada imagem no BD
+                                        if (mysqli_num_rows($resultImagens) > 0) {
+                                            while($rowImagens = mysqli_fetch_assoc($resultImagens)) {
 
-                                    echo "
-                                        <table class=\"w3-table w3-stripped w3-card w3-bordered w3-hoverable \" style=\"margin:auto;width:75%;\">
-                                            <thead>
-                                                <tr><th class=\"w3-center\" colspan=\"2\">Imagens já cadastradas</th></tr>
-                                                <tr>
-                                                    <th class=\"w3-center\">Imagem</th>
-                                                    <th class=\"w3-center\">Opções</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                    ";
-                        
-                                    $resultImagens = mysqli_query($conn, $queryImagens);
+                                                // Transformar binário (BLOB) em base64 (imagem exibível)
+                                                $base64 = base64_encode($rowImagens["imagem"]);
 
-                                    // Para cada imagem no BD
-                                    if (mysqli_num_rows($resultImagens) > 0) {
-                                        while($rowImagens = mysqli_fetch_assoc($resultImagens)) {
-                                            cLog(print_r($rowImagens["id"], TRUE));
-                                            $blob = $rowImagens["imagem"];
-                                            $base64 = base64_encode($blob);
-                                            echo "
-                                                <tr id=\"tr-".$rowImagens["id"]."\">
-                                                    <td class=\"w3-center \" style=\" vertical-align: middle;\">
-                                                        <img width=\"90\" height=\"100\" src=\"data:image/png;base64," . $base64 . "\" />
-                                                    </td>
-                                                    <td class=\"w3-center \" style=\" vertical-align: middle;\">
-                                                        <input onclick=\"apagarImagem(".$rowImagens["id"].");\" type=\"button\" class=\"w3-btn w3-theme w3-red\" value=\"Excluir\">
-                                                    </td>
-                                                </tr>
-                                            ";
+                                                // Exibir imagem na tabela, bem como o botão de 'EXCLUIR'
+                                                echo "
+                                                    <tr id=\"tr-".$rowImagens["id"]."\">
+                                                        <td class=\"w3-center \" style=\" vertical-align: middle;\">
+                                                            <img width=\"90\" height=\"100\" src=\"data:image/png;base64," . $base64 . "\" />
+                                                        </td>
+                                                        <td class=\"w3-center \" style=\" vertical-align: middle;\">
+                                                            <input onclick=\"apagarImagem(".$rowImagens["id"].");\" type=\"button\" class=\"w3-btn w3-theme w3-red\" value=\"Excluir\">
+                                                        </td>
+                                                    </tr>
+                                                ";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan=2>Nenhuma imagem salva</td></tr>";
                                         }
-                                    } else {
-                                        echo "<tr><td colspan=2>Nenhuma imagem salva</td></tr>";
-                                    }
-                                    echo"</tbody></table>"
-                                ?>
+                                    ?>
+                                </tbody>
+                            </table>
                             </td>
                         </tr>
                         <tr>
