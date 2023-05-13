@@ -5,13 +5,13 @@ use chestplace;
 
 CREATE TABLE endereco(
 	id int(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
-    cep char(9) NOT NULL,
-    rua varchar(255) NOT NULL, 
-    numero varchar(10) NOT NULL, 
-    complemento varchar (255), 
-    bairro varchar(255),
-	  cidade varchar(255) NOT NULL,
-    uf ENUM ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO') NOT NULL
+  cep char(9) NOT NULL,
+  rua varchar(255) NOT NULL, 
+  numero varchar(10) NOT NULL, 
+  complemento varchar (255), 
+  bairro varchar(255),
+  cidade varchar(255) NOT NULL,
+  uf ENUM ('AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO') NOT NULL
 );
 
 CREATE TABLE usuario(
@@ -19,7 +19,8 @@ CREATE TABLE usuario(
   nome varchar(255) NOT NULL, 
   email varchar(255) UNIQUE NOT NULL, 
   senha varchar(255) NOT NULL, 
-  banido datetime DEFAULT NULL, 
+  banido datetime DEFAULT NULL,
+  ativo datetime DEFAULT NULL,
   PRIMARY KEY (id)
 );
 
@@ -83,8 +84,8 @@ CREATE TABLE tamanho(
 
 CREATE TABLE estoque(
   id int(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT, 
-  id_camiseta int(10) UNSIGNED, 
-  id_tamanho int(10) UNSIGNED, 
+  id_camiseta int(10) UNSIGNED NOT NULL, 
+  id_tamanho int(10) UNSIGNED NOT NULL, 
   quantidade int(10) NOT NULL,
   FOREIGN KEY (id_camiseta) REFERENCES camiseta (id),
   FOREIGN KEY (id_tamanho) REFERENCES tamanho(id)
@@ -98,14 +99,15 @@ CREATE TABLE compra_venda(
   data_hora_confirmacao_pagamento datetime DEFAULT NULL, 
   data_hora_recebimento datetime DEFAULT NULL, 
   quantidade int(5) NOT NULL,
-  id_endereco int(10) NOT NULL,
   
   FOREIGN KEY (id_camiseta) REFERENCES camiseta(id),
   FOREIGN KEY (id_comprador) REFERENCES comprador(id_usuario)
 );
 
 /*
+
 POPULAÇÃO DAS TABELAS
+
 */
 
 -- Inserts para tabela "endereco"
