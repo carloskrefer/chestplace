@@ -2,6 +2,11 @@
 <?php 
     session_start(); 
     $tipoPagina = "cadastroVendedor";
+    $queryVendedor = SELECT * FROM vendedor WHERE id = "id.Vendedor";
+    cLog($queryVendedor)
+    if NOT EXISTS SELECT * FROM vendedor WHERE email = $_POST['email'];
+    if NOT EXISTS SELECT * FROM vendedor WHERE cpfCnpj = $_POST['cpfCnpj'];
+
 ?>
 
 
@@ -28,9 +33,7 @@
     <?php include("../database/conectaBD.php"); ?>
     <?php $tipoPagina = "cadastroVendedor"; include('../common/header.php')?>
 	
-    $queryVendedor = SELECT * FROM vendedor WHERE id = "id.Vendedor";
-    cLog($queryVendedor)
-    if [NOT] EXISTS SELECT * FROM vendedor WHERE id = "id.Vendedor";
+
     
 
 
