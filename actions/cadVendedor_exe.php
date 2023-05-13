@@ -48,8 +48,16 @@
         // Inserir vendedor
         $idUsuario = mysqli_insert_id($conn);
         $insertQueryVendedor = " 
-        INSERT INTO vendedor (id_usuario, nome_estabelecimento, cpf, id_endereco, email_contato, telefone_contato)
-        VALUES (\"".$idUsuario."\",\"".$nomeEstabelecimento."\",\"".$cpf."\", ".$idEndereco.", \"".$emailContato."\",\"".$telefoneContato."\");";
+        INSERT INTO vendedor (id_usuario, nome_estabelecimento, cpf, cnpj, id_endereco, email_contato, telefone_contato)
+        VALUES (
+            \"$idUsuario\",
+            \"$nomeEstabelecimento\",
+            " . ($cpf ? "\"$cpf\"" : "NULL" ) . ",
+            " . ($cnpj ? "\"$cnpj\"" : "NULL" ) . ",
+              $idEndereco,
+            \"$emailContato\",
+            \"$telefoneContato\"
+        );";
         mysqli_query($conn, $insertQueryVendedor);
 
         // Informar que inserções foram feitas com sucesso
