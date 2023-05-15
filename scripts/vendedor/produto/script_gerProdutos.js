@@ -32,15 +32,19 @@
           method: "POST",
           body: dados
         })
-          .then(response => response.text())
-          .then(data => {
-            alert("Anúncio apagado com sucesso!");
-            location.reload();
-          })
-          .catch(error => {
+        .then(response => {
+            // Se a requisição tiver sido feita com sucesso
+            if(response.ok){
+                alert("Anúncio apagado com sucesso!");
+                location.reload();
+            } else {
+               throw new Error(response.status);
+            }
+        }) // Caso ocorra um erro
+        .catch(error => {
             alert("Erro na requisição: " + error);
             location.reload();
-          });
+        });
     }
 
     function confirmarDelecao(id){

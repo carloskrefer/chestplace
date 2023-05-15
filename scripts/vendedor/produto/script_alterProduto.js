@@ -61,14 +61,34 @@ function enviarFormulario(){
 
         console.log(JSON.stringify(idImagensDeletar));
 
-        // Envia para o link da action do formulario, os dados do formulário (com os IDs das imagens para deletar).
-        enviarFormularioPost(formulario.action,formData)
-        .then( response => {
-            // Caso seja um resposta positiva, exibir mensagem de sucesso e redirecionar para página principal
-            alert("Anúncio atualizado com sucesso!");
-            window.location.assign("../page_gerProdutos.php");
+        console.log(formulario.action);
+        console.log(formData);
+
+
+        
+        //---------------------------
+      
+        // Faz uma requisição POST para o PHP
+        fetch("../actions/alterProduto_exe.php", {
+          method: "POST",
+          body: formData
+        }) // Quando tiver sido retornado uma reposta
+        .then(response => {
+            // Se não tiver ocorrido nenhum erro
+            if(response.ok){
+                alert("Anúncio editado com sucesso!");
+                window.location.assign("../page_gerProdutos.php");
+            } else {
+                // Se tiver ocorrido um erro
+                throw new Error(response.status);
+            }
         })
-        .catch( error => {alert("Erro ao atualizar anúncio no banco de dados. ERRO: " + error)})  // Caso haja um erro, informar erro
+        .catch(error => {
+            alert("Erro na requisição: " + error);
+        });
+
+        //---------------------------
+
     }
 }
 
@@ -200,12 +220,12 @@ function confirmarAlteracao(){
 * @param {FormData|URLSearchParams|Blob|string} dados - Os dados a serem enviados no corpo da requisição.
 * @returns {Promise} - Uma Promise que resolve para a resposta da requisição.
 */
-function enviarFormularioPost(action, dados) {
-    return fetch(action, {
-            method: "POST",
-            body: dados
-        })        
-        .then(response => {response.text()})
-        .then(data => {return data})
-        .catch(error =>{throw new Error("Erro na requisição: " + error);});
-}
+// function enviarFormularioPost(action, dados) {
+//     return fetch(action, {
+//             method: "POST",
+//             body: dados
+//         })        
+//         .then(response => response.text())
+//         .then(data => {return data})
+//         .catch(error =>{throw new Error("Erro na requisição: " + error);});
+// }
