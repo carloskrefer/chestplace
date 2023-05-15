@@ -160,28 +160,10 @@ nav { background-color: #3C486B!important; }
       </div>
     </div>
   </div>
-  <div class="w3-container w3-text-grey" id="jeans">
-      <p>
-      <?php
-        $queryQtde = "
-        SELECT count(*) qtde 
-        FROM camiseta ";
-
-        $result = mysqli_query($conn, $queryQtde);
-
-        if (mysqli_num_rows($result) > 0) {
-          while($row = mysqli_fetch_assoc($result)) {
-            echo $row["qtde"]." produtos";
-          }
-        } else {
-          echo "0 results";
-        }
-      ?>  
-      </p>
-    </div>
+  
   <!-- Product grid -->
   <?php
-                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ";
+                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ";
                     //predefine o sql para mostrar todas as camisetas postadas 
                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
                       // Verifica se o parâmetro "selecao" foi passado na URL
@@ -191,18 +173,34 @@ nav { background-color: #3C486B!important; }
                   
                           // Atualiza a consulta SQL com base na opção selecionada
                           if ($valorSelecionado == "mais-recentes") {
-                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao DESC";
+                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ORDER BY data_hora_publicacao DESC";
                           } elseif ($valorSelecionado == "mais-antigas") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() ORDER BY data_hora_publicacao ASC ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ORDER BY data_hora_publicacao ASC ";
                           } elseif ($valorSelecionado == "nova") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() AND conservacao = 'nova' ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() AND conservacao = 'nova' ";
                           } elseif ($valorSelecionado == "usada") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao >= CURDATE() AND conservacao = 'usada' ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() AND conservacao <> 'nova' ";
                           } 
                       }
                     }
                     $resultado = mysqli_query($conn, $sql);
-                    
+                    echo <<<END
+                      <div class="w3-container w3-text-grey" id="jeans">
+                        <p>
+                      END;
+                      
+                        $qtd = mysqli_num_rows($resultado);
+                        if ($qtd > 0) {
+                  
+                            echo $qtd." produto(s)";
+                        }
+                         else {
+                          echo "0 produto";
+                        }
+                       echo <<<END
+                      </p>
+                    </div>
+                    END;
                     
 
                       // Verifica se há resultados
