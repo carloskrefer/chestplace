@@ -318,23 +318,28 @@ function validarTelefoneContato(){
 function validarCEP(){
     let cep = $("#cep");
     let cepNumerico = cep.val().replace(/\D/g, '');
+    let valido = true;
+    
+    if(cepNumerico.length !== 8){
+        exibirPopUpErro(cep, "CEP inválido! O CEP deve conter 8 dígitos.")
+        valido = false;
+    }
 
     $.getJSON("https://viacep.com.br/ws/"+ cepNumerico +"/json/?callback=?", function(dados) {
-    
+
                     if (("erro" in dados)) {
-                        exibirPopUpErro(cep, "CEP inválido! O CEP deve conter 8 dígitos.")
+                        exibirPopUpErro(cep, "CEP inválido! O CEP deve conter 8 dígitos.");
+                        valido = false;
                     }
                 }
             );
 
-    if(cepNumerico.length !== 8){
-        exibirPopUpErro(cep, "CEP inválido! O CEP deve conter 8 dígitos.")
-        return false;
+    if(valido){
+        cep.get(0).validity.valid = true;
+        cep.get(0).setCustomValidity("");
     }
 
-    cep.get(0).validity.valid = true;
-    cep.get(0).setCustomValidity("");
-    return true;
+    return valido;
 }
 
 
