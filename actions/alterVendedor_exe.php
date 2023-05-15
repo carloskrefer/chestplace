@@ -1,15 +1,29 @@
 <?php
     session_start();
+
+    // Imports
     include("../common/functions.php");
     include("../database/conectaBD.php");
+
+    // Validar se o usuário pode estar na página, se não tiver autorização, voltar para index.php
+    require("../validacaoAcessoVendedor.php");
+
+    // Se não for uma requisição POST ou o campo do formulário não estiver presente
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        // Redirecionar ou exibir uma mensagem de erro
+        redirect("../page_gerProdutos.php");
+        exit; // Encerrar o script
+    }
+    
+
 
     $cpfCnpjNumerico = preg_replace("/[^0-9]/", "", $_POST["cpfCnpj"]);
     $isPessoaFisica = strlen($cpfCnpjNumerico) == 11;
 
     // Infos do vendedor
     $nomeEstabelecimento = $_POST["nomeEstabelecimento"];
-    $cpf  = $isPessoaFisica ? $_POST["cpfCnpj"] : "NULL";
-    $cnpj = $isPessoaFisica ? "NULL" : $_POST["cpfCnpj"];
+    $cpf  = $isPessoaFisica ? $_POST["cpfCnpj"] : NULL;
+    $cnpj = $isPessoaFisica ? NULL : $_POST["cpfCnpj"];
     $emailContato = $_POST["emailContato"];
     $telefoneContato = $_POST["telefoneContato"];
 
@@ -27,8 +41,8 @@
     // Alterar dados vendedor
     $alterVendQuery = "UPDATE vendedor SET
                        nome_estabelecimento = \"".$nomeEstabelecimento."\",
-                       cpf                  = \"".$cpf."\",
-                       cnpj                 = \"".$cnpj."\",
+                       cpf                  = ". ($cpf ?  "\"$cpf\"" : "NULL" ) .",
+                       cnpj                 = ". ($cnpj ? "\"$cnpj\"" : "NULL") .",
                        email_contato        = \"".$emailContato."\",
                        telefone_contato     = \"".$telefoneContato."\"
                        WHERE id_usuario     = ".$_SESSION["idVendedor"].";
