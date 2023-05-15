@@ -2,10 +2,10 @@
 <?php 
     session_start(); 
     $tipoPagina = "cadastroVendedor";
-    $queryVendedor = SELECT * FROM Vendedor WHERE id = "id.Vendedor";
-    cLog($queryVendedor)
-    if NOT EXISTS SELECT * FROM Vendedor WHERE email = $_POST['email'];
-    if NOT EXISTS SELECT * FROM Vendedor WHERE cpfCnpj = $_POST['cpfCnpj'];
+    // $queryVendedor = SELECT * FROM Vendedor WHERE id = "id.Vendedor";
+    // cLog($queryVendedor)
+    // if NOT EXISTS SELECT * FROM Vendedor WHERE email = $_POST['email'];
+    // if NOT EXISTS SELECT * FROM Vendedor WHERE cpfCnpj = $_POST['cpfCnpj'];
 ?>
 
 

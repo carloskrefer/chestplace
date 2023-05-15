@@ -93,11 +93,11 @@ function exibirPreviaImagens() {
         img.setAttribute("height", "100");
 
         // Criar a linha da tabela
-        let row = document.createElement("tr");
+        let row = document.createElement("tr"); 
         row.id = "prevImg-"+imagem.name;
 
         // Criar a célula da imagem
-        let cellImagem = document.createElement("td");
+        let cellImagem = document.createElement("td"); 
         cellImagem.classList.add("w3-center");
         cellImagem.style = "vertical-align: middle;";
         cellImagem.appendChild(img);
@@ -152,8 +152,8 @@ function exibirPreviaImagens() {
 
 function excluirImagem(nomeArquivo) {
     // Criar uma nova lista de arquivos sem o arquivo a ser excluído
-
     let novosArquivos = new DataTransfer();
+    
     for (let i = 0; i < inputImagem.files.length; i++) {
         if (inputImagem.files[i].name !== nomeArquivo) {
             novosArquivos.items.add(inputImagem.files[i]);
