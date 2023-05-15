@@ -1,6 +1,9 @@
 <?php
     session_start();
 
+    // Pré-configurações
+    date_default_timezone_set('America/Sao_Paulo');
+
     // Imports
     include("../common/functions.php");
     include("../database/conectaBD.php");

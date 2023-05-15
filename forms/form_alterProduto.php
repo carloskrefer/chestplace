@@ -84,7 +84,7 @@
                         <tr>
                             <td style="width:50%;">
                                 <p>
-                                    <input type="hidden" id="idCamiseta" name="idCamiseta" value="<?= $idCamiseta?>">
+                                    <input type="hidden" id="idCamiseta" name="idCamiseta" value="<?=$idCamiseta?>">
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
@@ -92,7 +92,7 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Descrição</b>*</label>
-                                    <textarea class="w3-input w3-border w3-light-grey " name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required> <?= $descricao ?> </textarea>
+                                    <textarea class="w3-input w3-border w3-light-grey " name="descricao" id="descricao" cols="30" rows="10" placeholder="Insira a descrição do seu produto" required><?=$descricao?></textarea>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Preço</b>*</label>
