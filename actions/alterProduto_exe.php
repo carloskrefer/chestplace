@@ -9,13 +9,14 @@
     include("../common/functions.php");
     include("../database/conectaBD.php");
     
-    // Verifica se a requisição é AJAX
-    if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
-        // Se não for uma requisição AJAX, encerre o script ou redirecione para outra página
+
+    // Se não for uma requisição POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        // Redirecionar ou exibir uma mensagem de erro
         redirect("../page_gerProdutos.php");
-        exit; // Encerrar script;
+        exit; // Encerrar o script
     }
-    
+
     // Definindo header da resposta http
     header("Content-Type: application/json");
 
@@ -118,6 +119,7 @@
             mysqli_query($conn, $deleteImagensQuery);
         }
 
+        echo json_encode( array( "success" => true, "message" => "mesnagem"));
 
         mysqli_commit($conn); // Termina transaction
 
