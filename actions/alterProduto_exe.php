@@ -1,8 +1,23 @@
 <?php
     session_start();
-    header("Content-Type: application/json");
+
+    // Validar se o usuário pode estar na página, se não tiver autorização, voltar para index.php
+    require("../validacaoAcessoVendedor.php");
+    
+    
+    // Imports
     include("../common/functions.php");
     include("../database/conectaBD.php");
+    
+    // Verifica se a requisição é AJAX
+    if (!(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest')) {
+        // Se não for uma requisição AJAX, encerre o script ou redirecione para outra página
+        redirect("../page_gerProdutos.php");
+        exit; // Encerrar script;
+    }
+    
+    // Definindo header da resposta http
+    header("Content-Type: application/json");
 
     // Coletando dados do formulário
     $idCamiseta     = $_POST["idCamiseta"];

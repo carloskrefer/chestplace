@@ -2,10 +2,15 @@
 <?php
     session_start();
 
-    $tipoPagina = "alteracaoVendedor";
+    // Validar se o usuário pode estar na página, se não tiver autorização, voltar para index.php
+    require("../validacaoAcessoVendedor.php");
 
+    // Imports
     include("../database/conectaBD.php");
     include("../common/functions.php");
+
+    // Usado para definir botões do header.php
+    $tipoPagina = "alteracaoVendedor";
 
     //Select das camisetas e imagens das camisetas do vendedor passado por _GET
     $queryProdutos = 
@@ -67,7 +72,7 @@
                 <div class="w3-container w3-theme">
                     <h2>Alterar conta</h2>
                 </div>
-                <form id="altVendedorForm"class="w3-container" action="../actions/alterVendedor_exe.php" method="post" enctype="multipart/form-data" onsubmit="">
+                <form id="altVendedorForm" class="w3-container" action="../actions/alterVendedor_exe.php" method="post" enctype="multipart/form-data" onsubmit="">
                     <table class='w3-table-all'>
                         
                         <tr>

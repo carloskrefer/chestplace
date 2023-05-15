@@ -1,16 +1,20 @@
-
 <!DOCTYPE html>
 <?php
+    session_start();
+
+    // Validar se o usuário pode estar na página, se não tiver autorização, voltar para index.php
+    require("../validacaoAcessoVendedor.php");
+
+    // Imports
     include("../database/conectaBD.php");
     include("../common/functions.php");
     
-    session_start();
 
     $tipoPagina = "alterarProduto";
 
     $idCamiseta = $_GET["id"];
 
-    //Select das camisetas e imagens das camisetas do vendedor passado por _GET
+    // Select dos dados da camiseta camiseta com id passado por GET
     $queryProdutos = "SELECT * FROM camiseta WHERE id = ".$idCamiseta.";";
 
     cLog($queryProdutos);
@@ -18,17 +22,22 @@
     //Resultao do Select
     $result = mysqli_query($conn, $queryProdutos);
 
-        //Percorrendo resultado do select
-        if (mysqli_num_rows($result) > 0) {
-            while($row = mysqli_fetch_assoc($result)) {
-                $titulo = $row["titulo"];
-                $preco = $row["preco"];
-                $descricao = $row["descricao"];
-                $data_hora_publicacao = $row["data_hora_publicacao"];
-                $marca = $row["id_marca"];
-                $conservacao = $row["conservacao"];
-            }
+    //Percorrendo resultado do select
+    if (mysqli_num_rows($result) > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
+            // Se um vendedor tentar alterar uma camiseta que não é dele
+            if($row["id_vendedor"] !== $_SESSION["idVendedor"]){ redirect("../page_gerProdutos.php"); }
+            $titulo = $row["titulo"];
+            $preco = $row["preco"];
+            $descricao = $row["descricao"];
+            $data_hora_publicacao = $row["data_hora_publicacao"];
+            $marca = $row["id_marca"];
+            $conservacao = $row["conservacao"];
         }
+    } else {
+        // Se tentar acessar uma camiseta que não está cadastrada
+        redirect("../page_gerProdutos.php");
+    }
 
 ?>
 

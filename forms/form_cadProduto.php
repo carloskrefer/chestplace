@@ -1,4 +1,12 @@
-<?php session_start(); $tipoPagina = "cadastroProduto"?>
+<?php 
+    session_start();
+
+    // Usado para definir os botões do header
+    $tipoPagina = "cadastroProduto";
+
+    // Validar se o usuário pode estar na página, se não tiver autorização, voltar para index.php
+    require("../validacaoAcessoVendedor.php");
+ ?>
 
 
 

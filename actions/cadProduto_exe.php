@@ -4,12 +4,21 @@
     // Imports
     include("../common/functions.php");
     include("../database/conectaBD.php");
+
+    // Validar se o usuário pode estar na página, se não tiver autorização, voltar para index.php
+    require("../validacaoAcessoVendedor.php");
+
+    // Verificar se o acesso para a página foi feita por POST (evitar vendedores de acessar ela)
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        redirect("../page_gerProdutos.php");
+    }
+
     
     // Dados do produto passados por post 
     $titulo         = $_POST["titulo"];
     $descricao      = $_POST["descricao"];
     $preco          = $_POST["preco"];
-    $dataPublicacao = DateTime::createFromFormat('Y-m-d\TH:i', $_POST["dataPublicacao"]); 
+    $dataPublicacao = DateTime::createFromFormat('Y-m-d\TH:i', $_POST["dataPublicacao"]);
     $dataCadastro   = date('Y-m-d H:i:s');
     $marca          = $_POST["marca"];
     $conservacao    = $_POST["conservacao"];

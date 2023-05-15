@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <?php 
+  session_start();
+
+  // Imports
   include("./database/conectaBD.php");
   
-  session_start();
   
-  require("./validacaoAcessoVendedor.php"); // Verifica se está logado e se de fato é vendedor. Se não, redireciona p/ index.php.
+  // Verifica se está logado e se de fato é vendedor. Se não, redireciona para index.php.
+  require("./validacaoAcessoVendedor.php"); 
   
+  // Utilizado para definir os botões do header
   $tipoPagina = "gerenciarProdutosVendedor";
   
 
-  $_SESSION["idVendedor"] = $_SESSION ['id_usuario']; // id_usuario é setado no login.php
+  // id_usuario é setado no login.php
+  $_SESSION["idVendedor"] = $_SESSION ['id_usuario']; 
+
+  // SELECT do nome do estabelecimento logado
   $selectNomeEstabelecimento = "SELECT nome_estabelecimento FROM vendedor WHERE id_usuario = ".$_SESSION["idVendedor"];
   $resultNomeEstabelecimento = mysqli_query($conn, $selectNomeEstabelecimento);
+  
+  // Settar variavel com nome do estabelecimento
   while($row = mysqli_fetch_assoc($resultNomeEstabelecimento)) { $nomeEstabelecimento = $row["nome_estabelecimento"]; }
 ?>
 <html>
@@ -30,10 +39,9 @@
 </head>
 
 <body>
+  <!-- Import dos elementos visuais -->
   <?php include("./common/header.php")?>
   <?php include("./common/modalConfirmacao.php")?>
-
-  <!-- <script>document.getElementById("modalDeNotificacao").showModal()</script> -->
 
   <!-- !PAGE CONTENT! -->
   <div class="w3-main w3-content w3-margin-bottom" style="max-width:1200px">

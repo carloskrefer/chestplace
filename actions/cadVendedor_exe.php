@@ -1,8 +1,14 @@
 <?php
     session_start();
 
+    // Imports
     include("../common/functions.php");
     include("../database/conectaBD.php");
+
+    // Verifica se o acesso a esta página foi feita por meio de requisição POST
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        redirect("../index.php");
+    }
 
     // Dados do usuario
     $nome = $_POST["nome"];
