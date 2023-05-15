@@ -24,8 +24,23 @@
         window.location.href='./forms/form_alterProduto.php?id=' + id;
     }
 
-    function goToDeletarProduto(id){
-        window.location.href="./actions/delProduto_exe.php?id=" + id;
+    function goToDeletarProduto(id) {
+        const dados = new FormData();
+        dados.append("id", id);
+      
+        fetch("./actions/delProduto_exe.php", {
+          method: "POST",
+          body: dados
+        })
+          .then(response => response.text())
+          .then(data => {
+            alert("Anúncio apagado com sucesso!");
+            location.reload();
+          })
+          .catch(error => {
+            alert("Erro na requisição: " + error);
+            location.reload();
+          });
     }
 
     function confirmarDelecao(id){
