@@ -218,19 +218,19 @@
 			</p>
 		</div>
 	</div>
- <?php
- include('./database/conectaBD.php');
+<?php
+// include('./database/conectaBD.php');
 
- $queryEmail = "SELECT id.usuario COUNT(*) FROM usuario";
- $result = mysqli_query($conn, $queryEmail,$querycpf);
- WHERE COUNT (email.usuario) > 0 ;
- PRINT 'Email já cadastrado';
+ //$queryEmail = "SELECT id.usuario COUNT(*) FROM usuario";
+// $result = mysqli_query($conn, $queryEmail,$querycpf);
+// WHERE COUNT (email.usuario) > 0 ;
+ //PRINT 'Email já cadastrado';
 
- $queryCPF = "SELECT id.usuario COUNT(*) FROM usuario";
- $result = mysqli_query($conn, $querycpf);
- WHERE COUNT (cpf.usuario) > 0;
- PRINT 'CPF já cadastrado';
-?>
+ //$queryCPF = "SELECT id.usuario COUNT(*) FROM usuario";
+// $result = mysqli_query($conn, $querycpf);
+// WHERE COUNT (cpf.usuario) > 0;
+// PRINT 'CPF já cadastrado';
+//?>
    
 </body>
 
