@@ -193,9 +193,15 @@ function validarCNPJ(cnpjNumerico){
 
     // Validacoes CNPJ
     let cnpjTamanhoErrado = cnpjNumerico.length !== 14;
+    let cnpjInvalido = !validarDigitoVerificadorCNPJ(cnpjNumerico);
 
     if(cnpjTamanhoErrado){
         exibirPopUpErro(cpfCnpj, "CNPJ inválido! O CNPJ deve conter 14 dígitos.");
+        return false;
+    }
+
+    if(cnpjInvalido){
+        exibirPopUpErro(cpfCnpj, "CNPJ inválido! O CNPJ inserido é inválido. Confira os dados informados e tente novamente.");
         return false;
     }
 
@@ -611,6 +617,82 @@ function validarDigitoVerificadorCPF(cpf) {
   
     // CPF válido
     return true;
+}
+
+
+
+
+/**
+ * Verifica a validade de um CNPJ.
+ * @param {string} cnpj - O CNPJ a ser verificado.
+ * @returns {boolean} - True se o CNPJ for válido, false caso contrário.
+ */
+function validarDigitoVerificadorCNPJ(cnpj) {
+    if (!cnpj) return false
+
+    // Aceita receber o valor como string, número ou array com todos os dígitos
+    const isString = typeof cnpj === 'string'
+    const validTypes = isString || Number.isInteger(cnpj) || Array.isArray(cnpj)
+  
+    // Elimina valor de tipo inválido
+    if (!validTypes) return false
+  
+    // Filtro inicial para entradas do tipo string
+    if (isString) {
+      // Limita ao mínimo de 14 caracteres, válido para apenas dígitos
+      // Limita ao máximo de 18 caracteres, válido para CNPJ formatado
+      // Se passar dos limites, retorna inválido
+      if (cnpj.length < 14 || cnpj.length > 18) return false
+  
+      // Teste Regex para veificar se é uma string apenas dígitos válida
+      const digitsOnly = /^\d{14}$/.test(cnpj)
+      // Teste Regex para verificar se é uma string formatada válida
+      const validFormat = /^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/.test(cnpj)
+      // Verifica se o valor passou em ao menos 1 dos testes
+      const isValid = digitsOnly || validFormat
+  
+      // Se o formato não é válido, retorna inválido
+      if (!isValid) return false
+    }
+  
+    // Guarda um array com todos os dígitos do valor
+    const match = cnpj.toString().match(/\d/g)
+    const numbers = Array.isArray(match) ? match.map(Number) : []
+  
+    // Valida a quantidade de dígitos
+    if (numbers.length !== 14) return false
+    
+    // Elimina inválidos com todos os dígitos iguais
+    const items = [...new Set(numbers)]
+    if (items.length === 1) return false
+  
+    // Cálculo validador
+    const calc = (x) => {
+      const slice = numbers.slice(0, x)
+      let factor = x - 7
+      let sum = 0
+  
+      for (let i = x; i >= 1; i--) {
+        const n = slice[x - i]
+        sum += n * factor--
+        if (factor < 2) factor = 9
+      }
+  
+      const result = 11 - (sum % 11)
+  
+      return result > 9 ? 0 : result
+    }
+  
+    // Separa os 2 últimos dígitos de verificadores
+    const digits = numbers.slice(12)
+    
+    // Valida 1o. dígito verificador
+    const digit0 = calc(12)
+    if (digit0 !== digits[0]) return false
+  
+    // Valida 2o. dígito verificador
+    const digit1 = calc(13)
+    return digit1 === digits[1]
 }
 
 

@@ -43,21 +43,20 @@ $("#cadVendedorForm").ready(function(){
                         //Atualiza os campos com os valores da consulta.
                         $("#rua").val(dados.logradouro);
                         $("#bairro").val(dados.bairro);
-                        $("#cidade").val(dados.localidade);
-                        $("#estadoSelect").val(dados.uf);
                         $("#displayCidade").val(dados.localidade);
+                        $("#cidade").val(dados.localidade);
                         $("#displayEstadoSelect").val(dados.uf);
-                        $("#ibge").val(dados.ibge);
+                        $("#estadoSelect").val(dados.uf);
                         $("#salvar").prop("disabled", false);
                     } //end if.
                     else {
                         //CEP pesquisado não foi encontrado.
                         $("#rua").val('');
                         $("#bairro").val('');
-                        $("#cidade").val('');
-                        $("#estadoSelect").val('');
                         $("#displayCidade").val('');
+                        $("#cidade").val('');
                         $("#displayEstadoSelect").val('');
+                        $("#estadoSelect").val('');
                         $("#ibge").val('');
                         exibirPopUpErro($("#cep"),"CEP não encontrado.");
                         $("#cep").focus();
