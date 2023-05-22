@@ -2,10 +2,7 @@
 <?php 
     session_start(); 
     $tipoPagina = "cadastroVendedor";
-    // $queryVendedor = SELECT * FROM Vendedor WHERE id = "id.Vendedor";
-    // cLog($queryVendedor)
-    // if NOT EXISTS SELECT * FROM Vendedor WHERE email = $_POST['email'];
-    // if NOT EXISTS SELECT * FROM Vendedor WHERE cpfCnpj = $_POST['cpfCnpj'];
+
 ?>
 
 
@@ -221,7 +218,20 @@
 			</p>
 		</div>
 	</div>
-    
+<?php
+// include('./database/conectaBD.php');
+
+ //$queryEmail = "SELECT id.usuario COUNT(*) FROM usuario";
+// $result = mysqli_query($conn, $queryEmail,$querycpf);
+// WHERE COUNT (email.usuario) > 0 ;
+ //PRINT 'Email já cadastrado';
+
+ //$queryCPF = "SELECT id.usuario COUNT(*) FROM usuario";
+// $result = mysqli_query($conn, $querycpf);
+// WHERE COUNT (cpf.usuario) > 0;
+// PRINT 'CPF já cadastrado';
+//?>
+   
 </body>
 
 </html>
