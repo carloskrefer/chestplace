@@ -35,15 +35,32 @@ nav { background-color: #3C486B!important; }
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium" style="color:white;">
       <form method="GET" action="">
-          <label for="data-criacao-select">Filtrar por data de criação:</label>
+          <!-- <label for="data-criacao-select">Filtrar por data de criação:</label> -->
             <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
               <option value=""  disabled hidden selected>Filtro</option>
               <option value="mais-recentes">Mais recentes</option>
               <option value="mais-antigas">Mais antigas</option>
               <option value="nova">Novas</option>
               <option value="usada">Usadas</option>
+              <option value="" disabled >Tamanho:</option>
+              <option value="pp">PP</option>
+              <option value="p">P</option>
+              <option value="m">M</option>
+              <option value="g">G</option>
+              <option value="gg">GG</option>
+              <option value="xg">XG</option>
+              <option value="xgg">XGG</option>
+              <option value="xxg">XXG</option>
+              <option value="xxxg">XXXG</option>
           </select>
-          
+      </form >
+      <form method="GET" action="">
+          <select id="data-criacao-select" name = "preco" onchange="this.form.submit()">
+            <option value="" disabled hidden selected>Preço</option>
+            <option value="50">Ate R$50,00</option>
+            <option value="100">R$50,00 - R$100,00</option>
+            <option value="200">R$100,00 - R$200,00</option>
+          </select>
       </form>
     </div>
   </div>
@@ -180,9 +197,22 @@ nav { background-color: #3C486B!important; }
                             $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao = 'nova' ";
                           } elseif ($valorSelecionado == "usada") {
                             $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao <> 'nova' ";
-                          } 
+                          }
+                        }
+                      if (isset($_GET["preco"])) {
+                        // Obtém o valor selecionado
+                        $valorSelecionado = $_GET["preco"];
+                          // Atualiza a consulta SQL com base na opção selecionada
+                        if ($valorSelecionado == "50") {
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco <= 50 ";
+                        } elseif ($valorSelecionado == "100") {
+                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >50 AND preco <=100 ";
+                        } elseif ($valorSelecionado == "200") {
+                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >100 AND preco <=200 ";
+                        } 
                       }
                     }
+                    
                     $resultado = mysqli_query($conn, $sql);
                     echo <<<END
                       <div class="w3-container w3-text-grey" id="jeans">
