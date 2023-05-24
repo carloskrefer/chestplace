@@ -30,6 +30,11 @@
                 </div>
             </div>
             <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;;\">
+                <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./page_gerVendas.php\">
+                    <i class=\"fa-solid fa-basket-shopping\"></i>
+                </a>
+            </div>
+            <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;;\">
                 <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./forms/form_cadProduto.php\">
                     <i class=\"fa fa-solid fa-plus\"></i>
                 </a>
@@ -37,6 +42,31 @@
             <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;\">
                 <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./index.php\">
                     <i class=\"fa-solid fa-right-from-bracket\"></i>
+                </a>
+            </div>
+         ";
+    }
+
+    if($tipoPagina == "gerenciarVendasVendedor"){
+
+        $imgLogo = "./imagens/logo_chestplace.png";
+        
+        $selectNomeVendedor = 
+        "SELECT nome_estabelecimento 
+         FROM vendedor 
+         WHERE id_usuario = ".$_SESSION["idVendedor"];
+
+        $resSelect = mysqli_query($conn, $selectNomeVendedor);
+        $loja      = mysqli_fetch_assoc($resSelect);
+        $nome      = $loja["nome_estabelecimento"];
+ 
+        if(is_null($nome)) $nome = "ERRO";
+
+        $botoes = 
+        "
+            <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;\">
+                <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./page_gerProdutos.php\">
+                    <i class=\"fa-solid fa-circle-chevron-left\"></i>
                 </a>
             </div>
          ";
