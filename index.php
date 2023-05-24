@@ -19,6 +19,10 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 body { background-color: #F0F0F0; }
 nav { background-color: #3C486B!important; }
+.meu-form select {
+  width: 150px;
+  border-radius: 10px;
+}
 </style>
 </head>
 <body class="w3-content" style="max-width:1200px">
@@ -34,8 +38,8 @@ nav { background-color: #3C486B!important; }
       Camisetas <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium" style="color:white;">
-      <form method="GET" action="">
-          <label for="data-criacao-select">Filtrar por data de criação:</label>
+      <form method="GET" action="" class = "meu-form">
+          <!-- <label for="data-criacao-select">Filtrar por data de criação:</label> -->
             <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
               <option value=""  disabled hidden selected>Filtro</option>
               <option value="mais-recentes">Mais recentes</option>
@@ -43,7 +47,38 @@ nav { background-color: #3C486B!important; }
               <option value="nova">Novas</option>
               <option value="usada">Usadas</option>
           </select>
-          
+      </form >
+      <form method="GET" action="" class = "meu-form">
+          <select id="data-criacao-select" name = "preco" onchange="this.form.submit()">
+            <option value="" disabled hidden selected>Preço</option>
+            <option value="50">Ate R$50,00</option>
+            <option value="100">R$50,00 - R$100,00</option>
+            <option value="200">R$100,00 - R$200,00</option>
+          </select>
+      </form>
+      <form method="GET" action="" class = "meu-form">
+          <select id="data-criacao-select" name = "tamanho" onchange="this.form.submit()">
+            <option value="" disabled hidden selected>Tamanho:</option>
+              <option value="p">PP e P</option>
+              <option value="m">M</option>
+              <option value="g">G e GG</option>
+              <option value="xg">Meiores que G</option>
+          </select>
+      </form>
+      <form method="GET" action="" class = "meu-form">
+          <select id="data-criacao-select" name = "marca" onchange="this.form.submit()">
+            <option value="" disabled hidden selected>Marca:</option>
+            <?php
+            $marcas = mysqli_query($conn, "SELECT * FROM marca");
+
+                // Inserindo cada uma das marcas no <select></select>
+            if (mysqli_num_rows($marcas) > 0) {
+                while($marca = mysqli_fetch_assoc($marcas)) {
+                echo"<option value=".$marca["id"].">".$marca["nome"]."</option>";
+                }
+            }
+            ?>
+          </select>
       </form>
     </div>
   </div>
@@ -163,7 +198,7 @@ nav { background-color: #3C486B!important; }
   
   <!-- Product grid -->
   <?php
-                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ";
+                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ";
                     //predefine o sql para mostrar todas as camisetas postadas 
                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
                       // Verifica se o parâmetro "selecao" foi passado na URL
@@ -173,16 +208,49 @@ nav { background-color: #3C486B!important; }
                   
                           // Atualiza a consulta SQL com base na opção selecionada
                           if ($valorSelecionado == "mais-recentes") {
-                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ORDER BY data_hora_publicacao DESC";
+                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ORDER BY data_hora_publicacao DESC";
                           } elseif ($valorSelecionado == "mais-antigas") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ORDER BY data_hora_publicacao ASC ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ORDER BY data_hora_publicacao ASC ";
                           } elseif ($valorSelecionado == "nova") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() AND conservacao = 'nova' ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao = 'nova' ";
                           } elseif ($valorSelecionado == "usada") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() AND conservacao <> 'nova' ";
-                          } 
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao <> 'nova' ";
+                          }
+                        }
+                      if (isset($_GET["preco"])) {
+                        // Obtém o valor selecionado
+                        $valorSelecionado = $_GET["preco"];
+                          // Atualiza a consulta SQL com base na opção selecionada
+                        if ($valorSelecionado == "50") {
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco <= 50 ";
+                        } elseif ($valorSelecionado == "100") {
+                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >50 AND preco <=100 ";
+                        } elseif ($valorSelecionado == "200") {
+                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >100 AND preco <=200 ";
+                        } 
                       }
+                      if (isset($_GET["tamanho"])) {
+                        // Obtém o valor selecionado
+                        $valorSelecionado = $_GET["tamanho"];
+                          // Atualiza a consulta SQL com base na opção selecionada
+                        if ($valorSelecionado == "p") {
+                            $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'p%' ";
+                        } elseif ($valorSelecionado == "m") { 
+                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'm%' ";
+                        } elseif ($valorSelecionado == "g") {
+                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'g%' ";
+                        } elseif ($valorSelecionado == "xg") {
+                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'xg%' ";
+                        } 
+                      }
+                      if (isset($_GET["marca"])) {
+                        // Obtém o valor selecionado
+                        $valorSelecionado = $_GET["marca"];
+                          // Atualiza a consulta SQL com base na opção selecionada
+                        $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN marca m ON c.id_marca = m.id WHERE data_hora_publicacao <= NOW() AND m.id = $valorSelecionado ";
+                      
                     }
+                  }
                     $resultado = mysqli_query($conn, $sql);
                     echo <<<END
                       <div class="w3-container w3-text-grey" id="jeans">
