@@ -163,7 +163,7 @@ nav { background-color: #3C486B!important; }
   
   <!-- Product grid -->
   <?php
-                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ";
+                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ";
                     //predefine o sql para mostrar todas as camisetas postadas 
                     if ($_SERVER["REQUEST_METHOD"] == "GET") {
                       // Verifica se o parâmetro "selecao" foi passado na URL
@@ -173,13 +173,13 @@ nav { background-color: #3C486B!important; }
                   
                           // Atualiza a consulta SQL com base na opção selecionada
                           if ($valorSelecionado == "mais-recentes") {
-                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ORDER BY data_hora_publicacao DESC";
+                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ORDER BY data_hora_publicacao DESC";
                           } elseif ($valorSelecionado == "mais-antigas") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() ORDER BY data_hora_publicacao ASC ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ORDER BY data_hora_publicacao ASC ";
                           } elseif ($valorSelecionado == "nova") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() AND conservacao = 'nova' ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao = 'nova' ";
                           } elseif ($valorSelecionado == "usada") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= CURDATE() AND conservacao <> 'nova' ";
+                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao <> 'nova' ";
                           } 
                       }
                     }
