@@ -19,6 +19,10 @@
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 body { background-color: #F0F0F0; }
 nav { background-color: #3C486B!important; }
+.meu-form select {
+  width: 150px;
+  border-radius: 10px;
+}
 </style>
 </head>
 <body class="w3-content" style="max-width:1200px">
@@ -34,7 +38,7 @@ nav { background-color: #3C486B!important; }
       Camisetas <i class="fa fa-caret-down"></i>
     </a>
     <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium" style="color:white;">
-      <form method="GET" action="">
+      <form method="GET" action="" class = "meu-form">
           <!-- <label for="data-criacao-select">Filtrar por data de criação:</label> -->
             <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
               <option value=""  disabled hidden selected>Filtro</option>
@@ -44,7 +48,7 @@ nav { background-color: #3C486B!important; }
               <option value="usada">Usadas</option>
           </select>
       </form >
-      <form method="GET" action="">
+      <form method="GET" action="" class = "meu-form">
           <select id="data-criacao-select" name = "preco" onchange="this.form.submit()">
             <option value="" disabled hidden selected>Preço</option>
             <option value="50">Ate R$50,00</option>
@@ -52,7 +56,7 @@ nav { background-color: #3C486B!important; }
             <option value="200">R$100,00 - R$200,00</option>
           </select>
       </form>
-      <form method="GET" action="">
+      <form method="GET" action="" class = "meu-form">
           <select id="data-criacao-select" name = "tamanho" onchange="this.form.submit()">
             <option value="" disabled hidden selected>Tamanho:</option>
               <option value="p">PP e P</option>
@@ -61,7 +65,7 @@ nav { background-color: #3C486B!important; }
               <option value="xg">Meiores que G</option>
           </select>
       </form>
-      <form method="GET" action="">
+      <form method="GET" action="" class = "meu-form">
           <select id="data-criacao-select" name = "marca" onchange="this.form.submit()">
             <option value="" disabled hidden selected>Marca:</option>
             <?php
