@@ -42,16 +42,6 @@ nav { background-color: #3C486B!important; }
               <option value="mais-antigas">Mais antigas</option>
               <option value="nova">Novas</option>
               <option value="usada">Usadas</option>
-              <option value="" disabled >Tamanho:</option>
-              <option value="pp">PP</option>
-              <option value="p">P</option>
-              <option value="m">M</option>
-              <option value="g">G</option>
-              <option value="gg">GG</option>
-              <option value="xg">XG</option>
-              <option value="xgg">XGG</option>
-              <option value="xxg">XXG</option>
-              <option value="xxxg">XXXG</option>
           </select>
       </form >
       <form method="GET" action="">
@@ -60,6 +50,15 @@ nav { background-color: #3C486B!important; }
             <option value="50">Ate R$50,00</option>
             <option value="100">R$50,00 - R$100,00</option>
             <option value="200">R$100,00 - R$200,00</option>
+          </select>
+      </form>
+      <form method="GET" action="">
+          <select id="data-criacao-select" name = "tamanho" onchange="this.form.submit()">
+            <option value="" disabled hidden selected>Tamanho:</option>
+              <option value="p">PP e P</option>
+              <option value="m">M</option>
+              <option value="g">G e GG</option>
+              <option value="xg">Meiores que G</option>
           </select>
       </form>
     </div>
@@ -209,6 +208,20 @@ nav { background-color: #3C486B!important; }
                           $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >50 AND preco <=100 ";
                         } elseif ($valorSelecionado == "200") {
                           $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >100 AND preco <=200 ";
+                        } 
+                      }
+                      if (isset($_GET["tamanho"])) {
+                        // Obtém o valor selecionado
+                        $valorSelecionado = $_GET["tamanho"];
+                          // Atualiza a consulta SQL com base na opção selecionada
+                        if ($valorSelecionado == "p") {
+                            $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'p%' ";
+                        } elseif ($valorSelecionado == "m") { 
+                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'm%' ";
+                        } elseif ($valorSelecionado == "g") {
+                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'g%' ";
+                        } elseif ($valorSelecionado == "xg") {
+                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'xg%' ";
                         } 
                       }
                     }
