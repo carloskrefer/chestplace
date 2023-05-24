@@ -61,6 +61,21 @@ nav { background-color: #3C486B!important; }
               <option value="xg">Meiores que G</option>
           </select>
       </form>
+      <form method="GET" action="">
+          <select id="data-criacao-select" name = "marca" onchange="this.form.submit()">
+            <option value="" disabled hidden selected>Marca:</option>
+            <?php
+            $marcas = mysqli_query($conn, "SELECT * FROM marca");
+
+                // Inserindo cada uma das marcas no <select></select>
+            if (mysqli_num_rows($marcas) > 0) {
+                while($marca = mysqli_fetch_assoc($marcas)) {
+                echo"<option value=".$marca["id"].">".$marca["nome"]."</option>";
+                }
+            }
+            ?>
+          </select>
+      </form>
     </div>
   </div>
   <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
@@ -224,8 +239,14 @@ nav { background-color: #3C486B!important; }
                           $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'xg%' ";
                         } 
                       }
+                      if (isset($_GET["marca"])) {
+                        // Obtém o valor selecionado
+                        $valorSelecionado = $_GET["marca"];
+                          // Atualiza a consulta SQL com base na opção selecionada
+                        $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN marca m ON c.id_marca = m.id WHERE data_hora_publicacao <= NOW() AND m.id = $valorSelecionado ";
+                      
                     }
-                    
+                  }
                     $resultado = mysqli_query($conn, $sql);
                     echo <<<END
                       <div class="w3-container w3-text-grey" id="jeans">
