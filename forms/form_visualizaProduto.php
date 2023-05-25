@@ -29,58 +29,9 @@ nav { background-color: #3C486B!important; }
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
+    <a href="../index.php">
     <img src="../imagens/logo_chestplace.png" style="width: 100%; margin-top: 10px;">
-  </div>
-  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-    <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      Camisetas <i class="fa fa-caret-down"></i>
     </a>
-    <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium" style="color:white;">
-      <form method="GET" action="" class = "meu-form">
-          <!-- <label for="data-criacao-select">Filtrar por data de criação:</label> -->
-            <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
-              <option value=""  disabled hidden selected>Filtro</option>
-              <option value="mais-recentes">Mais recentes</option>
-              <option value="mais-antigas">Mais antigas</option>
-              <option value="nova">Novas</option>
-              <option value="usada">Usadas</option>
-          </select>
-      </form >
-      <form method="GET" action="" class = "meu-form">
-          <select id="data-criacao-select" name = "preco" onchange="this.form.submit()">
-            <option value="" disabled hidden selected>Preço</option>
-            <option value="50">Ate R$50,00</option>
-            <option value="100">R$50,00 - R$100,00</option>
-            <option value="200">R$100,00 - R$200,00</option>
-          </select>
-      </form>
-      <form method="GET" action="" class = "meu-form">
-          <select id="data-criacao-select" name = "tamanho" onchange="this.form.submit()">
-            <option value="" disabled hidden selected>Tamanho:</option>
-              <option value="p">PP e P</option>
-              <option value="m">M</option>
-              <option value="g">G e GG</option>
-              <option value="xg">Meiores que G</option>
-          </select>
-      </form>
-      <form method="GET" action="" class = "meu-form">
-          <select id="data-criacao-select" name = "marca" onchange="this.form.submit()">
-            <option value="" disabled hidden selected>Marca:</option>
-            <?php
-            $marcas = mysqli_query($conn, "SELECT * FROM marca");
-
-                // Inserindo cada uma das marcas no <select></select>
-            if (mysqli_num_rows($marcas) > 0) {
-                while($marca = mysqli_fetch_assoc($marcas)) {
-                echo"<option value=".$marca["id"].">".$marca["nome"]."</option>";
-                }
-            }
-            ?>
-          </select>
-      </form>
-    </div>
-  </div>
-  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
 </nav>
 
 <!-- Top menu on small screens -->
@@ -208,6 +159,7 @@ nav { background-color: #3C486B!important; }
                             $imagemcamiseta = $rowimg['imagem'];
                           }
                           echo "
+                          <div>
                             <div class=\"w3-col l3 s6\">
                               <div style = \"background-color: #F0F0F0; padding-right: 0px; padding-left: 0px;\" class=\"w3-container\">
                                 <div  class=\"w3-display-container\">
@@ -220,6 +172,7 @@ nav { background-color: #3C486B!important; }
                               </div>
                               <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
                               </div>
+                            </div>
                             </div>
                           ";
                         }
