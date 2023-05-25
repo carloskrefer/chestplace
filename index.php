@@ -286,12 +286,12 @@ nav { background-color: #3C486B!important; }
                                   <div  class=\"w3-display-container\">
                             ";
                             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-                            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+                            echo "<img style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
                             //Coloca botões, título e preço do anúncio
                             echo "
                                   <div class=\"w3-display-middle w3-display-hover\">
                                       <button onclick=\"goToVisualizarProduto(".$produto["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
-                                </div>
+                                  </div>
                                 </div>
                                 <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
                                 </div>

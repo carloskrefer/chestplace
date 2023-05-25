@@ -161,15 +161,19 @@ nav { background-color: #3C486B!important; }
                           echo "
                           <div id=\"div-camiseta\">
                             <div >
-                              <div style = \"background-color: #F0F0F0; padding-right: 100px; padding-left: 100px; display: flex;\"   >
-                                <div  class=\"w3-display-container\">
-                          ";
-                          echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"80%\"\>";
-                          //Coloca título e preço do anúncio
-                          echo "
+                              <div style = \"background-color: #F0F0F0; padding-right: 100px; padding-left: 100px; display: flex;
+                              align-items: center; \"   >
+                                <div  class=\"w3-display-container\" style= \" background-color: black display: flex;
+                                justify-content: center;
+                                align-items: center; padding-right: 15px;\">
+                              ";
+                              echo "<span style=\"margin-right: 15px;\"class=\"w3-tag w3-display-topright\">".$produto["conservacao"]."</span>";
+                              echo "<img style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+                              //Coloca título e preço do anúncio
+                              echo "  
                                 
                               </div>
-                              <div style=\"width:200px\">
+                              <div style=\" padding-left:50px display: flex; \">
                                 <div style=\" margin-top:100px\">
                                   <p style=\"color: #3C486B;\">".$produto["descricao"]."</p>
                                 </div>

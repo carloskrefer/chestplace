@@ -22,7 +22,7 @@ body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
   
   /* Define a largura da coluna de produto para dispositivos grandes */
   .w3-col.l3 {
-    width: 65%;
+    width: 25%;
     display: flex;
   }
   #div-camiseta{
