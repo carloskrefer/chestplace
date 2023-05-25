@@ -289,6 +289,9 @@ nav { background-color: #3C486B!important; }
                             echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
                             //Coloca botões, título e preço do anúncio
                             echo "
+                                  <div class=\"w3-display-middle w3-display-hover\">
+                                      <button onclick=\"goToVisualizarProduto(".$produto["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
+                                </div>
                                 </div>
                                 <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
                                 </div>
@@ -398,6 +401,7 @@ function w3_close() {
   document.getElementById("myOverlay").style.display = "none";
 }
 </script>
+<script src="./scripts/comprador/scrip_visCamiseta.js"></script>
 
 </body>
 </html>
