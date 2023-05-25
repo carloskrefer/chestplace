@@ -159,19 +159,28 @@ nav { background-color: #3C486B!important; }
                             $imagemcamiseta = $rowimg['imagem'];
                           }
                           echo "
-                          <div>
-                            <div class=\"w3-col l3 s6\">
-                              <div style = \"background-color: #F0F0F0; padding-right: 0px; padding-left: 0px;\" class=\"w3-container\">
+                          <div id=\"div-camiseta\">
+                            <div >
+                              <div style = \"background-color: #F0F0F0; padding-right: 100px; padding-left: 100px; display: flex;\"   >
                                 <div  class=\"w3-display-container\">
                           ";
-                          // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-                          echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+                          echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"80%\"\>";
                           //Coloca título e preço do anúncio
                           echo "
                                 
                               </div>
-                              <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                              <div style=\"width:200px\">
+                                <div style=\" margin-top:100px\">
+                                  <p style=\"color: #3C486B;\">".$produto["descricao"]."</p>
+                                </div>
+                                <div >
+                                  <p style=\"color: #3C486B;\"><b>R$".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                </div>
+                                <div style=\" margin-bottom:50px\">
+                                <button  class=\" w3-left-align w3-button w3-black \">&nbsp;Comprar</button>
+                                </div>
                               </div>
+                            </div>
                             </div>
                             </div>
                           ";
