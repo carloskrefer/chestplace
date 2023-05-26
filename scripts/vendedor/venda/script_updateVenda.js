@@ -1,3 +1,6 @@
+var imgAtual = 0;
+
+
 $("#cPagamento").click(function(){
     showModalConfirmacao(
         "<i class=\"w3-text-amber fa fa-solid fa-exclamation-triangle\"></i> &nbsp;",
@@ -26,6 +29,34 @@ $("#rPagamento").click(function(){
     $("#btnPrimario-modalDeNotificacao").off();
     $("#btnPrimario-modalDeNotificacao").on("click", function() { goToUpdateVenda(false) });
 
+});
+
+$("#prev-img").click(function(){
+    $("#img-"+imgAtual).addClass("w3-hide");
+    imgAtual--;
+    // Próxima imagem existe
+    let imgExiste = $("#img-"+imgAtual).length > 0;
+
+    if(imgExiste){
+        $("#img-"+imgAtual).removeClass();
+    } else {
+        imgAtual = 0;
+        $("#img-"+imgAtual).removeClass();
+    }
+});
+
+$("#next-img").click(function(){
+    $("#img-"+imgAtual).addClass("w3-hide");
+    imgAtual++;
+    // Próxima imagem existe
+    let imgExiste = $("#img-"+imgAtual).length > 0;
+    
+    if(imgExiste){
+        $("#img-"+imgAtual).removeClass();
+    } else {
+        imgAtual--
+        $("#img-"+imgAtual).removeClass();
+    }
 });
 
 function goToUpdateVenda(confirmacaoPagamento){

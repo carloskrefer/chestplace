@@ -162,7 +162,7 @@
         <?php include("../common/modalConfirmacao.php")?>
 
         <!-- !PAGE CONTENT! -->
-        <div class="w3-main w3-content w3-margin-bottom" style="max-width:80%;">
+        <div class="w3-main w3-content" style="max-width:80%; margin-bottom: 10vh;">
         
             <!-- Push down content on small screens -->
             <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
@@ -170,14 +170,11 @@
 
             <!-- Product grid -->
             <div class="w3-row w3-margin-top" style="height:90vh;" >
-                <h2 class="w3-bold w3-margin-top w3-margin-bottom">
-                    Vendas realizadas
-                </h2>
-                <div style="height: 60vh;">
-                    <div class="w3-left w3-container w3-pink w3-padding-left" style="width:50%; height:100%;">
-                        <h3>Imagens</h3>
-                        <div class=" w3-red w3-center" style="display:flex; align-items:center">
-                            <button class="w3-button w3-blue w3-large w3-round"><</button>
+                <div class="w3-card " style="height: 60vh;">
+                    <br>
+                    <div class="w3-left w3-container w3-padding-left" style="width:50%; height:100%;">
+                        <div class=" w3-padding w3-round w3-center" style="display:flex; align-items:center;">
+                            <button id="prev-img" class="w3-button w3-xlarge w3-round" style="background-color:#f4dc55"><i class="fa-solid fa-caret-left"></i></button>
                             <?php
                                 $selectImagens = "SELECT * FROM imagem WHERE id_produto = $idCamiseta";
                                 $resultImagens = mysqli_query($conn, $selectImagens);
@@ -188,72 +185,80 @@
                                     $hide = $first ? "" : "w3-hide";
                                     echo "<img id=\"img-$idImg\"class=\"$hide\" src=\"data:imagem/jpeg;base64,".base64_encode($imagem["imagem"])."\" style=\"width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;\">";
                                     $first = false;
+                                    $idImg++;
                                 }
                             ?>
-                            <button class="w3-button w3-blue w3-large w3-round">></button>
+                            <button id="next-img" class="w3-button w3-xlarge w3-round" style="background-color:#f4dc55"><i class="fa-solid fa-caret-right"></i></button>
                             <!-- <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s">
                             <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s">
                             <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s">
                             <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s"> -->
                         </div>
                     </div>
-                    <div class="w3-orange w3-container w3-right w3-padding-left" style="width:50%; height:100%;">
-                        <h3 style="text-transform: capitalize;"><?= $tituloProduto?></h3>
-                        <h3><?= $descricaoProduto?></h3>
+                    <div class="w3-container w3-container w3-right w3-padding-left" style="width:50%; height:100%;">
+                        <h3 style="text-transform: capitalize;"><b><?= $tituloProduto?></b></h3>
+                        <p class="w3-light-grey w3-padding w3-large"style="max-height:75%; overflow-y:scroll;"><?= $descricaoProduto?></p>
                     </div>
                 </div>
-                <h3 style="display:flex; align-items:center; justify-content:space-evenly; width: 15%; "><i class="fa-solid fa-circle-info"></i> Informações</h3>
-                <div class="w3-margin-bottom"style="display:flex; flex-direction:column; align-items:center;">
-                    <section class="step-wizard">
-                        <ul class="step-wizard-list">
-                            <li class="step-wizard-item ">
-                                <span class="progress-count">1</span>
-                                <span class="progress-label">Pedido recebido</span>
-                            </li>
-                            <li class="step-wizard-item <?= is_null($dhPagamento) ? "current-item" : ""?>">
-                                <span class="progress-count ">2</span>
-                                <span class="progress-label">Pagamento recebido</span>
-                            </li>
-                            <li class="step-wizard-item">
-                                <span class="progress-count">3</span>
-                                <span class="progress-label">Pedido enviado</span>
-                            </li>
-                            <li class="step-wizard-item <?= !is_null($dhPagamento) && is_null($dhRecebimento) ? "current-item" : ""?>">
-                                <span class="progress-count">4</span>
-                                <span class="progress-label">Pedido entregue</span>
-                            </li>
-                        </ul>
-                    </section>
-                    <?= $opcoes?>
-                    <!-- <button class="w3-large w3-right w3-button w3-green w3-round" style="width:20vw;"><i class="fa-solid fa-check"></i> Confirmar pagamento</button> -->
+                
+                <!-- INFO CONTAINER-->
+                <div class=" w3-margin-top w3-card w3-container" style="height:65vh">
+                    <h3 style="display:flex; align-items:center; justify-content:space-evenly; width: 15%; "><i class="fa-solid fa-circle-info"></i> <b>Informações</b></h3>
+                    <div class=" w3-padding w3-margin"style="display:flex; flex-direction:column; align-items:center;">
+                        <section class="step-wizard">
+                            <ul class="step-wizard-list">
+                                <li class="step-wizard-item ">
+                                    <span class="progress-count">1</span>
+                                    <span class="progress-label">Pedido recebido</span>
+                                </li>
+                                <li class="step-wizard-item <?= is_null($dhPagamento) ? "current-item" : ""?>">
+                                    <span class="progress-count ">2</span>
+                                    <span class="progress-label">Pagamento recebido</span>
+                                </li>
+                                <li class="step-wizard-item">
+                                    <span class="progress-count">3</span>
+                                    <span class="progress-label">Pedido enviado</span>
+                                </li>
+                                <li class="step-wizard-item <?= !is_null($dhPagamento) && is_null($dhRecebimento) ? "current-item" : ""?>">
+                                    <span class="progress-count">4</span>
+                                    <span class="progress-label">Pedido entregue</span>
+                                </li>
+                            </ul>
+                        </section>
+                        <?= $opcoes?>
+                        <!-- <button class="w3-large w3-right w3-button w3-green w3-round" style="width:20vw;"><i class="fa-solid fa-check"></i> Confirmar pagamento</button> -->
+                    </div>
+                    
+                    <div class=" w3-card w3-container w3-padding" style="display:flex; align-items:center; justify-content:center; margin:8vh 5vh">
+                        <div class="w3-left" style="width:50%; min-height:10vh">
+                            <h3>Comprador</h3>
+                            <p><?= $nomeComprador?></p>
+                        </div>    
+                        <div class="w3-right" style="width:50%; min-height:10vh">
+                            <table class="w3-table-all w3-center" style="width:65%; margin:auto;">
+                                <tr class="w3-text-white" style=" background-color: #333">
+                                    <!-- <th class="w3-center">
+                                        TAMANHO
+                                    </th> -->
+                                    <th class="w3-center">
+                                        QUANTIDADE
+                                    </th>
+                                    <th class="w3-center">
+                                        TOTAL
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <!-- <td class="w3-center w3-text-black">P</td> -->
+                                    <td class="w3-center w3-text-black"><?= $quantidade?></td>
+                                    <td class="w3-center w3-text-black"><?= number_format((float)$precoProduto * (float)$quantidade,2,",",".")?></td>
+                                </tr>
+                            </table>
+                        </div>    
+                    </div>
+                
                 </div>
-                <div class="w3-purple w3-container w3-padding-left" style=" margin-bottom:5vh">
-                    <div class="w3-light-blue w3-left" style="width:50%; min-height:10vh">
-                        <h3>Comprador</h3>
-                        <p><?= $nomeComprador?></p>
-                    </div>    
-                    <div class="w3-brown w3-right" style="width:50%; min-height:10vh">
-                        <table class="w3-table-all w3-center" style="width:65%; margin:auto;">
-                            <tr class="w3-text-white" style=" background-color: #333">
-                                <!-- <th class="w3-center">
-                                    TAMANHO
-                                </th> -->
-                                <th class="w3-center">
-                                    QUANTIDADE
-                                </th>
-                                <th class="w3-center">
-                                    TOTAL
-                                </th>
-                            </tr>
-                            <tr>
-                                <!-- <td class="w3-center w3-text-black">P</td> -->
-                                <td class="w3-center w3-text-black"><?= $quantidade?></td>
-                                <td class="w3-center w3-text-black"><?= number_format((float)$precoProduto * (float)$quantidade,2,",",".")?></td>
-                            </tr>
-                        </table>
-                    </div>    
+
                 </div>
-            </div>
         </div>
         
             <!-- End page content -->

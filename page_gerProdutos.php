@@ -72,7 +72,7 @@
     </div>
 
     <!-- Product grid -->
-    <div class="w3-row w3-grayscale">
+    <div class="w3-row">
       <?php
 
         //Coleta data e hora atual (momento da execução)
