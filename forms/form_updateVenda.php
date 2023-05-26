@@ -174,7 +174,7 @@
                     <br>
                     <div class="w3-left w3-container w3-padding-left" style="width:50%; height:100%;">
                         <div class=" w3-padding w3-round w3-center" style="display:flex; align-items:center;">
-                            <button id="prev-img" class="w3-button w3-xlarge w3-round" style="background-color:#f4dc55"><i class="fa-solid fa-caret-left"></i></button>
+                            <button id="prev-img" class="w3-button w3-xlarge w3-round" style="cursor:pointer;background-color:#f4dc55"><i class="fa-solid fa-caret-left"></i></button>
                             <?php
                                 $selectImagens = "SELECT * FROM imagem WHERE id_produto = $idCamiseta";
                                 $resultImagens = mysqli_query($conn, $selectImagens);
@@ -188,7 +188,7 @@
                                     $idImg++;
                                 }
                             ?>
-                            <button id="next-img" class="w3-button w3-xlarge w3-round" style="background-color:#f4dc55"><i class="fa-solid fa-caret-right"></i></button>
+                            <button id="next-img" class="w3-button w3-xlarge w3-round" style="cursor:pointer;background-color:#f4dc55"><i class="fa-solid fa-caret-right"></i></button>
                             <!-- <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s">
                             <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s">
                             <img style="width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;" src="../imagens/camisetas/camiseta1.jpg" alt="s">

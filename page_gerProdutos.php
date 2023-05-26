@@ -111,15 +111,16 @@
               echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
             }
 
-
+            echo "<div style=\"position:relative; width:13vw; aspect-ratio: 13/16; display: inline-block; \">";
             // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-            echo "<img src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\">";
+            echo "  <img class=\"w3-shadow w3-card\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"position:relative; z-index:1;width:100%; aspect-ratio: 13/16; object-fit:cover;\">";
 
             //Coloca botões, título e preço do anúncio
             echo "
-                  <div class=\"w3-display-middle w3-display-hover\">
-                    <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
-                    <button onclick=\"confirmarDelecao(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Apagar</button>
+                    <div class=\"w3-display-middle w3-display-hover\" style=\"position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:4;\">
+                      <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
+                      <button onclick=\"confirmarDelecao(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Apagar</button>
+                    </div>
                   </div>
                 </div>
                 <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>

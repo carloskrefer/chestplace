@@ -40,14 +40,15 @@
         mysqli_commit($conn);
 
         // Define response como SUCCESS
-        $response = array("success" => true, "message" => "Anúncio apagado com sucesso");
+        $response = array("ok" => true, "message" => "Anúncio apagado com sucesso");
 
     }catch(Exception $e){
+        // Define response como ERROR
+        http_response_code(500);
+        $response = array("error" => true, "message" => "Erro ao apagar anúncio: " . $e->getMessage());
+        
         // Desfaz queries feitas até então
         mysqli_rollback($conn);
-
-        // Define response como ERROR
-        $response = array("error" => true, "message" => "Erro ao apagar anúncio: " . $e->getMessage());
     }
 
     // Define cabeçalho Content-Type e retorna resposta como JSON para ser utilizado pelo JS

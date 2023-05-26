@@ -33,12 +33,13 @@
           body: dados
         })
         .then(response => {
+            console.log(response);
             // Se a requisição tiver sido feita com sucesso
             if(response.ok){
                 alert("Anúncio apagado com sucesso!");
                 location.reload();
             } else {
-               throw new Error(response.status);
+               throw new Error("Houve um erro ao apagar o anúncio.");
             }
         }) // Caso ocorra um erro
         .catch(error => {
