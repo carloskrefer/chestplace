@@ -1,88 +1,37 @@
 <!DOCTYPE html>
 <?php
-  session_start();
-  require './database/conectaBD.php'; 
+    session_start();
+    include("../database/conectaBD.php");
 ?>
 <html>
-<head>
 <title>Chestplace</title>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="./scripts/login.js"></script>
   <link rel="stylesheet" href="./styles.css">
+  <script src="./scripts/jQuery/jquery-3.6.4.min.js"></script>
 <style>
 .w3-sidebar a {font-family: "Roboto", sans-serif}
 body,h1,h2,h3,h4,h5,h6,.w3-wide {font-family: "Montserrat", sans-serif;}
 body { background-color: #F0F0F0; }
 nav { background-color: #3C486B!important; }
-.meu-form select {
-  width: 150px;
-  border-radius: 10px;
-}
+
 </style>
 </head>
+<body>
 <body class="w3-content" style="max-width:1200px">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-bar-block w3-collapse w3-top" style="z-index:3;width:250px" id="mySidebar">
   <div class="w3-container w3-display-container w3-padding-16">
     <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-    <img src="./imagens/logo_chestplace.png" style="width: 100%; margin-top: 10px;">
-  </div>
-  <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
-    <a onclick="myAccFunc()" href="javascript:void(0)" class="w3-button w3-block w3-white w3-left-align" id="myBtn">
-      Camisetas <i class="fa fa-caret-down"></i>
+    <a href="../index.php">
+    <img src="../imagens/logo_chestplace.png" style="width: 100%; margin-top: 10px;">
     </a>
-    <div id="demoAcc" class="w3-bar-block w3-hide w3-padding-large w3-medium" style="color:white;">
-      <form method="GET" action="" class = "meu-form">
-          <!-- <label for="data-criacao-select">Filtrar por data de criação:</label> -->
-            <select id="data-criacao-select" name = "ordem" onchange="this.form.submit()" >
-              <option value=""  disabled hidden selected>Filtro</option>
-              <option value="mais-recentes">Mais recentes</option>
-              <option value="mais-antigas">Mais antigas</option>
-              <option value="nova">Novas</option>
-              <option value="usada">Usadas</option>
-          </select>
-      </form >
-      <form method="GET" action="" class = "meu-form">
-          <select id="data-criacao-select" name = "preco" onchange="this.form.submit()">
-            <option value="" disabled hidden selected>Preço</option>
-            <option value="50">Ate R$50,00</option>
-            <option value="100">R$50,00 - R$100,00</option>
-            <option value="200">R$100,00 - R$200,00</option>
-          </select>
-      </form>
-      <form method="GET" action="" class = "meu-form">
-          <select id="data-criacao-select" name = "tamanho" onchange="this.form.submit()">
-            <option value="" disabled hidden selected>Tamanho:</option>
-              <option value="p">PP e P</option>
-              <option value="m">M</option>
-              <option value="g">G e GG</option>
-              <option value="xg">Meiores que G</option>
-          </select>
-      </form>
-      <form method="GET" action="" class = "meu-form">
-          <select id="data-criacao-select" name = "marca" onchange="this.form.submit()">
-            <option value="" disabled hidden selected>Marca:</option>
-            <?php
-            $marcas = mysqli_query($conn, "SELECT * FROM marca");
-
-                // Inserindo cada uma das marcas no <select></select>
-            if (mysqli_num_rows($marcas) > 0) {
-                while($marca = mysqli_fetch_assoc($marcas)) {
-                echo"<option value=".$marca["id"].">".$marca["nome"]."</option>";
-                }
-            }
-            ?>
-          </select>
-      </form>
-    </div>
-  </div>
-  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
 </nav>
 
 <!-- Top menu on small screens -->
@@ -198,109 +147,51 @@ nav { background-color: #3C486B!important; }
   
   <!-- Product grid -->
   <?php
-                    $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ";
-                    //predefine o sql para mostrar todas as camisetas postadas 
-                    if ($_SERVER["REQUEST_METHOD"] == "GET") {
-                      // Verifica se o parâmetro "selecao" foi passado na URL
-                      if (isset($_GET["ordem"])) {
-                          // Obtém o valor selecionado
-                          $valorSelecionado = $_GET["ordem"];
-                  
-                          // Atualiza a consulta SQL com base na opção selecionada
-                          if ($valorSelecionado == "mais-recentes") {
-                              $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ORDER BY data_hora_publicacao DESC";
-                          } elseif ($valorSelecionado == "mais-antigas") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() ORDER BY data_hora_publicacao ASC ";
-                          } elseif ($valorSelecionado == "nova") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao = 'nova' ";
-                          } elseif ($valorSelecionado == "usada") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND conservacao <> 'nova' ";
+                      $idCamiseta = $_GET["id"];
+                      $queryProdutos = "SELECT * FROM camiseta WHERE id = ".$idCamiseta.";";
+                      $result = mysqli_query($conn, $queryProdutos);
+                      if (mysqli_num_rows($result) > 0) {  
+                        // Loop pelos resultados
+                        while ($produto = mysqli_fetch_assoc($result)) {
+                          $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$produto['id']." limit 1;";
+                          $resultadoimg = mysqli_query($conn, $sql);
+                          while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
+                            $imagemcamiseta = $rowimg['imagem'];
                           }
-                        }
-                      if (isset($_GET["preco"])) {
-                        // Obtém o valor selecionado
-                        $valorSelecionado = $_GET["preco"];
-                          // Atualiza a consulta SQL com base na opção selecionada
-                        if ($valorSelecionado == "50") {
-                            $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco <= 50 ";
-                        } elseif ($valorSelecionado == "100") {
-                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >50 AND preco <=100 ";
-                        } elseif ($valorSelecionado == "200") {
-                          $sql = "SELECT titulo, preco, id FROM camiseta WHERE data_hora_publicacao <= NOW() AND preco >100 AND preco <=200 ";
-                        } 
-                      }
-                      if (isset($_GET["tamanho"])) {
-                        // Obtém o valor selecionado
-                        $valorSelecionado = $_GET["tamanho"];
-                          // Atualiza a consulta SQL com base na opção selecionada
-                        if ($valorSelecionado == "p") {
-                            $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'p%' ";
-                        } elseif ($valorSelecionado == "m") { 
-                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'm%' ";
-                        } elseif ($valorSelecionado == "g") {
-                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'g%' ";
-                        } elseif ($valorSelecionado == "xg") {
-                          $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN estoque e ON c.id = e.id_camiseta JOIN tamanho t ON e.id_tamanho = t.id WHERE data_hora_publicacao <= NOW() AND t.codigo LIKE 'xg%' ";
-                        } 
-                      }
-                      if (isset($_GET["marca"])) {
-                        // Obtém o valor selecionado
-                        $valorSelecionado = $_GET["marca"];
-                          // Atualiza a consulta SQL com base na opção selecionada
-                        $sql = "SELECT c.titulo, c.preco, c.id FROM camiseta c JOIN marca m ON c.id_marca = m.id WHERE data_hora_publicacao <= NOW() AND m.id = $valorSelecionado ";
-                      
-                    }
-                  }
-                    $resultado = mysqli_query($conn, $sql);
-                    echo <<<END
-                      <div class="w3-container w3-text-grey" id="jeans">
-                        <p>
-                      END;
-                      
-                        $qtd = mysqli_num_rows($resultado);
-                        if ($qtd > 0) {
-                  
-                            echo $qtd." produto(s)";
-                        }
-                         else {
-                          echo "0 produto";
-                        }
-                       echo <<<END
-                      </p>
-                    </div>
-                    END;
-                    
-
-                      // Verifica se há resultados
-                      if (mysqli_num_rows($resultado) > 0) {  
-                          // Loop pelos resultados
-                          while ($produto = mysqli_fetch_assoc($resultado)) {
-                            $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$produto['id']." limit 1;";
-                            $resultadoimg = mysqli_query($conn, $sql);
-                            while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
-                              $imagemcamiseta = $rowimg['imagem'];
-                            }
-                            echo "
-                              <div class=\"w3-col l3 s6\">
-                                <div style = \"background-color: #F0F0F0; padding-right: 0px; padding-left: 0px;\" class=\"w3-container\">
-                                  <div  class=\"w3-display-container\">
-                            ";
-                            // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
-                            echo "<img style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
-                            //Coloca botões, título e preço do anúncio
-                            echo "
-                                  <div class=\"w3-display-middle w3-display-hover\">
-                                      <button onclick=\"goToVisualizarProduto(".$produto["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
-                                  </div>
+                          echo "
+                          <div id=\"div-camiseta\">
+                            <div >
+                              <div style = \"background-color: #F0F0F0; padding-right: 100px; padding-left: 100px; display: flex;
+                              align-items: center; \"   >
+                                <div  class=\"w3-display-container\" style= \" background-color: black display: flex;
+                                justify-content: center;
+                                align-items: center; padding-right: 15px;\">
+                              ";
+                              echo "<span style=\"margin-right: 15px;\"class=\"w3-tag w3-display-topright\">".$produto["conservacao"]."</span>";
+                              echo "<img style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+                              //Coloca título e preço do anúncio
+                              echo "  
+                                
+                              </div>
+                              <div style=\" padding-left:50px display: flex; \">
+                                <div style=\" margin-top:100px\">
+                                  <p style=\"color: #3C486B;\">".$produto["descricao"]."</p>
                                 </div>
-                                <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                <div >
+                                  <p style=\"color: #3C486B;\"><b>R$".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                </div>
+                                <div style=\" margin-bottom:50px\">
+                                <button  class=\" w3-left-align w3-button w3-black \">&nbsp;Comprar</button>
                                 </div>
                               </div>
-                            ";
-                          }
-                      }
-                      // Fecha a conexão com o banco de dados
-                      mysqli_close($conn);
+                            </div>
+                            </div>
+                            </div>
+                          ";
+                        }
+                    }
+                    // Fecha a conexão com o banco de dados
+                    mysqli_close($conn);
                       
     ?>      
     
@@ -403,5 +294,6 @@ function w3_close() {
 </script>
 <script src="./scripts/comprador/scrip_visCamiseta.js"></script>
 
+</body>
 </body>
 </html>
