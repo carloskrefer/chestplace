@@ -290,7 +290,7 @@ nav { background-color: #3C486B!important; }
                             //Coloca botões, título e preço do anúncio
                             echo "
                                   <div class=\"w3-display-middle w3-display-hover\">
-                                      <button onclick=\"goToVisualizarProduto(".$produto["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
+                                      <button onclick=\"goToVisualizarProduto(".$produto["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i></i>&nbsp;Comprar</button>
                                   </div>
                                 </div>
                                 <p style=\"color: #3C486B;\">".$produto["titulo"]."<br><b>R$ ".number_format($produto["preco"], 2, ',', '.')."</b></p>
