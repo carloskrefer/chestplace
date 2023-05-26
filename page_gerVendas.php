@@ -83,12 +83,12 @@
                     if(is_null($venda["data_hora_confirmacao_pagamento"])){
                         $status = "Aguardando pagamento";
                     } else if(is_null($venda["data_hora_recebimento"])){
-                        $status = "Pedido em rota de entrega";
+                        $status = "Pedido em trânsito";
                     } else {
                         $status = "Pedido entregue ao destinatário.";
                     }
 
-                    $subtotal = number_format(intval($venda["preco"])*intval($venda["quantidade"]),2,",");
+                    $subtotal = number_format(floatval($venda["preco"])*floatval($venda["quantidade"]),2,",");
 
                     echo "
                     <tr>
@@ -102,7 +102,7 @@
                         <td class=\"w3-center\">".$venda["data_hora_compra"]."</td>
                         <td class=\"w3-center\">$status</td>
                         <td class=\"w3-center\">
-                            <input type=\"button\" class=\"w3-button w3-blue\" value=\"Visualizar\"
+                            <a href=\"./forms/form_updateVenda.php?idVenda=".$venda["id"]."\" class=\"w3-button w3-blue\">Visualizar</a>
                         </td>
                     </tr>
                     ";
