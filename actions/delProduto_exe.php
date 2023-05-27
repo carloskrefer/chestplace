@@ -15,6 +15,9 @@
         exit; // Encerrar o script
     }
         
+    // Querie que verifica se o anúncio será apagado ou desativado
+    $selectAllVendas = "SELECT * FROM compra_venda WHERE id_camiseta = ".$_POST["id"];
+    $numeroVendasCamiseta = mysqli_num_rows(mysqli_query($conn, $selectAllVendas));
 
     // Queries de deleção de registros em tabelas que camiseta interfer
     $delImgQuery = "DELETE FROM imagem WHERE id_produto = " . $_POST["id"];
@@ -27,14 +30,22 @@
 
     mysqli_begin_transaction($conn);
     try{
-        // DELETE das imagens da camiseta sendo deletada [imagem]
-        mysqli_query($conn, $delImgQuery);
 
-        // DELETE dos tamanhos disponíveis da camiseta no estoque [estoque]
-        mysqli_query($conn, $delTamQuery);
+        // Se aquele produto já foi vendido pelo menos uma vez
+        if($numeroVendasCamiseta > 0){
+            mysqli_query($conn, "UPDATE camiseta SET inativo = NOW() WHERE id = ".$_POST["id"]);
+        } else {
 
-        // DELETE dos anúncios do BD [camisetas]
-        mysqli_query($conn, $delQuery);
+            // DELETE das imagens da camiseta sendo deletada [imagem]
+            mysqli_query($conn, $delImgQuery);
+
+            // DELETE dos tamanhos disponíveis da camiseta no estoque [estoque]
+            mysqli_query($conn, $delTamQuery);
+
+            // DELETE dos anúncios do BD [camisetas]
+            mysqli_query($conn, $delQuery);
+
+        }
 
         // COMMIT da transação de deleção
         mysqli_commit($conn);

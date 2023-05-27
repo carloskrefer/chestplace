@@ -44,30 +44,32 @@
   <?php include("./common/modalConfirmacao.php")?>
 
   <!-- !PAGE CONTENT! -->
-  <div class="w3-main w3-content w3-margin-bottom" style="max-width:1200px">
+  <div class="w3-main w3-content" style="margin-bottom:10vh;max-width:1200px">
   
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
 
 
-    <div class="w3-container w3-text-grey" id="jeans">
+    <div class="w3-container w3-text-grey w3-margin-top" style="padding-top:20px;" id="jeans">
+      <h4 class="w3-text-green"><i class="fa-solid fa-eye"></i> Produtos ativos</h4>
       <p>
-      <?php
-        $queryQtde = "
-        SELECT count(*) qtde 
-        FROM camiseta c 
-        WHERE c.id_vendedor =".$_SESSION["idVendedor"].";";
+        <?php
+          $queryQtde = "
+          SELECT count(*) qtde 
+          FROM camiseta c 
+          WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND inativo IS NULL;";
 
-        $result = mysqli_query($conn, $queryQtde);
+          $result = mysqli_query($conn, $queryQtde);
 
-        if (mysqli_num_rows($result) > 0) {
-          while($row = mysqli_fetch_assoc($result)) {
-            echo $row["qtde"]." produtos";
+          if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+              echo $row["qtde"]." produtos";
+            }
+          } else {
+            echo "0 results";
           }
-        } else {
-          echo "0 results";
-        }
-      ?>  
+        ?>  
       </p>
     </div>
 
@@ -83,6 +85,7 @@
           SELECT * 
           FROM camiseta c 
           WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND inativo IS NULL 
           GROUP BY c.id;";
 
         //Resultao do Select
@@ -93,7 +96,7 @@
           while($row = mysqli_fetch_assoc($result)) {
             //Data de publicação convertida para DateTime do php
             $dataCadastro = new DateTime($row["data_hora_cadastro"]);
-            $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$row['id']." limit 1;";
+            $sql = "SELECT  id, imagem FROM imagem WHERE id_produto = " .$row['id']." limit 1;";
             $resultadoimg = mysqli_query($conn, $sql);
             while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
             $imagemcamiseta = $rowimg['imagem'];
@@ -137,6 +140,91 @@
 
       
   </div>
+    <hr>
+    <div class="w3-container w3-text-grey" id="jeans">
+      <h4 class="w3-text-red"><i class="fa-solid fa-eye-slash"></i> Produtos inativos</h4>
+      <p>
+        <?php
+          $queryQtde = "
+          SELECT count(*) qtde 
+          FROM camiseta c 
+          WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND inativo IS NOT NULL;";
+
+          $result = mysqli_query($conn, $queryQtde);
+
+          if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+              echo $row["qtde"]." produtos";
+            }
+          } else {
+            echo "0 results";
+          }
+        ?>  
+      </p>
+    </div>
+    <div class="w3-row w3-grayscale-max">
+        <?php
+
+          //Coleta data e hora atual (momento da execução)
+          $dataHoraAtual = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));;
+
+          //Select das camisetas e imagens das camisetas do vendedor passado por _GET
+          $queryProdutos = "
+            SELECT * 
+            FROM camiseta c 
+            WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+            AND inativo IS NOT NULL
+            GROUP BY c.id;";
+
+          //Resultao do Select
+          $result = mysqli_query($conn, $queryProdutos);
+
+          //Percorrendo resultado do select
+          if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+              //Data de publicação convertida para DateTime do php
+              $dataCadastro = new DateTime($row["data_hora_cadastro"]);
+              $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$row['id']." LIMIT 1;";
+              $resultadoimg = mysqli_query($conn, $sql);
+              while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
+              $imagemcamiseta = $rowimg['imagem'];
+              }
+              
+              echo "
+                <div class=\"w3-col l3 s6\">
+                  <div class=\"w3-container\">
+                    <div class=\"w3-display-container\">
+              ";
+
+              //Se o anuncio foi feito há menos de dois dias
+              //Tag 'Novo'
+              if($dataHoraAtual->diff($dataCadastro)->days < 2){
+                echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
+              }
+
+              echo "<div style=\"position:relative; width:13vw; aspect-ratio: 13/16; display: inline-block; \">";
+              // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
+              echo "  <img class=\"w3-shadow w3-card\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"position:relative; z-index:1;width:100%; aspect-ratio: 13/16; object-fit:cover;\">";
+
+              //Coloca botões, título e preço do anúncio
+              echo "
+                    </div>
+                  </div>
+                  <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>
+                  </div>
+                </div>
+              ";
+
+              
+            }
+          }
+
+        ?>
+
+
+        
+    </div>
   
   <!-- End page content -->
     <div id="teste" style="  position: fixed; bottom: 0; left: 0; width: 100%;" class="w3-black w3-center w3-padding">
