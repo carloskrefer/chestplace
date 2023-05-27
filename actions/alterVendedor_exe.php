@@ -62,13 +62,27 @@
     // Transaction de alterar
     mysqli_begin_transaction($conn);
 
-    // Se foi alterado com sucesso
-    if (mysqli_query($conn, $alterVendQuery) && mysqli_query($conn, $alterEndQuery)){
+    
+    try{
+        // Desativar conta do vendedor se necessário
+        if(isset($_POST["desativar"])){
+            $queryDesativar = "UPDATE usuario SET inativo = NOW() WHERE id = ".$_SESSION["idVendedor"];
+            mysqli_query($conn, $queryDesativar);
+            echo json_encode(array( "ok" => true, "message" => "Conta desativada com sucesso!"));
+            session_destroy();
+        } else {
+            // Alterar dados do vendedor
+            mysqli_query($conn, $alterVendQuery);
+    
+            // Alterar dados do endereço
+            mysqli_query($conn, $alterEndQuery);
+        }
+        
+
         mysqli_commit($conn);
-        alert("Cadastro atualizado com sucesso!");
-        redirect("../page_gerProdutos.php?id=".$_SESSION["idVendedor"]);
-    } else {
+
+    } catch (Exception $e){
         mysqli_rollback($conn);
-        alert("Houve um erro ao atualizar cadastro. Tente novamente mais tarde.");
+        echo json_encode(array( "ok" => false, "message" => "Houve um erro ao alterar os dados do vendedor!"));
     }
 ?>

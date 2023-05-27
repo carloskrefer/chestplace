@@ -20,7 +20,7 @@ CREATE TABLE usuario(
   email varchar(255) UNIQUE NOT NULL, 
   senha varchar(255) NOT NULL, 
   banido datetime DEFAULT NULL,
-  ativo datetime DEFAULT NULL,
+  inativo datetime DEFAULT NULL,
   PRIMARY KEY (id)
 );
 

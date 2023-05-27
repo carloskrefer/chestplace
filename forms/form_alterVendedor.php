@@ -73,8 +73,7 @@
                     <h2>Alterar conta</h2>
                 </div>
                 <form id="altVendedorForm" class="w3-container" action="../actions/alterVendedor_exe.php" method="post" enctype="multipart/form-data" onsubmit="">
-                    <table class='w3-table-all'>
-                        
+                    <table class='w3-table-all'>              
                         <tr>
                             <td style="width:50%;">
                                 <p style="text-align:center">
@@ -96,6 +95,9 @@
                                     <label class="w3-text-IE"><b>Telefone para contato</b>*</label>
                                     <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value);" value="<?= $telefoneContato?>" required>
                                 </p>
+                                <div>
+                                    <a id="desativarButton" class="w3-button w3-white w3-bold w3-round-large w3-text-red"> Desativar conta </a>
+                                </div>
                             </td>
 
                             <td>

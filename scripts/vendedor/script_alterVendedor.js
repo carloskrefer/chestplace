@@ -84,6 +84,10 @@ $("#altVendedorForm").ready(function(){
     limitarCampos();
 })
 
+$("#desativarButton").click(function(){
+    confirmarDesativarConta();
+})
+
 function enviarFormulario(){
     if(validarFormulario(false)) $("#altVendedorForm").submit();
 }
@@ -121,4 +125,43 @@ function confirmarCancelamento(){
 
     $("#btnPrimario-modalDeNotificacao").off();
     $("#btnPrimario-modalDeNotificacao").on("click", function() { window.location.href="../page_gerProdutos.php"; });
+}
+
+function confirmarDesativarConta(){
+    showModalConfirmacao(
+        "<i class=\"w3-text-amber fa fa-solid fa-exclamation-triangle\"></i> &nbsp;",
+        "Você tem certeza?",
+        "Ao confirmar, sua conta será permanentemente desativada e você perderá acesso a ela. ",
+        "Você não poderá desfazer essa ação e não poderá cadastrar uma nova conta com este email.",
+        "w3-boder-amber",
+        "Sim",
+        "Não"
+    );
+
+    $("#btnPrimario-modalDeNotificacao").off();
+    $("#btnPrimario-modalDeNotificacao").on("click", function() { desativarConta(); });
+}
+
+function desativarConta(){
+    const dados = new FormData($("#altVendedorForm").get(0));
+    dados.append("desativar", true);
+  
+    fetch("../actions/alterVendedor_exe.php", {
+      method: "POST",
+      body: dados
+    })
+    .then(response => {
+        console.log(response);
+        // Se a requisição tiver sido feita com sucesso
+        if(response.ok){
+            alert("Usuário desativado com sucesso!");
+            location.reload();
+        } else {
+           throw new Error("Houve um erro ao desativar o usuário.");
+        }
+    }) // Caso ocorra um erro
+    .catch(error => {
+        alert("Erro na requisição: " + error);
+        location.reload();
+    });
 }

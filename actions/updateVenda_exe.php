@@ -36,9 +36,9 @@
         // Executar UPDATE de anúncio [camiseta]
         mysqli_query($conn, $updateQuery);
 
-        echo json_encode( array( "success" => true, "message" => "mesnagem"));
-
         mysqli_commit($conn); // Termina transaction
+
+        echo json_encode( array( "success" => true, "message" => "Venda atualizada com sucesso!"));
 
     } catch (Exception $e){
         mysqli_rollback($conn);
