@@ -17,6 +17,17 @@
         exit; // Encerrar o script
     }
 
+    if(isset($_POST["reativar"])){
+        try{
+            mysqli_query($conn, "UPDATE camiseta SET inativo = NULL WHERE id = ".$_POST["reativar"]);
+            echo json_encode( array( "success" => true, "message" => "Sucesso ao reativar usuário"));
+        } catch(Exception $e){
+            echo json_encode( array( "success" => false, "message" => "Erro ao reativar usuário:".$e->getMessage()));
+        }
+        exit;
+    }
+
+
     // Definindo header da resposta http
     header("Content-Type: application/json");
 

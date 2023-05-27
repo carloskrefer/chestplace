@@ -184,7 +184,7 @@
           if (mysqli_num_rows($result) > 0) {
             while($row = mysqli_fetch_assoc($result)) {
               //Data de publicação convertida para DateTime do php
-              $dataCadastro = new DateTime($row["data_hora_cadastro"]);
+              $dataDesativado = new DateTime($row["inativo"]);
               $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$row['id']." LIMIT 1;";
               $resultadoimg = mysqli_query($conn, $sql);
               while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
@@ -199,7 +199,7 @@
 
               //Se o anuncio foi feito há menos de dois dias
               //Tag 'Novo'
-              if($dataHoraAtual->diff($dataCadastro)->days < 2){
+              if($dataHoraAtual->diff($dataDesativado)->days < 2){
                 echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
               }
 
@@ -209,6 +209,9 @@
 
               //Coloca botões, título e preço do anúncio
               echo "
+                      <div class=\"w3-display-middle w3-display-hover\" style=\"position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:4;\">
+                        <button onclick=\"confirmarReativacao(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa-solid fa-plus\"></i>&nbsp; Reativar anúncio</button>
+                      </div>
                     </div>
                   </div>
                   <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>
