@@ -235,10 +235,9 @@ nav { background-color: #3C486B!important; }
 
                                                         while ($rowQuantidade = mysqli_fetch_assoc($resultQuantidades)) {
                                                             $optionQuantidade = $rowQuantidade["quantidade"];
-                                                            for ($i = 1; $i < $optionQuantidade; $i++) {
+                                                            for ($i = 1; $i <= $optionQuantidade; $i++) {
                                                               echo "<option value=\"$i\">$i</option>";
                                                           }
-                                                            echo "<option value=\"$optionQuantidade\">$optionQuantidade</option>";
                                                         }
                                             echo "</select>
                                                 </td>
