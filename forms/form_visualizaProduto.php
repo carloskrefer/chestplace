@@ -201,10 +201,56 @@ nav { background-color: #3C486B!important; }
                                 <div style=\" margin-top:100px margin-bottom: 550px;\">
                                 <p style=\"color: #3C486B; font-size: 28px;\"><b>R$".number_format($produto["preco"], 2, ',', '.')."</b></p>
                                 </div>
-                                <div style=\" margin-top: 0px; margin-bottom:300px;\">
+                                <div style=\" margin-top: 0px; margin-bottom:50px;\">
                                 <button  class=\" w3-left-align w3-button w3-black \">&nbsp;Comprar</button>
                                 </div>
-                              
+                                <div>
+                                <p>
+                                    <label class=\"w3-text-IE\"><b>Tamanhos/Quantidade</b>*</label>
+                                    <table class=\"w3-table w3-card\" id=\"tabelaTamanhos\" style=\"width:100%\">
+                                        <th class=\"w3-center\">Tamanho</th>
+                                        <th class=\"w3-center\">Quantidade</th>";
+
+                                $queryTamanhos = "SELECT * FROM tamanho";
+                                $resultTamanhos = mysqli_query($conn, $queryTamanhos);
+
+                                if (mysqli_num_rows($resultTamanhos) > 0) {
+                                    while ($rowTamanho = mysqli_fetch_assoc($resultTamanhos)) {
+                                        $queryEstoque = "SELECT * FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = " . $rowTamanho["id"];
+                                        $resultEstoque = mysqli_query($conn, $queryEstoque);
+                                        $rowEstq = mysqli_fetch_assoc($resultEstoque);
+
+                                        // Verifica se o tamanho está disponível (possui estoque)
+                                        if (mysqli_num_rows($resultEstoque) > 0) {
+                                            $quantidade = isset($rowEstq["quantidade"]) ? $rowEstq["quantidade"] : "";
+
+                                            echo "
+                                            <tr>
+                                                <td class=\"w3-left-align\">{$rowTamanho["codigo"]} - {$rowTamanho["descricao"]}</td>
+                                                <td class=\"w3-center\">
+                                                    <select class=\"quantidade\" id=\"inpt-{$rowTamanho["codigo"]}\" name=\"quantidade_{$rowTamanho["codigo"]}\" required>
+                                                        <option value=\"\">Selecione uma quantidade</option>";
+
+                                            // Recupera os valores de quantidade do banco de dados
+                                            $queryQuantidades = "SELECT quantidade FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = " . $rowTamanho["id"];
+                                            $resultQuantidades = mysqli_query($conn, $queryQuantidades);
+
+                                            while ($rowQuantidade = mysqli_fetch_assoc($resultQuantidades)) {
+                                                $optionQuantidade = $rowQuantidade["quantidade"];
+                                                echo "<option value=\"$optionQuantidade\">$optionQuantidade</option>";
+                                            }
+
+                                            echo "</select>
+                                                </td>
+                                            </tr>";
+                                        }
+                                    }
+                                }
+
+                                echo "
+                                    </table>
+                                </p>
+                                </div>
                               </div>
                             </div>
                             </div>
@@ -214,60 +260,6 @@ nav { background-color: #3C486B!important; }
                         }
                     }
                     ?>
-                    <p>
-                      <label class="w3-text-IE"><b>Escolha um tamanho</b></label>
-                      <table class="w3-table w3-card" id="tabelaTamanhos" style="width:50%">
-                          <th class="w3-left-align">Tamanho</th>
-                          <th class="w3-left-align">Quantidade</th>
-                          <?php
-                          $queryTamanhos = "SELECT * FROM tamanho";
-                          $resultTamanhos = mysqli_query($conn, $queryTamanhos);
-
-                          if (mysqli_num_rows($resultTamanhos) > 0) {
-                              while ($rowTamanho = mysqli_fetch_assoc($resultTamanhos)) {
-                                  $queryEstoque = "SELECT * FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = " . $rowTamanho["id"];
-                                  $resultEstoque = mysqli_query($conn, $queryEstoque);
-                                  $rowEstq = mysqli_fetch_assoc($resultEstoque);
-
-                                  // Verifica se o tamanho está disponível (possui estoque)
-                                  if (mysqli_num_rows($resultEstoque) > 0) {
-                                      $quantidade = isset($rowEstq["quantidade"]) ? $rowEstq["quantidade"] : "";
-
-                                      echo "
-                                          <tr>
-                                              <td class=\"w3-left-align\">{$rowTamanho["codigo"]} - {$rowTamanho["descricao"]}</td>
-                                              <td class=\"w3-left-align\">
-                                                  <select style=\"width:23%; border-radius: 5px;\" class=\"quantidade\" id=\"inpt-{$rowTamanho["codigo"]}\" name=\"quantidade_{$rowTamanho["codigo"]}\" required>
-                                                    <option value=\"\">0</option>";
-                                                      
-                                                      // Recupera os valores de quantidade do banco de dados
-                                                      $queryQuantidades = "SELECT quantidade FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = " . $rowTamanho["id"];
-                                                      $resultQuantidades = mysqli_query($conn, $queryQuantidades);
-                                                      
-                                                      while ($rowQuantidade = mysqli_fetch_assoc($resultQuantidades)) {
-                                                          $optionQuantidade = $rowQuantidade["quantidade"];
-                                                          echo "<option value=\"$optionQuantidade\">$optionQuantidade</option>";
-                                                      }
-                                                      
-                                      echo "</select>
-                                              </td>
-                                          </tr>
-                                      ";
-                                  }
-                              }
-                          }
-                          ?>
-                      </table>
-                  </p>
-
-
-
-
-                                
-                    
-    
-    
-  
   <!-- Subscribe section -->
   <div style = "background-color: #F0F0F0" class="w3-container w3-padding-32">
     <h1>Ofertas</h1>
