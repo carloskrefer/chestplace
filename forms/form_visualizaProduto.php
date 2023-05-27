@@ -206,10 +206,9 @@ nav { background-color: #3C486B!important; }
                                 </div>
                                 <div>
                                 <p>
-                                    <label class=\"w3-text-IE\"><b>Tamanhos/Quantidade</b>*</label>
-                                    <table class=\"w3-table w3-card\" id=\"tabelaTamanhos\" style=\"width:100%\">
-                                        <th class=\"w3-center\">Tamanho</th>
-                                        <th class=\"w3-center\">Quantidade</th>";
+                                <table class=\"w3-table w3-card\" id=\"tabelaTamanhos\" style=\"width:100%\">
+                                <th class=\"w3-center\">Tamanho</th>
+                                <th class=\"w3-center\">Quantidade</th>";
 
                                 $queryTamanhos = "SELECT * FROM tamanho";
                                 $resultTamanhos = mysqli_query($conn, $queryTamanhos);
@@ -229,17 +228,18 @@ nav { background-color: #3C486B!important; }
                                                 <td class=\"w3-left-align\">{$rowTamanho["codigo"]} - {$rowTamanho["descricao"]}</td>
                                                 <td class=\"w3-center\">
                                                     <select class=\"quantidade\" id=\"inpt-{$rowTamanho["codigo"]}\" name=\"quantidade_{$rowTamanho["codigo"]}\" required>
-                                                        <option value=\"\">Selecione uma quantidade</option>";
+                                                        <option value=\"\">0</option>";
+                                                        // Recupera os valores de quantidade do banco de dados
+                                                        $queryQuantidades = "SELECT quantidade FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = " . $rowTamanho["id"];
+                                                        $resultQuantidades = mysqli_query($conn, $queryQuantidades);
 
-                                            // Recupera os valores de quantidade do banco de dados
-                                            $queryQuantidades = "SELECT quantidade FROM estoque WHERE id_camiseta = $idCamiseta AND id_tamanho = " . $rowTamanho["id"];
-                                            $resultQuantidades = mysqli_query($conn, $queryQuantidades);
-
-                                            while ($rowQuantidade = mysqli_fetch_assoc($resultQuantidades)) {
-                                                $optionQuantidade = $rowQuantidade["quantidade"];
-                                                echo "<option value=\"$optionQuantidade\">$optionQuantidade</option>";
-                                            }
-
+                                                        while ($rowQuantidade = mysqli_fetch_assoc($resultQuantidades)) {
+                                                            $optionQuantidade = $rowQuantidade["quantidade"];
+                                                            for ($i = 1; $i < $optionQuantidade; $i++) {
+                                                              echo "<option value=\"$i\">$i</option>";
+                                                          }
+                                                            echo "<option value=\"$optionQuantidade\">$optionQuantidade</option>";
+                                                        }
                                             echo "</select>
                                                 </td>
                                             </tr>";
