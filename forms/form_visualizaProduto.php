@@ -51,7 +51,7 @@ nav { background-color: #3C486B!important; }
   
   <!-- Top header -->
   <header class="w3-container w3-xlarge">
-    <p class="w3-left">Camisetas</p>
+    
     <p class="w3-right">
       <?php
         // Exibe nome do usuário logado e o botão de logout, se não mostrará os botões de login e cadastro
@@ -149,39 +149,63 @@ nav { background-color: #3C486B!important; }
   <?php
                       $idCamiseta = $_GET["id"];
                       $queryProdutos = "SELECT * FROM camiseta WHERE id = ".$idCamiseta.";";
+                      // SELECT camiseta.*, vendedor.* FROM camiseta JOIN vendedor ON camiseta.id_vendedor = vendedor.id_usuario WHERE id = ".$idCamiseta.";
+                      // SELECT * FROM camiseta WHERE id = ".$idCamiseta.
                       $result = mysqli_query($conn, $queryProdutos);
                       if (mysqli_num_rows($result) > 0) {  
                         // Loop pelos resultados
                         while ($produto = mysqli_fetch_assoc($result)) {
                           $sql = "SELECT  id, imagem FROM imagem where id_produto =" .$produto['id']." limit 1;";
                           $resultadoimg = mysqli_query($conn, $sql);
-                          while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
-                            $imagemcamiseta = $rowimg['imagem'];
-                          }
+
+                          // while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
+                          //   $imagemcamiseta = $rowimg['imagem'];
+                          // }
                           echo "
                           <div id=\"div-camiseta\">
                             <div >
-                              <div style = \"background-color: #F0F0F0; padding-right: 100px; padding-left: 100px; display: flex;
-                              align-items: center; \"   >
-                                <div  class=\"w3-display-container\" style= \" background-color: black display: flex;
-                                justify-content: center;
-                                align-items: center; padding-right: 15px;\">
-                              ";
-                              echo "<span style=\"margin-right: 15px;\"class=\"w3-tag w3-display-topright\">".$produto["conservacao"]."</span>";
-                              echo "<img style=\"width:13vw; aspect-ratio: 13/16; object-fit:cover;\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\"width= \"100%\"\>";
+                              <div style = \"background-color: #F0F0F0; padding-right: 0px; padding-left: 0px; display: flex;
+                              align-items: center; justify-content: center; \"   >
+                                <div  class=\"w3-display-container\" style= \"margin-right: 40px; margin-left: 70px; background-color: black display: flex; margin: auto width: 56.2%; \">
+                              "; 
+                              echo "<span style=\"margin-right: 0px;\"class=\"w3-tag w3-display-topright\">".$produto["conservacao"]."</span>";
+                              ?>
+                              <!-- <button id="prev-img" class="w3-button w3-xlarge w3-round" style="background-color:#f4dc55"><i class="fa-solid fa-caret-left"></i></button> -->
+                              <?php
+                              $first = true;
+                              $idImg = 0;
+                                while($imagem = mysqli_fetch_assoc($resultadoimg)){
+                                    $hide = $first ? "" : "w3-hide";
+                                    echo "<img id=\"img-$idImg\"class=\"$hide\" src=\"data:imagem/jpeg;base64,".base64_encode($imagem["imagem"])."\" style=\"width: 100%; aspect-ratio: 1; object-fit:cover; margin:auto;\">";
+                                    $first = false;
+                                    $idImg++;
+                                }
+                                ?>
+                                <!-- <button id="next-img" class="w3-button w3-xlarge w3-round" style="background-color:#f4dc55"><i class="fa-solid fa-caret-right"></i></button> -->
+                                
+                                <?php
+                                echo "
+                                <div style=\" flex-direction: row; display: flex; \"><p>Descricao: </p></div>
+                                <div style=\" flex-direction: row; display: flex; width: 100%; \"><p style=\"color: #3C486B;\">".$produto["descricao"]."</p></div>
+                                                                                                  
+                                ";
+                                
                               //Coloca título e preço do anúncio
                               echo "  
                                 
                               </div>
-                              <div style=\" padding-left:50px display: flex; \">
-                                <div style=\" margin-top:100px\">
-                                  <p style=\"color: #3C486B;\">".$produto["descricao"]."</p>
+                              <div style=\" margin: auto display: flex; flex-direction: row; margin-rigth: 15px;\">
+                                <div style=\" margin-top:100px margin-bottom: 0px;\">
+                                <p style=\"color: #3C486B; font-size: 31px;\">".$produto["titulo"]."</p>
                                 </div>
-                                <div >
-                                  <p style=\"color: #3C486B;\"><b>R$".number_format($produto["preco"], 2, ',', '.')."</b></p>
+                                <div style=\" margin-top:100px margin-bottom: 550px;\">
+                                <p style=\"color: #3C486B; font-size: 28px;\"><b>R$".number_format($produto["preco"], 2, ',', '.')."</b></p>
                                 </div>
-                                <div style=\" margin-bottom:50px\">
+                                <div style=\" margin-top: 0px; margin-bottom:300px;\">
                                 <button  class=\" w3-left-align w3-button w3-black \">&nbsp;Comprar</button>
+                                </div>
+                                <div>
+
                                 </div>
                               </div>
                             </div>
