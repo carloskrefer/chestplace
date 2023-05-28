@@ -18,7 +18,7 @@ CREATE TABLE usuario(
   id int(10) UNSIGNED NOT NULL AUTO_INCREMENT, 
   nome varchar(255) NOT NULL, 
   email varchar(255) UNIQUE NOT NULL, 
-  senha varchar(255) NOT NULL, 
+  senha char(32) NOT NULL, 
   banido datetime DEFAULT NULL,
   inativo datetime DEFAULT NULL,
   PRIMARY KEY (id)

@@ -13,7 +13,7 @@
     // Dados do usuario
     $nome       =   $_POST["nome"];
     $emailLogin =   $_POST["emailLogin"];
-    $senha      =   $_POST["senha"];
+    $senhaHash  =   md5($_POST["senha"]); // Calcula o código hash da senha (32 caracteres hexadecimais)
 
     // Dados do comprador
     $cpf                 = $_POST["cpf"];

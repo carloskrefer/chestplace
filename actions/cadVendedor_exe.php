@@ -13,7 +13,7 @@
     // Dados do usuario
     $nome = $_POST["nome"];
     $emailLogin = $_POST["emailLogin"];
-    $senha = $_POST["senha"];
+    $senhaHash = md5($_POST["senha"]); // Calcula o código hash da senha (32 caracteres hexadecimais)
 
     // Dados do vendedor
     $nomeEstabelecimento = $_POST["nomeEstabelecimento"];
@@ -35,7 +35,7 @@
     $insertQueryEndereco = "INSERT INTO endereco (rua, cep, complemento, numero, bairro, cidade, uf) VALUES (\"$rua\",\"$cep\", \"$complemento\", \"$numero\", \"$bairro\",\"$cidade\", \"$estado\");";
 
     // Query para inserir usuario no BD
-    $insertQueryUsuario = "INSERT INTO usuario (nome, email, senha) VALUES (\"".$nome."\",\"".$emailLogin."\",\"".$senha."\")";
+    $insertQueryUsuario = "INSERT INTO usuario (nome, email, senha) VALUES (\"".$nome."\",\"".$emailLogin."\",\"".$senhaHash."\")";
     
     
     // Inicia transaction
