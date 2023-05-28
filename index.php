@@ -183,8 +183,8 @@ nav { background-color: #3C486B!important; }
 
       <div class="w3-container w3-card-4 w3-light-grey w3-margin">
         <div class="w3-section">
-          <button onclick="//TODO: adicionar aqui o futuro link de cadastro do cliente" 
-            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente (em breve!)</button>
+          <button onclick="window.location.href='./forms/form_cadComprador.php'" 
+            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente</button>
           <button onclick="window.location.href='./forms/form_cadVendedor.php'"
             class="w3-button w3-block w3-theme w3-section w3-padding w3-orange" type="submit" style="font-weight:700;">Sou vendedor</button>
         </div>

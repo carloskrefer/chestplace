@@ -39,8 +39,13 @@ CREATE TABLE vendedor(
 
 CREATE TABLE comprador(
   id_usuario int(10) UNSIGNED NOT NULL PRIMARY KEY, 
-  cpf varchar(11) DEFAULT NULL, 
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+  cpf varchar(14) DEFAULT NULL, 
+  id_endereco_faturamento int(10) UNSIGNED NULL,
+  id_endereco_entrega int(10) UNSIGNED NULL,
+  telefone_contato varchar(30) NULL,
+  FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+  FOREIGN KEY (id_endereco_faturamento) REFERENCES endereco(id),
+  FOREIGN KEY (id_endereco_entrega) REFERENCES endereco(id)
 );
 
 CREATE TABLE administrador(

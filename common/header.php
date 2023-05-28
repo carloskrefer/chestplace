@@ -72,7 +72,7 @@
          ";
     }
 
-    if($tipoPagina == "cadastroVendedor"){
+    if(($tipoPagina == "cadastroVendedor") or ($tipoPagina == "cadastroComprador")){
 
         $imgLogo = "../imagens/logo_chestplace.png";
 
