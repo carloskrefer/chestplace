@@ -33,7 +33,8 @@
         "PRODUTO" => " ORDER BY c.titulo",
         "VALOR" => " ORDER BY c.preco * cv.quantidade",
         "COMPRADOR" => " ORDER BY u.nome",
-        "dcompra" => " ORDER BY cv.data_hora_compra",
+        "DCOMPRA" => " ORDER BY cv.data_hora_compra",
+        "STATUS" => " ORDER BY status",
         NULL => ""
     );
 
@@ -107,13 +108,15 @@
                     <i class="fa-sharp fa-solid fa-sort-down ord" id="COMPRADOR-ASC"></i>
                     <i class="fa-sharp fa-solid fa-sort-up ord" id="COMPRADOR-DESC"></i>
                 </th>
-                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 15%;" onclick="ordenar('dcompra')">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 15%;" onclick="ordenar('DCOMPRA')">
                     DATA DA COMPRA
-                    <i class="fa-sharp fa-solid fa-sort-down ord" id="dcompra-ASC"></i>
-                    <i class="fa-sharp fa-solid fa-sort-up ord" id="dcompra-DESC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="DCOMPRA-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="DCOMPRA-DESC"></i>
                 </th>
-                <th class="w3-center" style="width: 15%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 15%;" onclick="ordenar('STATUS')">
                     STATUS
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="STATUS-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="STATUS-DESC"></i>
                 </th>
                 <th class="w3-center" style="width: 15%;">
                     </i> OPÇÕES
@@ -127,19 +130,46 @@
                 $sentido   = isset($_GET["sentido"]) && ($_GET["sentido"] == "ASC" || $_GET["sentido"] == "DESC") ? " ".$_GET["sentido"] : "";
                 
                 $indexExibicao = 0;
-                $selectVendasQuery = "SELECT cv.id, c.titulo, c.preco, cv.quantidade, cv.data_hora_compra,cv.data_hora_confirmacao_pagamento, cv.data_hora_recebimento, u.nome  FROM compra_venda cv INNER JOIN camiseta c ON cv.id_camiseta = c.id  INNER JOIN usuario u ON cv.id_comprador = u.id  WHERE c.id_vendedor =  " . $_SESSION["idVendedor"] . $filtro . $ordenacao . $sentido;
+                $selectVendasQuery = 
+                "SELECT 
+                    cv.id,
+                    c.titulo, 
+                    c.preco, 
+                    cv.quantidade, 
+                    cv.data_hora_compra,
+                    cv.data_hora_confirmacao_pagamento, 
+                    cv.data_hora_recebimento, u.nome,
+                    CASE
+                        WHEN cv.data_hora_confirmacao_pagamento IS NULL THEN 'Aguardando pagamento'
+                        WHEN cv.data_hora_recebimento IS NULL THEN 'Pedido em trânsito'
+                        ELSE 'Pedido entregue ao destinatário'
+                    END AS status
+                FROM 
+                    compra_venda cv 
+                    INNER JOIN camiseta c 
+                    ON cv.id_camiseta = c.id  
+                    INNER JOIN usuario u 
+                    ON cv.id_comprador = u.id  
+                WHERE 
+                    c.id_vendedor =  " . $_SESSION["idVendedor"] .
+                    $filtro .
+                    $ordenacao .
+                    $sentido .
+                    ($sentido != "" ? ", u.nome ASC;" : "")
+                    ;
+                
                 $resultVendas = mysqli_query($conn, $selectVendasQuery);
 
 
                 while($venda = mysqli_fetch_assoc($resultVendas)){
 
-                    if(is_null($venda["data_hora_confirmacao_pagamento"])){
-                        $status = "Aguardando pagamento";
-                    } else if(is_null($venda["data_hora_recebimento"])){
-                        $status = "Pedido em trânsito";
-                    } else {
-                        $status = "Pedido entregue ao destinatário.";
-                    }
+                    // if(is_null($venda["data_hora_confirmacao_pagamento"])){
+                    //     $status = "Aguardando pagamento";
+                    // } else if(is_null($venda["data_hora_recebimento"])){
+                    //     $status = "Pedido em trânsito";
+                    // } else {
+                    //     $status = "Pedido entregue ao destinatário.";
+                    // }
 
                     $subtotal = number_format(floatval($venda["preco"])*floatval($venda["quantidade"]),2,",",".");
 
@@ -153,7 +183,7 @@
                         </td>
                         <td class=\"w3-center\">".$venda["nome"]."</td>
                         <td class=\"w3-center\">".date('d/m/Y H:i', strtotime($venda['data_hora_compra']))."</td>
-                        <td class=\"w3-center\">$status</td>
+                        <td class=\"w3-center\">".$venda["status"]."</td>
                         <td class=\"w3-center\">
                             <a href=\"./forms/form_updateVenda.php?idVenda=".$venda["id"]."\" class=\"w3-button w3-blue\">Visualizar</a>
                         </td>
