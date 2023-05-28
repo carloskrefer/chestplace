@@ -49,15 +49,16 @@
     <!-- Push down content on small screens -->
     <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
 
-
+    <!-- PRODUTO ATIVOS -->
     <div class="w3-container w3-text-grey w3-margin-top" style="padding-top:20px;" id="jeans">
-      <h4 class="w3-text-green"><i class="fa-solid fa-eye"></i> Produtos ativos</h4>
-      <p>
+      <h4 class="w3-text-green"><span id="showHide-publicado" style="cursor:pointer;" onclick="showHide('qtde-publicado','itens-publicado', 'showHide-publicado')"><i class="fa-solid fa-eye"></i></span> Produtos publicados </h4>
+      <p id="qtde-publicado">
         <?php
           $queryQtde = "
           SELECT count(*) qtde 
           FROM camiseta c 
           WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND data_hora_publicacao <= NOW()
           AND inativo IS NULL;";
 
           $result = mysqli_query($conn, $queryQtde);
@@ -72,9 +73,7 @@
         ?>  
       </p>
     </div>
-
-    <!-- Product grid -->
-    <div class="w3-row">
+    <div id="itens-publicado" class="w3-row">
       <?php
 
         //Coleta data e hora atual (momento da execução)
@@ -85,6 +84,7 @@
           SELECT * 
           FROM camiseta c 
           WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND data_hora_publicacao <= NOW()
           AND inativo IS NULL 
           GROUP BY c.id;";
 
@@ -141,9 +141,104 @@
       
   </div>
     <hr>
+
+    <!-- PRODUTO AINDA NÃO DISPONÍVEIS PARA COMPRA -->
+    <div class="w3-container w3-text-grey w3-margin-top" style="padding-top:20px;" id="jeans">
+      <h4 class="w3-text-orange"><span id="showHide-nPublicado" style="cursor:pointer;" onclick="showHide('qtde-nPublicado','itens-nPublicado', 'showHide-nPublicado')"><i class="fa-solid fa-eye"></i></span> Produtos não publicados </h4>
+      <p id="qtde-nPublicado">
+        <?php
+          $queryQtde = "
+          SELECT count(*) qtde 
+          FROM camiseta c 
+          WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND data_hora_publicacao > NOW()
+          AND inativo IS NULL;";
+
+          $result = mysqli_query($conn, $queryQtde);
+
+          if (mysqli_num_rows($result) > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+              echo $row["qtde"]." produtos";
+            }
+          } else {
+            echo "0 results";
+          }
+        ?>  
+      </p>
+    </div>
+    <div id="itens-nPublicado" class="w3-row">
+      <?php
+
+        //Coleta data e hora atual (momento da execução)
+        $dataHoraAtual = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s'));;
+
+        //Select das camisetas e imagens das camisetas do vendedor passado por _GET
+        $queryProdutos = "
+          SELECT * 
+          FROM camiseta c 
+          WHERE c.id_vendedor =".$_SESSION["idVendedor"]."
+          AND data_hora_publicacao > NOW()
+          AND inativo IS NULL 
+          GROUP BY c.id;";
+
+        //Resultao do Select
+        $result = mysqli_query($conn, $queryProdutos);
+
+        //Percorrendo resultado do select
+        if (mysqli_num_rows($result) > 0) {
+          while($row = mysqli_fetch_assoc($result)) {
+            //Data de publicação convertida para DateTime do php
+            $dataCadastro = new DateTime($row["data_hora_cadastro"]);
+            $sql = "SELECT  id, imagem FROM imagem WHERE id_produto = " .$row['id']." limit 1;";
+            $resultadoimg = mysqli_query($conn, $sql);
+            while ($rowimg = mysqli_fetch_assoc($resultadoimg)){
+            $imagemcamiseta = $rowimg['imagem'];
+            }
+            
+            echo "
+              <div class=\"w3-col l3 s6\">
+                <div class=\"w3-container\">
+                  <div class=\"w3-display-container\">
+            ";
+
+            //Se o anuncio foi feito há menos de dois dias
+            //Tag 'Novo'
+            if($dataHoraAtual->diff($dataCadastro)->days < 2){
+              echo "<span class=\"w3-tag w3-display-topleft\">Novo</span>";
+            }
+
+            echo "<div style=\"position:relative; width:13vw; aspect-ratio: 13/16; display: inline-block; \">";
+            // echo "<img src=\"data:" . $imageType . ";base64," . $base64Image . "\" style=\"width:100%;\">";
+            echo "  <img class=\"w3-shadow w3-card\" src=\"data:imagem/jpeg;base64,".base64_encode($imagemcamiseta)."\" style=\"position:relative; z-index:1;width:100%; aspect-ratio: 13/16; object-fit:cover;\">";
+
+            //Coloca botões, título e preço do anúncio
+            echo "
+                    <div class=\"w3-display-middle w3-display-hover\" style=\"position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); text-align:center; z-index:4;\">
+                      <button onclick=\"goToAlterProduto(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-edit\"></i>&nbsp;Editar</button>
+                      <button onclick=\"confirmarDelecao(".$row["id"].")\" class=\" w3-left-align w3-button w3-black w3-block\"><i class=\"fa fa-trash\"></i>&nbsp;Apagar</button>
+                    </div>
+                  </div>
+                </div>
+                <p>".$row["titulo"]."<br><b>R$ ".number_format($row["preco"], 2, ',', '.')."</b></p>
+                </div>
+              </div>
+            ";
+
+            
+          }
+        }
+
+      ?>
+
+
+      
+  </div>
+    <hr>
+
+    <!-- PRODUTO INATIVOS -->
     <div class="w3-container w3-text-grey" id="jeans">
-      <h4 class="w3-text-red"><i class="fa-solid fa-eye-slash"></i> Produtos inativos</h4>
-      <p>
+      <h4 class="w3-text-red"><span id="showHide-inativo" style="cursor:pointer;" onclick="showHide('qtde-inativo','itens-inativo', 'showHide-inativo')"><i class="fa-solid fa-eye"></i></span> Produtos inativos </h4>
+      <p id="qtde-inativo">
         <?php
           $queryQtde = "
           SELECT count(*) qtde 
@@ -163,7 +258,7 @@
         ?>  
       </p>
     </div>
-    <div class="w3-row w3-grayscale-max">
+    <div id="itens-inativo" class="w3-row w3-grayscale-max">
         <?php
 
           //Coleta data e hora atual (momento da execução)
@@ -230,7 +325,7 @@
     </div>
   
   <!-- End page content -->
-    <div id="teste" style="  position: fixed; bottom: 0; left: 0; width: 100%;" class="w3-black w3-center w3-padding">
+    <div id="teste" style=" z-index:100; position: fixed; bottom: 0; left: 0; width: 100%;" class="w3-black w3-center w3-padding">
       Powered by 
       <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-opacity">
         w3.css

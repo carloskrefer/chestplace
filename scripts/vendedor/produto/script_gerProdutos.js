@@ -100,3 +100,19 @@
         $("#btnPrimario-modalDeNotificacao").off();
         $("#btnPrimario-modalDeNotificacao").on("click", function() { reativarAnuncio(id) });
     }
+
+    function showHide(qtdeElement,itensElement, showHideElement){
+        let estaEscondido = $("#"+qtdeElement).hasClass("w3-hide");
+        
+        if(estaEscondido){
+
+            $("#"+qtdeElement).removeClass("w3-hide");
+            $("#"+itensElement).removeClass("w3-hide");
+            $("#"+showHideElement).html("<i class=\"fa-solid fa-eye\"></i></span>");
+        } else {
+            $("#"+qtdeElement).addClass("w3-hide");
+            $("#"+itensElement).addClass("w3-hide");
+            $("#"+showHideElement).html("<i class=\"fa-solid fa-minus\"></i>");
+        }
+
+    }
