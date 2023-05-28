@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <?php 
     session_start();
 
@@ -8,9 +10,6 @@
     require("../validacaoAcessoVendedor.php");
  ?>
 
-
-
-<!DOCTYPE html>
 
 <html>
 
@@ -47,7 +46,7 @@
                             <td style="width:50%;">
                                 <p>
                                     <label class="w3-text-IE"><b>Título</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="titulo" name="titulo" type="text" title="Nome entre 10 e 100 letras." value="" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="titulo" name="titulo" type="text" title="Nome entre 10 e 100 letras." placeholder="Insira o título do anúncio" value="" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Descrição</b>*</label>

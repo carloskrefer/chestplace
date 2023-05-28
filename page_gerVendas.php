@@ -4,6 +4,7 @@
 
     // Imports
     include("./database/conectaBD.php");
+    include("./common/functions.php");
 
 
     // Verifica se está logado e se de fato é vendedor. Se não, redireciona para index.php.
@@ -11,6 +12,31 @@
 
     // Utilizado para definir os botões do header
     $tipoPagina = "gerenciarVendasVendedor";
+
+    if(!isset($_GET["pesquisarPor"])) $_GET["pesquisarPor"] = "";
+    if(!isset($_GET["pesquisa"])) $_GET["pesquisa"] = "";
+    if(!isset($_GET["orderBy"])) $_GET["orderBy"] = "";
+    if(!isset($_GET["sentido"])) $_GET["sentido"] = "";
+
+    // Define o filto de pesquisa
+    $letrasDaPesquisa = str_split(str_replace(" ","",$_GET["pesquisa"]));
+    $enumFiltro = array(
+        "ID" => " AND cv.id LIKE '%".implode("%' AND cv.id LIKE '%", $letrasDaPesquisa)."%'",
+        "PRODUTO" => " AND c.titulo LIKE '%".implode("%' AND c.titulo LIKE '%", $letrasDaPesquisa)."%'",
+        "COMPRADOR" => " AND u.nome LIKE '%".implode("%' AND u.nome LIKE '%", $letrasDaPesquisa)."%'",
+        NULL => ""
+    );
+
+    // Define a ordenação da pesquisa
+    $enumOrderBy = array(
+        "ID" => " ORDER BY cv.id",
+        "PRODUTO" => " ORDER BY c.titulo",
+        "VALOR" => " ORDER BY c.preco * cv.quantidade",
+        "COMPRADOR" => " ORDER BY u.nome",
+        "DCOMPRA" => " ORDER BY cv.data_hora_compra",
+        "STATUS" => " ORDER BY status",
+        NULL => ""
+    );
 
 ?>
 <html>
@@ -47,25 +73,50 @@
         <h3 class="w3-margin-top w3-margin-bottom">
             Vendas realizadas
         </h3>
+        <div class="w3-card w3-padding w3-margin-bottom">
+            <div class="w3-margin-bottom" style="display:flex; align-items: stretch; justify-content: space-between;">
+                <select style="width:15%" class="w3-input" name="pesquisarPor" id="pesquisarPor">
+                    <option value="ID" <?= ($_GET["pesquisarPor"] == "ID") ? "selected" : "" ?>>ID</option>
+                    <option value="PRODUTO" <?= ($_GET["pesquisarPor"] == "PRODUTO") ? "selected" : "" ?>>PRODUTO</option>
+                    <option value="COMPRADOR" <?= ($_GET["pesquisarPor"] == "COMPRADOR") ? "selected" : "" ?>>COMPRADOR</option>
+                </select>
+                <input type="text" name="pesquisa" id="pesquisa" class="w3-input w3-border w3-large w3-round-large" style="width:75%;" placeholder="Insira o termo a ser pesquisado" value="<?= ($_GET["pesquisa"] != "null" && $_GET["pesquisa"] != null) ? $_GET["pesquisa"] : ""; ?>">
+                <button onclick="pesquisar();" class="w3-button w3-round-xxlarge w3-blue" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
         <thead>
             <tr>
-                <th class="w3-center" style="width: 5%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 5%;" onclick="ordenar('ID')">
                     ID
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="ID-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="ID-DESC"></i>
                 </th>
-                <th class="w3-center" style="width: 25%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 25%;" onclick="ordenar('PRODUTO')">
                     PRODUTO
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="PRODUTO-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="PRODUTO-DESC"></i>
                 </th>
-                <th class="w3-center" style="width: 10%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 10%;" onclick="ordenar('VALOR')">
                     VALOR
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="VALOR-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="VALOR-DESC"></i>
                 </th>
-                <th class="w3-center" style="width: 15%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 15%;" onclick="ordenar('COMPRADOR')">
                     COMPRADOR
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="COMPRADOR-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="COMPRADOR-DESC"></i>
                 </th>
-                <th class="w3-center" style="width: 15%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 15%;" onclick="ordenar('DCOMPRA')">
                     DATA DA COMPRA
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="DCOMPRA-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="DCOMPRA-DESC"></i>
                 </th>
-                <th class="w3-center" style="width: 15%;">
+                <th class="w3-center w3-hover-opacity" style="cursor:pointer; width: 15%;" onclick="ordenar('STATUS')">
                     STATUS
+                    <i class="fa-sharp fa-solid fa-sort-down ord" id="STATUS-ASC"></i>
+                    <i class="fa-sharp fa-solid fa-sort-up ord" id="STATUS-DESC"></i>
                 </th>
                 <th class="w3-center" style="width: 15%;">
                     </i> OPÇÕES
@@ -74,21 +125,53 @@
         </thead>
         <tbody>
             <?php
+                $filtro = array_key_exists($_GET["pesquisarPor"], $enumFiltro) ? $enumFiltro[$_GET["pesquisarPor"]] : "";
+                $ordenacao = array_key_exists($_GET["orderBy"], $enumOrderBy) ? $enumOrderBy[$_GET["orderBy"]] : "";
+                $sentido   = isset($_GET["sentido"]) && ($_GET["sentido"] == "ASC" || $_GET["sentido"] == "DESC") ? " ".$_GET["sentido"] : "";
+                
                 $indexExibicao = 0;
-                $selectVendasQuery = "SELECT cv.id, c.titulo, c.preco, cv.quantidade, cv.data_hora_compra,cv.data_hora_confirmacao_pagamento, cv.data_hora_recebimento, u.nome  FROM compra_venda cv INNER JOIN camiseta c ON cv.id_camiseta = c.id  INNER JOIN usuario u ON cv.id_comprador = u.id  WHERE c.id_vendedor =  " . $_SESSION["idVendedor"];
+                $selectVendasQuery = 
+                "SELECT 
+                    cv.id,
+                    c.titulo, 
+                    c.preco, 
+                    cv.quantidade, 
+                    cv.data_hora_compra,
+                    cv.data_hora_confirmacao_pagamento, 
+                    cv.data_hora_recebimento, u.nome,
+                    CASE
+                        WHEN cv.data_hora_confirmacao_pagamento IS NULL THEN 'Aguardando pagamento'
+                        WHEN cv.data_hora_recebimento IS NULL THEN 'Pedido em trânsito'
+                        ELSE 'Pedido entregue ao destinatário'
+                    END AS status
+                FROM 
+                    compra_venda cv 
+                    INNER JOIN camiseta c 
+                    ON cv.id_camiseta = c.id  
+                    INNER JOIN usuario u 
+                    ON cv.id_comprador = u.id  
+                WHERE 
+                    c.id_vendedor =  " . $_SESSION["idVendedor"] .
+                    $filtro .
+                    $ordenacao .
+                    $sentido .
+                    ($sentido != "" ? ", u.nome ASC;" : "")
+                    ;
+                
                 $resultVendas = mysqli_query($conn, $selectVendasQuery);
+
 
                 while($venda = mysqli_fetch_assoc($resultVendas)){
 
-                    if(is_null($venda["data_hora_confirmacao_pagamento"])){
-                        $status = "Aguardando pagamento";
-                    } else if(is_null($venda["data_hora_recebimento"])){
-                        $status = "Pedido em trânsito";
-                    } else {
-                        $status = "Pedido entregue ao destinatário.";
-                    }
+                    // if(is_null($venda["data_hora_confirmacao_pagamento"])){
+                    //     $status = "Aguardando pagamento";
+                    // } else if(is_null($venda["data_hora_recebimento"])){
+                    //     $status = "Pedido em trânsito";
+                    // } else {
+                    //     $status = "Pedido entregue ao destinatário.";
+                    // }
 
-                    $subtotal = number_format(floatval($venda["preco"])*floatval($venda["quantidade"]),2,",");
+                    $subtotal = number_format(floatval($venda["preco"])*floatval($venda["quantidade"]),2,",",".");
 
                     echo "
                     <tr>
@@ -99,8 +182,8 @@
                         <div class=\"w3-right\">".$subtotal."</div>
                         </td>
                         <td class=\"w3-center\">".$venda["nome"]."</td>
-                        <td class=\"w3-center\">".$venda["data_hora_compra"]."</td>
-                        <td class=\"w3-center\">$status</td>
+                        <td class=\"w3-center\">".date('d/m/Y H:i', strtotime($venda['data_hora_compra']))."</td>
+                        <td class=\"w3-center\">".$venda["status"]."</td>
                         <td class=\"w3-center\">
                             <a href=\"./forms/form_updateVenda.php?idVenda=".$venda["id"]."\" class=\"w3-button w3-blue\">Visualizar</a>
                         </td>
@@ -120,6 +203,6 @@
       </a>
     </div>
   </div>
-  <script src="./scripts/vendedor/produto/script_gerProdutos.js"></script>
+  <script src="./scripts/vendedor/venda/script_gerVendas.js"></script>
 </body>
 </html>
