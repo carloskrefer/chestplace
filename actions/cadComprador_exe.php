@@ -27,9 +27,14 @@
     $complementoFaturamento = $_POST["complementoFaturamento"];
     $cidadeFaturamento      = $_POST["cidadeFaturamento"];
     $estadoFaturamento      = $_POST["estadoFaturamentoSelect"];
-    // Se os endereços de entrega são diferentes dos de cobrança,
-    // coletá-los. Obs: 'isChecked' é o valor que dei para a propriedade 'value' do input do tipo checkbox.
-    if ($_POST["checkboxEnderecoEntrega"] == "isChecked") {
+
+    // Verifica se foi marcado o checkbox 'Utilizar endereço de faturamento para entregas'.
+    // Se foi marcado, seu valor é 'isChecked' (ver atributo 'value' do elemento input no 'form_cadComprador.php').
+    // Se não foi marcado, o atributo nem é enviado por POST (por isso foi necessário 'isset()').
+    $isEnderecoEntregaIgualFaturamento = isset($_POST["checkboxEnderecoEntrega"]) and ($_POST["checkboxEnderecoEntrega"] == "isChecked");
+
+    // Se os endereços de entrega e faturamento são diferentes, coletar os valores dos endereços de entrega.
+    if (!$isEnderecoEntregaIgualFaturamento) {
         $cepEntrega         = $_POST["cepEntrega"];
         $ruaEntrega         = $_POST["ruaEntrega"];
         $numeroEntrega      = $_POST["numeroEntrega"];
@@ -37,6 +42,17 @@
         $complementoEntrega = $_POST["complementoEntrega"];
         $cidadeEntrega      = $_POST["cidadeEntrega"];
         $estadoEntrega      = $_POST["estadoEntregaSelect"];  
+
+        // Verifica se, por algum motivo, o usuário resolveu marcar o checkbox mas
+        // escreveu o endereço de entrega e faturamento idênticos. Se sim, são iguais, então
+        // vou considerar como se tivesse marcado o checkbox.
+        $isEnderecoEntregaIgualFaturamento = ($cepFaturamento         == $cepEntrega)         and
+                                             ($ruaFaturamento         == $ruaEntrega)         and
+                                             ($numeroFaturamento      == $numeroEntrega)      and
+                                             ($bairroFaturamento      == $bairroEntrega)      and
+                                             ($complementoFaturamento == $complementoEntrega) and
+                                             ($cidadeFaturamento      == $cidadeEntrega)      and
+                                             ($estadoFaturamento      == $estadoEntrega);
     }
 
 
@@ -46,8 +62,8 @@
         VALUES (\"$ruaFaturamento\",\"$cepFaturamento\", \"$complementoFaturamento\", \"$numeroFaturamento\", \"$bairroFaturamento\",
             \"$cidadeFaturamento\", \"$estadoFaturamento\");";
     
-    // Query para inserir endereço de entrega no BD
-    if ($_POST["checkboxEnderecoEntrega"] == "isChecked") {
+    // Query para inserir endereço de entrega no BD (só insere se endereço faturamento e entrega forem diferentes, se não iria duplicar a mesma informação)
+    if (!$isEnderecoEntregaIgualFaturamento) {
         $insertQueryEnderecoEntrega = 
         "INSERT INTO endereco (rua, cep, complemento, numero, bairro, cidade, uf) 
             VALUES (\"$ruaEntrega\",\"$cepEntrega\", \"$complementoEntrega\", \"$numeroEntrega\", \"$bairroEntrega\",
@@ -55,7 +71,7 @@
     }
 
     // Query para inserir usuario no BD
-    $insertQueryUsuario = "INSERT INTO usuario (nome, email, senha) VALUES (\"".$nome."\",\"".$emailLogin."\",\"".$senha."\")";
+    $insertQueryUsuario = "INSERT INTO usuario (nome, email, senha) VALUES (\"".$nome."\",\"".$emailLogin."\",\"".$senhaHash."\")";
     
     
     // Inicia transaction
@@ -68,10 +84,10 @@
         // Obter ID do endereço de faturamento na tabela Endereco
         $idEnderecoFaturamento = mysqli_insert_id($conn);
 
-        // Se o usuário não marcou o checkbox 'Utilizar endereço de faturamento para entregas',
-        // então inserir na tabela endereço o endereço de entrega preenchido.
-        // Se o usuário marcou o checkbox, o idEnderecoEntrega é igual ao idEnderecoFaturamento.
-        if (!$_POST["checkboxEnderecoEntrega"] == "isChecked") {
+        // Se o endereço de entrega é diferente do endereço de faturamento,
+        // também inserir na tabela Endereco o de entrega. Se não, o id
+        // do endereço de entrega é o mesmo que o de faturamento (para não duplicar dados na tabela Endereco).
+        if (!$isEnderecoEntregaIgualFaturamento) {
             // Inserir endereço de entrega
             mysqli_query($conn, $insertQueryEnderecoEntrega);
             // Obter ID do endereço de entrega na tabela Endereco
