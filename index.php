@@ -105,12 +105,24 @@ nav { background-color: #3C486B!important; }
     <p class="w3-left">Camisetas</p>
     <p class="w3-right">
       <?php
-        // Exibe nome do usuário logado e o botão de logout, se não mostrará os botões de login e cadastro
+      // Exibe nome do usuário logado e o botão de logout, se não mostrará os botões de login e cadastro
+      // Também controla o link exibido ao clicar no próprio nome, após logado. Se for comprador, vai para a
+      // página de gerenciamento de comprador. Se for vendedor, para página de gerenciamento de produtos.
         $usuarioLogou = isset($_SESSION ['nome_usuario']);
+        $linkAoClicarNoNome = "/chestplace/index.php";
         if ($usuarioLogou) {
-          $nomeUsuario = $_SESSION['nome_usuario'];
+          $nomeUsuario = $_SESSION['nome_usuario'];   
+          if (isset($_SESSION['tipo_usuario'])) {
+            if ($_SESSION['tipo_usuario'] == 'comprador') {
+              $linkAoClicarNoNome = "/chestplace/page_gerComprador.php";
+            } else if ($_SESSION['tipo_usuario'] == 'vendedor') {
+              $linkAoClicarNoNome = "/chestplace/page_gerProdutos.php";  
+            } else if ($_SESSION['tipo_usuario'] == 'administrador') {
+              $linkAoClicarNoNome = "/chestplace/index.php"; // TODO: quando criar página de administrador, colocar o link correto aqui.
+            }
+          }
           echo <<<END
-            <span style="margin-right: 10px;">Olá,<a href="/chestplace/page_gerProdutos.php " > $nomeUsuario</a> </span>
+            <span style="margin-right: 10px;">Olá,<a href="$linkAoClicarNoNome" > $nomeUsuario</a> </span>
             <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='./logout.php'" 
             style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
           END;
@@ -183,8 +195,8 @@ nav { background-color: #3C486B!important; }
 
       <div class="w3-container w3-card-4 w3-light-grey w3-margin">
         <div class="w3-section">
-          <button onclick="//TODO: adicionar aqui o futuro link de cadastro do cliente" 
-            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente (em breve!)</button>
+          <button onclick="window.location.href='./forms/form_cadComprador.php'" 
+            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente</button>
           <button onclick="window.location.href='./forms/form_cadVendedor.php'"
             class="w3-button w3-block w3-theme w3-section w3-padding w3-orange" type="submit" style="font-weight:700;">Sou vendedor</button>
         </div>

@@ -72,7 +72,7 @@
          ";
     }
 
-    if($tipoPagina == "cadastroVendedor"){
+    if(($tipoPagina == "cadastroVendedor") or ($tipoPagina == "cadastroComprador")){
 
         $imgLogo = "../imagens/logo_chestplace.png";
 
@@ -80,6 +80,20 @@
         "
         <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;\">
             <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"../index.php\">
+                <i class=\"fa-solid fa-house\"></i>
+            </a>
+        </div>
+         ";
+    }
+
+    if($tipoPagina == "gerComprador"){
+
+        $imgLogo = "../../chestplace/imagens/logo_chestplace.png";
+
+        $botoes = 
+        "
+        <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;\">
+            <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./index.php\">
                 <i class=\"fa-solid fa-house\"></i>
             </a>
         </div>

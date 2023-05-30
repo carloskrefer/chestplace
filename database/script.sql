@@ -18,7 +18,7 @@ CREATE TABLE usuario(
   id int(10) UNSIGNED NOT NULL AUTO_INCREMENT, 
   nome varchar(255) NOT NULL, 
   email varchar(255) UNIQUE NOT NULL, 
-  senha varchar(255) NOT NULL, 
+  senha char(32) NOT NULL, 
   banido datetime DEFAULT NULL,
   inativo datetime DEFAULT NULL,
   PRIMARY KEY (id)
@@ -39,8 +39,13 @@ CREATE TABLE vendedor(
 
 CREATE TABLE comprador(
   id_usuario int(10) UNSIGNED NOT NULL PRIMARY KEY, 
-  cpf varchar(11) DEFAULT NULL, 
-  FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+  cpf varchar(14) DEFAULT NULL, 
+  id_endereco_faturamento int(10) UNSIGNED NULL,
+  id_endereco_entrega int(10) UNSIGNED NULL,
+  telefone_contato varchar(30) NULL,
+  FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+  FOREIGN KEY (id_endereco_faturamento) REFERENCES endereco(id),
+  FOREIGN KEY (id_endereco_entrega) REFERENCES endereco(id)
 );
 
 CREATE TABLE administrador(
@@ -128,22 +133,22 @@ INSERT INTO endereco (cep, rua, numero, complemento, bairro, cidade, uf)
 VALUES (60000000, 'Rua E', '987', 'Sala 3', 'Aldeota', 'Fortaleza', 'CE');
 
 
--- Inserts para tabela "usuario"
-INSERT INTO usuario (nome, email, senha) VALUES ('João Silva', 'joao.silva@example.com', '123456');
-INSERT INTO usuario (nome, email, senha) VALUES ('Maria Santos', 'maria.santos@example.com', 'abcdef');
-INSERT INTO usuario (nome, email, senha) VALUES ('Pedro Oliveira', 'pedro.oliveira@example.com', 'qwerty');
-INSERT INTO usuario (nome, email, senha) VALUES ('Ana Souza', 'ana.souza@example.com', '987654');
-INSERT INTO usuario (nome, email, senha) VALUES ('Lucas Pereira', 'lucas.pereira@example.com', 'mnbvc');
-INSERT INTO usuario (nome, email, senha) VALUES ('Maria Silva', 'maria@example.com', 'senha123');
-INSERT INTO usuario (nome, email, senha) VALUES ('João Santos', 'joao@example.com', 'senha456');
-INSERT INTO usuario (nome, email, senha) VALUES ('Ana Oliveira', 'ana@example.com', 'senha789');
-INSERT INTO usuario (nome, email, senha) VALUES ('Pedro Souza', 'pedro@example.com', 'senhaabc');
-INSERT INTO usuario (nome, email, senha) VALUES ('Juliana Pereira', 'juliana@example.com', 'senha123456');
-INSERT INTO usuario (nome, email, senha) VALUES ('Lucas Lima', 'lucas@example.com', 'senhaabcdef');
-INSERT INTO usuario (nome, email, senha) VALUES ('Carolina Ferreira', 'carolina@example.com', 'senha789abc');
-INSERT INTO usuario (nome, email, senha) VALUES ('Rafael Torres', 'rafael@example.com', 'senhaxyz');
-INSERT INTO usuario (nome, email, senha) VALUES ('Fernanda Rodrigues', 'fernanda@example.com', 'senhatest');
-INSERT INTO usuario (nome, email, senha) VALUES ('Gustavo Almeida', 'gustavo@example.com', 'senha123xyz');
+-- Inserts para tabela "usuario"  Obs: senhas são salvas por código hash. Neste caso, todas são: aaaAAA1!
+INSERT INTO usuario (nome, email, senha) VALUES ('João Silva', 'joao.silva@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Maria Santos', 'maria.santos@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Pedro Oliveira', 'pedro.oliveira@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Ana Souza', 'ana.souza@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Lucas Pereira', 'lucas.pereira@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Maria Silva', 'maria@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('João Santos', 'joao@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Ana Oliveira', 'ana@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Pedro Souza', 'pedro@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Juliana Pereira', 'juliana@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Lucas Lima', 'lucas@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Carolina Ferreira', 'carolina@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Rafael Torres', 'rafael@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Fernanda Rodrigues', 'fernanda@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
+INSERT INTO usuario (nome, email, senha) VALUES ('Gustavo Almeida', 'gustavo@example.com', '67f27a3b6e74456eacbc83f553dbf8d0');
 
 
 

@@ -14,9 +14,9 @@
     if ($conn->connect_error) {
         die("<strong> Falha de conexão: </strong>" . $conn->connect_error);
     }
-    $usuario = $conn->real_escape_string($_POST['Login']); 
-    $senha   = $conn->real_escape_string($_POST['Senha']);
-    $sqlVerificarLogin = "SELECT id, nome FROM Usuario WHERE email = '$usuario' AND senha = '$senha'"; // Professora utilizou md5('$senha') mas pra mim não funcionou.
+    $usuario     = $_POST['Login']; 
+    $senhaHash   = md5($_POST['Senha']);
+    $sqlVerificarLogin = "SELECT id, nome FROM Usuario WHERE email = '$usuario' AND senha = '$senhaHash'"; 
     $resultSetVerificarLogin = $conn->query($sqlVerificarLogin);
     $bancoAcessadoComSucesso = ($resultSetVerificarLogin != false);
     if ($bancoAcessadoComSucesso) {

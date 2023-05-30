@@ -68,6 +68,22 @@
         if(isset($_POST["desativar"])){
             $queryDesativar = "UPDATE usuario SET inativo = NOW() WHERE id = ".$_SESSION["idVendedor"];
             mysqli_query($conn, $queryDesativar);
+
+            $queryAllCamisetas = "SELECT c.id, cv.data_hora_compra FROM camiseta c LEFT JOIN compra_venda cv ON c.id = cv.id_camiseta WHERE c.id_vendedor = ".$_SESSION["idVendedor"];
+            $resultAllCamisetas =  mysqli_query($conn, $queryAllCamisetas);
+
+            while($camiseta = mysqli_fetch_assoc($resultAllCamisetas)){
+                if(!isset($camiseta["data_hora_compra"])){
+                    mysqli_query($conn, "DELETE FROM estoque WHERE id_camiseta = ".$camiseta["id"]);
+                    mysqli_query($conn, "DELETE FROM imagem  WHERE id_produto = ".$camiseta["id"]);
+                    $deleteQuery = "DELETE FROM camiseta WHERE id = " . $camiseta["id"];
+                } else {
+                    $deleteQuery = "UPDATE camiseta SET inativo = NOW() WHERE id = ".$camiseta["id"];
+                }
+                
+                mysqli_query($conn, $deleteQuery);
+            }
+
             echo json_encode(array( "ok" => true, "message" => "Conta desativada com sucesso!"));
             session_destroy();
         } else {
@@ -82,7 +98,9 @@
         mysqli_commit($conn);
 
     } catch (Exception $e){
+        http_response_code(500);
         mysqli_rollback($conn);
-        echo json_encode(array( "ok" => false, "message" => "Houve um erro ao alterar os dados do vendedor!"));
+        echo json_encode(array( "ok" => false, "message" => "Houve um erro ao alterar os dados do vendedor!".$e));
     }
+
 ?>
