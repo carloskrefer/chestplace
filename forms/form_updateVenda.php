@@ -183,7 +183,7 @@
                                 $idImg = 0;
                                 while($imagem = mysqli_fetch_assoc($resultImagens)){
                                     $hide = $first ? "" : "w3-hide";
-                                    echo "<img id=\"img-$idImg\"class=\"$hide\" src=\"data:imagem/jpeg;base64,".base64_encode($imagem["imagem"])."\" style=\"width: 400px; aspect-ratio: 1; object-fit:cover; margin:auto;\">";
+                                    echo "<img id=\"img-$idImg\"class=\"$hide\" src=\"data:imagem/jpeg;base64,".base64_encode($imagem["imagem"])."\" style=\"width: 300px; aspect-ratio: 1; object-fit:cover; margin:auto;\">";
                                     $first = false;
                                     $idImg++;
                                 }
