@@ -44,6 +44,22 @@
     // Tenta realizar INSERTs
     try{
         
+        $emailJaCadastrado = mysqli_num_rows(mysqli_query($conn,"SELECT (SELECT email FROM usuario WHERE email = \"$emailLogin\") AS emailJaCadastrado FROM dual;")) > 0;
+        
+        if(is_null($cpf)){
+            $cpfJaCadastrado    = false;
+            $cnpjJaCadastrado   = mysqli_num_rows(mysqli_query($conn,"SELECT (SELECT cnpj FROM vendedor WHERE cnpj = \"$cnpj\") AS cnpjJaCadastrado FROM dual;")) > 0;
+        } else {
+            $cnpjJaCadastrado  = false;
+            $cpfJaCadastrado   = mysqli_num_rows(mysqli_query($conn,"SELECT (SELECT cpf FROM vendedor WHERE cpf = \"$cpf\") AS cpfJaCadastrado FROM dual;")) > 0;
+        }
+
+        if($emailJaCadastrado || $cpfJaCadastrado || $cnpjJaCadastrado){
+            alert("Email e/ou documento já cadastrado.");
+            jsScript("history.go(-1);");
+            exit;
+        }
+
         // Inserir endereço
         mysqli_query($conn, $insertQueryEndereco);
 
