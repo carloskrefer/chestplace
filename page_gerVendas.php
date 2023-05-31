@@ -13,9 +13,13 @@
     // Utilizado para definir os botões do header
     $tipoPagina = "gerenciarVendasVendedor";
 
-    if(!isset($_GET["pesquisarPor"])) $_GET["pesquisarPor"] = "";
+    $filtrosAceitos = ["ID", "PRODUTO", "COMPRADOR"];
+    $orderAceitos   = ["ID", "PRODUTO", "VALOR", "COMPRADOR", "DCOMPRA" , "STATUS"];
+
+
+    if(!isset($_GET["pesquisarPor"]) || !in_array($_GET["pesquisarPor"],$filtrosAceitos)) $_GET["pesquisarPor"] = "";
     if(!isset($_GET["pesquisa"])) $_GET["pesquisa"] = "";
-    if(!isset($_GET["orderBy"])) $_GET["orderBy"] = "";
+    if(!isset($_GET["orderBy"]) || !in_array($_GET["orderBy"], $orderAceitos)) $_GET["orderBy"] = "";
     if(!isset($_GET["sentido"])) $_GET["sentido"] = "";
 
     // Define o filto de pesquisa
@@ -75,12 +79,12 @@
         </h3>
         <div class="w3-card w3-padding w3-margin-bottom">
             <div class="w3-margin-bottom" style="display:flex; align-items: stretch; justify-content: space-between;">
-                <select style="width:15%" class="w3-input" name="pesquisarPor" id="pesquisarPor">
+                <select style="cursor:pointer;width:15%" class="w3-input" name="pesquisarPor" id="pesquisarPor">
                     <option value="ID" <?= ($_GET["pesquisarPor"] == "ID") ? "selected" : "" ?>>ID</option>
                     <option value="PRODUTO" <?= ($_GET["pesquisarPor"] == "PRODUTO") ? "selected" : "" ?>>PRODUTO</option>
                     <option value="COMPRADOR" <?= ($_GET["pesquisarPor"] == "COMPRADOR") ? "selected" : "" ?>>COMPRADOR</option>
                 </select>
-                <input type="text" name="pesquisa" id="pesquisa" class="w3-input w3-border w3-large w3-round-large" style="width:75%;" placeholder="Insira o termo a ser pesquisado" value="<?= ($_GET["pesquisa"] != "null" && $_GET["pesquisa"] != null) ? $_GET["pesquisa"] : ""; ?>">
+                <input onkeydown="if (event.key === 'Enter') { pesquisar(); }" type="text" name="pesquisa" id="pesquisa" class="w3-input w3-border w3-large w3-round-large" style="width:75%;" placeholder="Insira o termo a ser pesquisado" value="<?= ($_GET["pesquisa"] != "null" && $_GET["pesquisa"] != null) ? $_GET["pesquisa"] : ""; ?>">
                 <button onclick="pesquisar();" class="w3-button w3-round-xxlarge w3-blue" type="submit">
                     <i class="fas fa-search"></i>
                 </button>
@@ -127,9 +131,8 @@
             <?php
                 $filtro = array_key_exists($_GET["pesquisarPor"], $enumFiltro) ? $enumFiltro[$_GET["pesquisarPor"]] : "";
                 $ordenacao = array_key_exists($_GET["orderBy"], $enumOrderBy) ? $enumOrderBy[$_GET["orderBy"]] : "";
-                $sentido   = isset($_GET["sentido"]) && ($_GET["sentido"] == "ASC" || $_GET["sentido"] == "DESC") ? " ".$_GET["sentido"] : "";
+                $sentido   = isset($_GET["sentido"]) && ($_GET["sentido"] == "ASC" || $_GET["sentido"] == "DESC") && $ordenacao != "" ? " ".$_GET["sentido"] : "";
                 
-                $indexExibicao = 0;
                 $selectVendasQuery = 
                 "SELECT 
                     cv.id,
@@ -138,7 +141,8 @@
                     cv.quantidade, 
                     cv.data_hora_compra,
                     cv.data_hora_confirmacao_pagamento, 
-                    cv.data_hora_recebimento, u.nome,
+                    cv.data_hora_recebimento,
+                    u.nome,
                     CASE
                         WHEN cv.data_hora_confirmacao_pagamento IS NULL THEN 'Aguardando pagamento'
                         WHEN cv.data_hora_recebimento IS NULL THEN 'Pedido em trânsito'
