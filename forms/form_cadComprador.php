@@ -38,11 +38,11 @@
                                 <h3 style="text-align:left">Dados</h3>
                                 <p>
                                     <label class="w3-text-IE"><b>Nome completo</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="nome" name="nome" type="text" title="Nome do usuário para emissão de nota fiscal e/ou boleto. No mínimo dois caracteres e no máximo 255." placeholder="João Doe" required>
+                                    <input class="w3-input w3-border w3-light-grey " id="nome" name="nome" type="text" title="Nome completo para emissão de nota fiscal ou boleto. No mínimo dois caracteres e no máximo 255." placeholder="João Doe" required>
                                 </p>                             
                                 <p>
                                     <label class="w3-text-IE"><b>Email</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="emailLogin" name="emailLogin" type="text" title="Email que será utilizado para realização de login." placeholder="exemplo@dominio.com" required/>
+                                    <input class="w3-input w3-border w3-light-grey " id="emailLogin" name="emailLogin" type="text" title="Email para login." placeholder="exemplo@dominio.com" required/>
                                 </p>
                                 <p>                                    
                                     <label class="w3-text-IE"><b>Mostrar senha</b></label>
@@ -55,17 +55,13 @@
                                     <label class="w3-text-IE"><b>Confirmação de senha</b>*</label>
                                     <input class="w3-input w3-border w3-light-grey " id="confirmacaoSenha" name="confirmacaoSenha" type="password" title="Recomenda-se uma senha com no mínimo 8 caracteres, um caractere especial, uma letra maiúscula, uma mínuscula e um número." placeholder="Confirme a sua senha" required>
                                 </p>
-                                <!-- removi name e id=nomeEstabelecimento, ver nos arquivos no que preciso excluir -->
-                                <!-- name e id=cpfCnpj mudei para id=cpf, ver nos arquivos o que eu preciso mudar (buscar por cpfCnpj) -->
                                 <p>
                                     <label class="w3-text-IE"><b>CPF</b>*</label> 
-                                    <input class="w3-input w3-border w3-light-grey " id="cpf" name="cpf" data-pessoafisica="" type="text" oninput="this.value = formatarCPFCNPJ(this.value)" onblur="this.value = formatarCPFCNPJ(this.value)" title="CPF da sua conta de comprador." placeholder="XXX.XXX.XXX-XX" />
+                                    <input class="w3-input w3-border w3-light-grey " id="cpf" name="cpf" data-pessoafisica="" type="text" oninput="this.value = formatarCPFCNPJ(this.value)" onblur="this.value = formatarCPFCNPJ(this.value)" title="CPF para emissão de nota fiscal ou boleto." placeholder="XXX.XXX.XXX-XX" />
                                 </p>
-                                <!-- removi name e id=nomeEstabelecimento, ver nos arquivos no que preciso excluir -->
-                                <!-- removi name e id=emailContato, ver nos arquivos no que preciso excluir -->
                                 <p>
                                     <label class="w3-text-IE"><b>Telefone para contato</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value);" title="Telefone pelo qual os clientes poderão entrar em contato com o estabelecimento" placeholder="(XX) X XXXX-XXXX"  required>
+                                    <input class="w3-input w3-border w3-light-grey " id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value);" title="Número de telefone ou celular para contato." placeholder="(XX) X XXXX-XXXX"  required>
                                 </p>
                             </td>
                             <td>
@@ -77,34 +73,34 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CEP</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cepFaturamento" name="cepFaturamento" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" title="CEP do endereço do estabelecimento" placeholder="XXXXX-XXX" >
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cepFaturamento" name="cepFaturamento" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" title="CEP de sua residência." placeholder="XXXXX-XXX" >
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Rua</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="ruaFaturamento" name="ruaFaturamento" title="Rua do endereço do estabelecimento" placeholder="Rua exemplo" >
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="ruaFaturamento" name="ruaFaturamento" title="Rua do endereço de sua residência." placeholder="Rua exemplo" >
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Número</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numeroFaturamento" name="numeroFaturamento" title="Número do endereço do estabelecimento" placeholder="000B">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numeroFaturamento" name="numeroFaturamento" title="Número do endereço de sua residência." placeholder="000B">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Bairro</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairroFaturamento" name="bairroFaturamento" title="Bairro do endereço do estabelecimento" placeholder="Bairro Exemplo">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairroFaturamento" name="bairroFaturamento" title="Bairro do endereço de sua residência." placeholder="Bairro Exemplo">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Complemento</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complementoFaturamento" name="complementoFaturamento" title="Complemento de endereço do estabelecimento" placeholder="Sala 00C" >
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complementoFaturamento" name="complementoFaturamento" title="Complemento de endereço de sua residência." placeholder="Sala 00C" >
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidadeFaturamento" title="Cidade do endereço do estabelecimento" placeholder="Cidade Exemplo" >
+                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidadeFaturamento" title="Cidade do endereço de sua residência." placeholder="Cidade Exemplo" >
                                         <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidadeFaturamento" name="cidadeFaturamento">
                                     </div>
                                 </p>                           
@@ -116,7 +112,7 @@
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Estado</b></label>
-                                        <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoFaturamentoSelect" title="Estado do endereço para faturamento">
+                                        <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoFaturamentoSelect" title="Estado do endereço de sua residência.">
                                             <option value="">Selecione um estado</option>
                                             <option value="AC">Acre</option>
                                             <option value="AL">Alagoas</option>
@@ -209,34 +205,34 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CEP</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cepEntrega" name="cepEntrega" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" title="CEP do endereço do estabelecimento" placeholder="XXXXX-XXX" >
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="cepEntrega" name="cepEntrega" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" title="CEP do endereço para entrega das compras." placeholder="XXXXX-XXX" >
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Rua</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey" type="text" id="ruaEntrega" name="ruaEntrega" title="Rua do endereço do estabelecimento" placeholder="Rua exemplo" >
+                                    <input class="w3-input w3-border w3-light-grey" type="text" id="ruaEntrega" name="ruaEntrega" title="Rua do endereço para entrega das compras." placeholder="Rua exemplo" >
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Número</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numeroEntrega" name="numeroEntrega" title="Número do endereço do estabelecimento" placeholder="000B">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="numeroEntrega" name="numeroEntrega" title="Número do endereço para entrega das compras." placeholder="000B">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Bairro</b>*</label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairroEntrega" name="bairroEntrega" title="Bairro do endereço do estabelecimento" placeholder="Bairro Exemplo">
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="bairroEntrega" name="bairroEntrega" title="Bairro do endereço para entrega das compras." placeholder="Bairro Exemplo">
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Complemento</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complementoEntrega" name="complementoEntrega" title="Complemento de endereço do estabelecimento" placeholder="Sala 00C" >
+                                        <input class="w3-input w3-border w3-light-grey" type="text" id="complementoEntrega" name="complementoEntrega" title="Complemento do endereço para entrega das compras." placeholder="Sala 00C" >
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidadeEntrega" title="Cidade do endereço do estabelecimento" placeholder="Cidade Exemplo" >
+                                        <input disabled class="w3-input w3-border w3-light-grey" type="text" id="displayCidadeEntrega" title="Cidade do endereço para entrega das compras." placeholder="Cidade Exemplo" >
                                         <input class="w3-input w3-border w3-light-grey" type="hidden" id="cidadeEntrega" name="cidadeEntrega">
                                     </div>
                                 </p>                           
@@ -246,7 +242,7 @@
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Estado</b></label>
-                                        <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoEntregaSelect" title="Estado do endereço de entrega">
+                                        <select disabled class=" w3-select w3-border w3-round w3-padding" id="displayEstadoEntregaSelect" title="Estado do endereço para entrega das compras.">
                                             <option value="">Selecione um estado</option>
                                             <option value="AC">Acre</option>
                                             <option value="AL">Alagoas</option>
