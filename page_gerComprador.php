@@ -35,7 +35,7 @@
     <div class="w3-hide-large" style="margin-top:83px; width:100vw"></div>
 
     <!-- BOTÃO DE ALTERAR CADASTRO -->
-    <a href="" style="margin:auto;"> <!-- TODO: adicionar link de alteração de cadastro -->
+    <a href="./forms/form_alterComprador.php" style="margin:auto;">
       <div class="w3-center w3-border w3-border-black w3-round-xlarge w3-hover-border-orange" 
         style="width: 400px; margin:auto; margin-top:20px; border-width: 16px!important;">
       <i class="fas fa-address-card" style="font-size: 150px;"></i>
