@@ -8,9 +8,7 @@
  */
 function validarFormulario(isFormularioDeCadastro){
     let valido = false;
-    valido =    validarEmail() &&
-                validarSenha() &&
-                validarCpf() && 
+    valido =    validarCpf() && 
                 validarTelefoneContato() &&
                 validarCEP($('#cepFaturamento')) &&
                 validarRua($('#ruaFaturamento')) && 
@@ -28,11 +26,17 @@ function validarFormulario(isFormularioDeCadastro){
                     validarBairro($('#bairroEntrega')) &&
                     validarComplemento($('#complementoEntrega')) &&
                     validarCidade($('#cidadeEntrega'));
-    }
-    // Caso seja formulário de cadastro, verificações de emailLogin e senha adicionados
+    }    
+    novaSenhaPreenchida = $('#senha').val() != "";
+    // Caso seja formulário de cadastro, verificações de emailLogin e senha adicionados (são campos que terão que ser preenchidos)
     if (isFormularioDeCadastro) {
         valido =    valido &&
                     validarEmail() &&
+                    validarSenha();
+    // Caso seja formulário de alteração, validar senha somente se o usuário preencheu uma nova senha (se usuário deixou ela em branco,
+    // significa que ele quer manter a senha antiga - neste caso não deverá ocorrer validação dela).
+    } else if (novaSenhaPreenchida) {
+        valido =    valido &&
                     validarSenha();
     }
     return valido;

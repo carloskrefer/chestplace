@@ -62,12 +62,20 @@
         VALUES (\"$ruaFaturamento\",\"$cepFaturamento\", \"$complementoFaturamento\", \"$numeroFaturamento\", \"$bairroFaturamento\",
             \"$cidadeFaturamento\", \"$estadoFaturamento\");";
     
-    // Query para inserir endereço de entrega no BD (só insere se endereço faturamento e entrega forem diferentes, se não iria duplicar a mesma informação)
+    // Query para inserir endereço de entrega no BD.
+    // Se endereço de entrega e faturamento forem diferentes, buscar dados do endereço de entrega que o usuário preencheu.
+    // Se forem iguais, usar os dados do endereço de faturamento (pois os campos de entrega não foram preenchidos pelo usuário).
+    // Para facilitar na tela de alteração, sempre será feito um outro insert para o endereço de faturamento, mesmo que eles sejam iguais.
     if (!$isEnderecoEntregaIgualFaturamento) {
         $insertQueryEnderecoEntrega = 
-        "INSERT INTO endereco (rua, cep, complemento, numero, bairro, cidade, uf) 
+           "INSERT INTO endereco (rua, cep, complemento, numero, bairro, cidade, uf) 
             VALUES (\"$ruaEntrega\",\"$cepEntrega\", \"$complementoEntrega\", \"$numeroEntrega\", \"$bairroEntrega\",
                 \"$cidadeEntrega\", \"$estadoEntrega\");";
+    } else {
+        $insertQueryEnderecoEntrega = 
+           "INSERT INTO endereco (rua, cep, complemento, numero, bairro, cidade, uf) 
+            VALUES (\"$ruaFaturamento\",\"$cepFaturamento\", \"$complementoFaturamento\", \"$numeroFaturamento\", \"$bairroFaturamento\",
+                \"$cidadeFaturamento\", \"$estadoFaturamento\");";
     }
 
     // Query para inserir usuario no BD
@@ -84,17 +92,10 @@
         // Obter ID do endereço de faturamento na tabela Endereco
         $idEnderecoFaturamento = mysqli_insert_id($conn);
 
-        // Se o endereço de entrega é diferente do endereço de faturamento,
-        // também inserir na tabela Endereco o de entrega. Se não, o id
-        // do endereço de entrega é o mesmo que o de faturamento (para não duplicar dados na tabela Endereco).
-        if (!$isEnderecoEntregaIgualFaturamento) {
-            // Inserir endereço de entrega
-            mysqli_query($conn, $insertQueryEnderecoEntrega);
-            // Obter ID do endereço de entrega na tabela Endereco
-            $idEnderecoEntrega = mysqli_insert_id($conn);
-        } else {
-            $idEnderecoEntrega = $idEnderecoFaturamento;  
-        }
+        // Inserir endereço de entrega
+        mysqli_query($conn, $insertQueryEnderecoEntrega);
+        // Obter ID do endereço de entrega na tabela Endereco
+        $idEnderecoEntrega = mysqli_insert_id($conn);
 
         // Inserir na tabela Usuario
         mysqli_query($conn, $insertQueryUsuario);

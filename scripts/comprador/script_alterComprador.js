@@ -1,5 +1,5 @@
 /**
- * Função executada quando o formulário #cadCompradorForm está pronto.
+ * Função executada quando o formulário #alterCompradorForm está pronto.
  * Realiza a inicialização e atribuição de eventos aos elementos do formulário.
  *
  * Ações realizadas:
@@ -117,14 +117,14 @@ $("#cadCompradorForm").ready(function() {
 
 /**
  * Envia o formulário se ele for válido.
- * Primeiro, realiza a validação do formulário usando a função "validarFormulario(true)".
+ * Primeiro, realiza a validação do formulário usando a função "validarFormulario(false)".
  * Se o formulário for válido, o envio é realizado utilizando o método "submit()" do formulário com o ID "cadVendedorForm".
  * 
  * @requires jQuery
  * @requires validarFormulario
  */
 function enviarFormulario(){
-    if(validarFormulario(true)) $("#cadCompradorForm").submit();
+    if(validarFormulario(false)) $("#alterCompradorForm").submit();
 }
 
 
