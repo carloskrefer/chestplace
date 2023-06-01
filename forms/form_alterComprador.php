@@ -2,7 +2,7 @@
 <?php 
     session_start(); 
     require("../database/conectaBD.php");
-    $tipoPagina = "cadastroComprador"; // Variável para chamar o header correto no header.php. 
+    $tipoPagina = "alteracaoComprador"; // Variável para chamar o header correto no header.php. 
     require('../common/header.php'); // Carrega o header padronizado
     require("../validacaoAcessoComprador.php");  // Verifica se quem acessa é um comprador logado
 
@@ -11,7 +11,6 @@
     // Query para buscar todos os dados cadastrados do comprador para popular a página.
     $sql = 
         "SELECT
-            u.id as id_usuario,
             nome, 
             email,
             cpf,
@@ -39,80 +38,61 @@
         AND u.id = $id_usuario;"; 
     
     $resultSetTodosDadosComprador = $conn->query($sql);
+    $row = $resultSetTodosDadosComprador->fetch_assoc();
 
-    // Estas variáveis são usadas para exibir ao usuário os valores
+    // Com exceção dos IDs, essas variáveis são usadas para exibir ao usuário os valores
     // cadastrados previamente.
     // Ou seja, as propriedades 'value' das tags <input> receberão esses valores.
-    $id_usuario = "";
-    $nome = "";
-    $email = "";
-    $cpf = "";
-    $telefone_contato = "";
-    $enderecoFaturamentoID = "";
-    $enderecoFaturamentoCEP = "";
-    $enderecoFaturamentoRUA = "";
-    $enderecoFaturamentoNUMERO = "";
-    $enderecoFaturamentoCOMPL = "";
-    $enderecoFaturamentoBAIRRO = "";
-    $enderecoFaturamentoCIDADE = "";
-    $enderecoFaturamentoUF = "";
-    $enderecoEntregaID = "";
-    $enderecoEntregaCEP = "";
-    $enderecoEntregaRUA = "";
-    $enderecoEntregaNUMERO = "";
-    $enderecoEntregaCOMPL = "";
-    $enderecoEntregaBAIRRO = "";
-    $enderecoEntregaCIDADE = "";
-    $enderecoEntregaUF = "";
+    $nome                       = $row['nome'];
+    $email                      = $row['email'];
+    $cpf                        = $row['cpf'];
+    $telefone_contato           = $row['telefone_contato'];
+    $enderecoFaturamentoID      = $row['enderecoFaturamentoID'];
+    $enderecoFaturamentoCEP     = $row['enderecoFaturamentoCEP'];
+    $enderecoFaturamentoRUA     = $row['enderecoFaturamentoRUA'];
+    $enderecoFaturamentoNUMERO  = $row['enderecoFaturamentoNUMERO'];
+    $enderecoFaturamentoCOMPL   = $row['enderecoFaturamentoCOMPL'];
+    $enderecoFaturamentoBAIRRO  = $row['enderecoFaturamentoBAIRRO'];
+    $enderecoFaturamentoCIDADE  = $row['enderecoFaturamentoCIDADE'];
+    $enderecoFaturamentoUF      = $row['enderecoFaturamentoUF'];
+    $enderecoEntregaID          = $row['enderecoEntregaID'];
+    $enderecoEntregaCEP         = $row['enderecoEntregaCEP'];
+    $enderecoEntregaRUA         = $row['enderecoEntregaRUA'];
+    $enderecoEntregaNUMERO      = $row['enderecoEntregaNUMERO'];
+    $enderecoEntregaCOMPL       = $row['enderecoEntregaCOMPL'];
+    $enderecoEntregaBAIRRO      = $row['enderecoEntregaBAIRRO'];
+    $enderecoEntregaCIDADE      = $row['enderecoEntregaCIDADE'];
+    $enderecoEntregaUF          = $row['enderecoEntregaUF'];
 
-    // Se o select foi realizado com sucesso, atribuir valores nas variáveis que serão usadas para preencher os campos.
-    if (($resultSetTodosDadosComprador != false) and ($resultSetTodosDadosComprador->num_rows == 1)) {
-        $row = $resultSetTodosDadosComprador->fetch_assoc();
-        $id_usuario                 = $row['id_usuario'];
-        $nome                       = $row['nome'];
-        $email                      = $row['email'];
-        $cpf                        = $row['cpf'];
-        $telefone_contato           = $row['telefone_contato'];
-        $enderecoFaturamentoID      = $row['enderecoFaturamentoID'];
-        $enderecoFaturamentoCEP     = $row['enderecoFaturamentoCEP'];
-        $enderecoFaturamentoRUA     = $row['enderecoFaturamentoRUA'];
-        $enderecoFaturamentoNUMERO  = $row['enderecoFaturamentoNUMERO'];
-        $enderecoFaturamentoCOMPL   = $row['enderecoFaturamentoCOMPL'];
-        $enderecoFaturamentoBAIRRO  = $row['enderecoFaturamentoBAIRRO'];
-        $enderecoFaturamentoCIDADE  = $row['enderecoFaturamentoCIDADE'];
-        $enderecoFaturamentoUF      = $row['enderecoFaturamentoUF'];
-        $enderecoEntregaID          = $row['enderecoEntregaID'];
-
-        // Verifica se o endereço de entrega e de faturamento são iguais.
-        $isEnderecosIguais = ($enderecoFaturamentoID == $enderecoEntregaID);
-
-        // Se o endereço de entrega foi cadastrado como sendo o mesmo que o endereço
-        // de faturamento, deixar o checkbox 'Utilizar endereço de faturamento para entregas' 
-        // marcado. Senão, manter desmarcado. 
-        // Se o checkbox está marcado, os campos do endereço de entrega deverão estar desmarcados.
-        // A variável $atributoHtmlDeMarcacaoCheckbox é usada dentro da tag <input> do checkbox.
-        // A variável $atributoHtmlParaDisplayCamposEndereçoEntrega é usada nas tags <td>. 
-        if ($isEnderecosIguais) {
-            $atributoHtmlDeMarcacaoCheckbox = "checked";
-            $atributoHtmlParaDisplayCamposEndereçoEntrega = "style=\"display: none;\""; 
-        } else {
-            $atributoHtmlDeMarcacaoCheckbox = "";
-            $atributoHtmlParaDisplayCamposEndereçoEntrega = ""; 
-        }
-
-        // Só preenche os campos do endereço de entrega se os endereços de
-        // entrega e faturamento não forem iguais. 
-        // Quando são iguais, o checkbox citado acima ficará marcado e o usuário nem verá o endereço
-        // de entrega. Se o usuário clicar no checkbox, deverá ver tudo em branco para ele preencher.
-        if (!$isEnderecosIguais) {
-            $enderecoEntregaCEP     = $row['enderecoEntregaCEP'];
-            $enderecoEntregaRUA     = $row['enderecoEntregaRUA'];
-            $enderecoEntregaNUMERO  = $row['enderecoEntregaNUMERO'];
-            $enderecoEntregaCOMPL   = $row['enderecoEntregaCOMPL'];
-            $enderecoEntregaBAIRRO  = $row['enderecoEntregaBAIRRO'];
-            $enderecoEntregaCIDADE  = $row['enderecoEntregaCIDADE'];
-            $enderecoEntregaUF      = $row['enderecoEntregaUF'];
-        }
+    // Verifica se o endereço de entrega e de faturamento são iguais.
+    $isEnderecosIguais =    ($enderecoFaturamentoCEP     == $enderecoEntregaCEP)    &&
+                            ($enderecoFaturamentoRUA     == $enderecoEntregaRUA)    &&
+                            ($enderecoFaturamentoNUMERO  == $enderecoEntregaNUMERO) &&
+                            ($enderecoFaturamentoCOMPL   == $enderecoEntregaCOMPL)  &&
+                            ($enderecoFaturamentoBAIRRO  == $enderecoEntregaBAIRRO) &&
+                            ($enderecoFaturamentoCIDADE  == $enderecoEntregaCIDADE) &&
+                            ($enderecoFaturamentoUF      == $enderecoEntregaUF);
+                        
+    // Se o endereço de entrega foi cadastrado como sendo o mesmo que o endereço
+    // de faturamento, deixar o checkbox 'Utilizar endereço de faturamento para entregas' 
+    // marcado. Senão, manter desmarcado. 
+    // Se o checkbox está marcado, os campos do endereço de entrega deverão estar invisíveis (display: none)
+    // e deverão estar em branco.
+    // A variável $atributoHtmlDeMarcacaoCheckbox é usada dentro da tag <input> do checkbox.
+    // A variável $atributoHtmlParaDisplayCamposEndereçoEntrega é usada nas tags <td>. 
+    if ($isEnderecosIguais) {
+        $atributoHtmlDeMarcacaoCheckbox = "checked";
+        $atributoHtmlParaDisplayCamposEndereçoEntrega = "style=\"display: none;\"";
+        $enderecoEntregaCEP     = "";
+        $enderecoEntregaRUA     = "";
+        $enderecoEntregaNUMERO  = "";
+        $enderecoEntregaCOMPL   = "";
+        $enderecoEntregaBAIRRO  = "";
+        $enderecoEntregaCIDADE  = "";
+        $enderecoEntregaUF      = ""; 
+    } else {
+        $atributoHtmlDeMarcacaoCheckbox = "";
+        $atributoHtmlParaDisplayCamposEndereçoEntrega = "";
     }
 ?>
 <html>
@@ -125,7 +105,7 @@
     <script src="../scripts/jQuery/jquery-3.6.4.min.js"></script>
     <script src="../scripts/comprador/validacoesComprador.js"></script>
     <script src="../scripts/formats.js"></script>
-    <script src="../scripts/comprador/script_cadComprador.js"></script>
+    <script src="../scripts/comprador/script_alterComprador.js"></script>
 </head>
 
 <body>	
@@ -147,11 +127,12 @@
                                 <h3 style="text-align:left">Dados</h3>
                                 <p>
                                     <label class="w3-text-IE"><b>Nome completo</b></label>
-                                    <input class="w3-input w3-border w3-light-grey " value="<?= $nome ?>" id="nome" name="nome" type="text" title="Nome completo para emissão de nota fiscal ou boleto. No mínimo dois caracteres e no máximo 255." placeholder="João Doe">
+                                    <input class="w3-input w3-border w3-light-grey " value="<?= $nome ?>" id="nome" name="nome" type="text" title="Nome completo para emissão de nota fiscal ou boleto. No mínimo dois caracteres e no máximo 255." placeholder="João Doe" required>
                                 </p>                             
+                                <!-- O e-mail é exibido apenas para fins de informação. Não é possível alterá-lo (atributo disabled). -->
                                 <p>
                                     <label class="w3-text-IE"><b>Email</b></label>
-                                    <input class="w3-input w3-border w3-light-grey " value="<?= $email ?>"  id="emailLogin" name="emailLogin" type="text" title="Email para login." placeholder="exemplo@dominio.com"/>
+                                    <input class="w3-input w3-border w3-light-grey " value="<?= $email ?>"  id="emailLogin" name="emailLogin" type="text" title="Email para login." placeholder="exemplo@dominio.com" disabled/>
                                 </p>
                                 <p>                                    
                                     <label class="w3-text-IE"><b>Mostrar senha</b></label>
@@ -166,11 +147,11 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CPF</b></label> 
-                                    <input class="w3-input w3-border w3-light-grey " value="<?= $cpf ?>"  id="cpf" name="cpf" data-pessoafisica="" type="text" oninput="this.value = formatarCPFCNPJ(this.value)" onblur="this.value = formatarCPFCNPJ(this.value)" title="CPF para emissão de nota fiscal ou boleto." placeholder="XXX.XXX.XXX-XX" />
+                                    <input class="w3-input w3-border w3-light-grey " value="<?= $cpf ?>"  id="cpf" name="cpf" data-pessoafisica="" type="text" oninput="this.value = formatarCPFCNPJ(this.value)" onblur="this.value = formatarCPFCNPJ(this.value)" title="CPF para emissão de nota fiscal ou boleto." placeholder="XXX.XXX.XXX-XX" required/>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Telefone para contato</b></label>
-                                    <input class="w3-input w3-border w3-light-grey " value="<?= $telefone_contato ?>" id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value);" title="Número de telefone ou celular para contato." placeholder="(XX) X XXXX-XXXX" >
+                                    <input class="w3-input w3-border w3-light-grey " value="<?= $telefone_contato ?>" id="telefoneContato" name="telefoneContato" type="text" oninput="this.value = formatarTelefone(this.value);" onblur="this.value = formatarTelefone(this.value);" title="Número de telefone ou celular para contato." placeholder="(XX) X XXXX-XXXX" required>
                                 </p>
                             </td>
                             <td>
@@ -182,22 +163,22 @@
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>CEP</b></label>
-                                    <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoCEP ?>" type="text" id="cepFaturamento" name="cepFaturamento" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" title="CEP do endereço de sua residência." placeholder="XXXXX-XXX" >
+                                    <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoCEP ?>" type="text" id="cepFaturamento" name="cepFaturamento" oninput="this.value = formatarCEP(this.value);" onblur="this.value = formatarCEP(this.value);" title="CEP do endereço de sua residência." placeholder="XXXXX-XXX" required>
                                 </p>
                                 <p>
                                     <label class="w3-text-IE"><b>Rua</b></label>
-                                    <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoRUA ?>" type="text" id="ruaFaturamento" name="ruaFaturamento" title="Rua do endereço de sua residência." placeholder="Rua exemplo" >
+                                    <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoRUA ?>" type="text" id="ruaFaturamento" name="ruaFaturamento" title="Rua do endereço de sua residência." placeholder="Rua exemplo" required>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Número</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoNUMERO ?>" type="text" id="numeroFaturamento" name="numeroFaturamento" title="Número do endereço de sua residência." placeholder="000B">
+                                        <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoNUMERO ?>" type="text" id="numeroFaturamento" name="numeroFaturamento" title="Número do endereço de sua residência." placeholder="000B" required>
                                     </div>
                                 </p>
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Bairro</b></label>
-                                        <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoBAIRRO ?>" type="text" id="bairroFaturamento" name="bairroFaturamento" title="Bairro do endereço de sua residência." placeholder="Bairro Exemplo">
+                                        <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoBAIRRO ?>" type="text" id="bairroFaturamento" name="bairroFaturamento" title="Bairro do endereço de sua residência." placeholder="Bairro Exemplo" required>
                                     </div>
                                 </p>
                                 <p>
@@ -209,7 +190,7 @@
                                 <p>
                                     <div>
                                         <label class="w3-text-IE"><b>Cidade</b></label>
-                                        <input disabled class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoCIDADE ?>" type="text" id="displayCidadeFaturamento" title="Cidade do endereço de sua residência." placeholder="Cidade Exemplo" >
+                                        <input disabled class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoCIDADE ?>" type="text" id="displayCidadeFaturamento" title="Cidade do endereço de sua residência." placeholder="Cidade Exemplo" required>
                                         <input class="w3-input w3-border w3-light-grey" value="<?= $enderecoFaturamentoCIDADE ?>" type="hidden" id="cidadeFaturamento" name="cidadeFaturamento">
                                     </div>
                                 </p>                           
