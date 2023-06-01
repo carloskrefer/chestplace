@@ -11,7 +11,6 @@
   
   // Utilizado para definir os botões do header
   $tipoPagina = "gerenciarProdutosVendedor";
-  
 
   // id_usuario é setado no login.php
   $_SESSION["idVendedor"] = $_SESSION ['id_usuario']; 

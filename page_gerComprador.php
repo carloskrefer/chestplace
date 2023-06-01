@@ -7,8 +7,11 @@
   // Verifica se está logado e se de fato é comprador. Se não, redireciona para index.php.
   require("./validacaoAcessoComprador.php"); 
   
+  // id_usuario é setado no login.php
+  $_SESSION["idComprador"] = $_SESSION ['id_usuario']; 
+
   // Utilizado para definir os botões do header
-  $tipoPagina = "gerComprador";                                   
+  $tipoPagina = "gerComprador";                  
 
 ?>
 <html>
@@ -44,7 +47,7 @@
     </a>
 
     <!-- BOTÃO DE ACOMPANHAR PEDIDOS -->
-    <a href="" style="margin:auto;"> <!-- TODO: adicionar link da página do Felipe -->
+    <a href="./page_gerPedidos.php" style="margin:auto;"> <!-- TODO: adicionar link da página do Felipe -->
       <div class="w3-center w3-border w3-border-black w3-round-xlarge w3-hover-border-orange" 
         style="width: 400px; margin:auto; margin-top:50px; border-width: 16px!important;">
       <i class="fa fa-tasks" style="font-size: 150px;"></i>
