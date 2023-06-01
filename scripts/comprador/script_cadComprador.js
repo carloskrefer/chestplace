@@ -1,5 +1,5 @@
 /**
- * Função executada quando o formulário #cadVendedorForm está pronto.
+ * Função executada quando o formulário #cadCompradorForm está pronto.
  * Realiza a inicialização e atribuição de eventos aos elementos do formulário.
  *
  * Ações realizadas:
