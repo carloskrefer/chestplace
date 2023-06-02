@@ -72,7 +72,7 @@
          ";
     }
 
-    if($tipoPagina = "gerenciarPedidosComprador"){
+    if($tipoPagina == "gerenciarPedidosComprador"){
 
         $imgLogo = "./imagens/logo_chestplace.png";
         
