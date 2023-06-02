@@ -116,7 +116,7 @@ nav { background-color: #3C486B!important; }
             if ($_SESSION['tipo_usuario'] == 'comprador') {
               $linkAoClicarNoNome = "/chestplace/page_gerComprador.php";
             } else if ($_SESSION['tipo_usuario'] == 'vendedor') {
-              $linkAoClicarNoNome = "/chestplace/page_gerProdutos.php";  
+              $linkAoClicarNoNome = "/chestplace/page_gerVendas.php";  
             } else if ($_SESSION['tipo_usuario'] == 'administrador') {
               $linkAoClicarNoNome = "/chestplace/index.php"; // TODO: quando criar página de administrador, colocar o link correto aqui.
             }
