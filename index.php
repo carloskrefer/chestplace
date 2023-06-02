@@ -162,7 +162,9 @@ nav { background-color: #3C486B!important; }
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
           </p>
+          <!-- O controle de exibição desta mensagem é feito pelo código php logo abaixo desta DIV (id="id0L") de modal de login. -->
           <p id="msgLoginInvalido" class="w3-center w3-text-red" style="display:none;">E-mail ou senha inválidos!</p>
+          <p id="msgContaExcluida" class="w3-center w3-text-red" style="display:none;">Você excluiu sua conta. Para tentar recuperá-la, entre em contato com <i>suporte@chestplace.com</i>.</p>
           <button class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Entrar</button>
         </div>
       </form>
@@ -182,6 +184,13 @@ nav { background-color: #3C486B!important; }
       END;
     } 
     unset($_SESSION ['login_senha_invalidos']);
+    if (isset($_SESSION ['usuarioExcluido'])) {
+      echo <<<END
+      <script>document.getElementById("id0L").style.display = "block";</script>
+      <script>document.getElementById("msgContaExcluida").style.display = "block";</script>
+      END;  
+    }
+    unset($_SESSION ['usuarioExcluido']);
   ?>
 
   <!-- MODAL CADASTRO: pop up com botões que redirecionam para diferentes tipos de cadastro (vendedor ou comprador) --> 
