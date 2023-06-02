@@ -13,35 +13,49 @@
     // Imports
     require("../database/conectaBD.php");
 
-    // Inicia transaction
-    mysqli_begin_transaction($conn);
+    $queryVerificarQtdComprasPendentesDoUsuario =
+       "SELECT id
+        FROM compra_venda
+        WHERE id_comprador = $id_usuario
+        AND data_hora_recebimento IS NULL;";
 
     // Tenta realizar UPDATEs
-    try{    
-        $queryInativarUsuario =
-           "UPDATE Usuario
-            SET inativo = now()
-            WHERE id = $id_usuario;";
+    try{   
+        // Se há compras pendentes, não permitir exclusão do usuário.
+        $resultSetComprasPendentes = $conn->query($queryVerificarQtdComprasPendentesDoUsuario);
+        if ($resultSetComprasPendentes->num_rows > 0) {
+            echo <<<END
+            <script>
+            alert("Não é possível excluir usuário com compras pendentes. Favor aguardar a entrega dos produtos comprados.");
+            window.location.href='/chestplace/page_gerComprador.php';
+            </script>
+            END;
+        } else {     
+            $queryInativarUsuario =
+            "UPDATE Usuario
+                SET inativo = now()
+                WHERE id = $id_usuario;";
 
-        // Inserir endereço de faturamento
-        mysqli_query($conn, $queryInativarUsuario);
+            // Inserir endereço de faturamento
+            mysqli_query($conn, $queryInativarUsuario);
 
-        echo <<<END
-        <script>
-        alert("Usuário excluído com sucesso!");
-        </script>
-        END;
-
-        mysqli_commit($conn); // Termina transaction
+            echo <<<END
+            <script>
+            alert("Usuário excluído com sucesso!");
+            window.location.href='/chestplace/logout.php';
+            </script>
+            END;
+        }
     } catch(Exception $e) { // Caso haja algum erro inserindo os dados 
         mysqli_rollback($conn); // Desfazer transaction
 
         echo <<<END
         <script>
-        alert("Houve um erro ao cadastrar o usuário. Tente novamente mais tarde.");
+        alert("Houve um erro ao excluir o usuário. Tente novamente mais tarde.");
+        window.location.href='/chestplace/index.php';
         </script>
         END;
-    }
-    header('location: /chestplace/logout.php');
+        
+    }    
 ?>
 
