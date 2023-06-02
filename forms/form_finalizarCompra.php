@@ -85,7 +85,8 @@
 							function FinalizarCompra(){
 							alert("Houve algum erro nos dados de pagamento!")
 							}
-							
+						</script>
+					
 						
                                         </td>
                                     </tr>
