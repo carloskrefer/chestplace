@@ -9,6 +9,8 @@
 <body>
 <?php
     session_start(); 
+    unset($_SESSION ['usuarioExcluido']); // Remove atributo que diz se o usuário excluiu seu cadastro.
+    unset($_SESSION ['login_senha_invalidos']);
     require './database/conectaBD.php'; 
     $conn = new mysqli($servername, $username, $password, $database);
     if ($conn->connect_error) {
@@ -16,15 +18,22 @@
     }
     $usuario     = $_POST['Login']; 
     $senhaHash   = md5($_POST['Senha']);
-    $sqlVerificarLogin = "SELECT id, nome FROM Usuario WHERE email = '$usuario' AND senha = '$senhaHash'"; 
+    $sqlVerificarLogin = "SELECT id, nome, inativo FROM Usuario WHERE email = '$usuario' AND senha = '$senhaHash'"; 
     $resultSetVerificarLogin = $conn->query($sqlVerificarLogin);
     $bancoAcessadoComSucesso = ($resultSetVerificarLogin != false);
     if ($bancoAcessadoComSucesso) {
         $loginSenhaCombinam = ($resultSetVerificarLogin->num_rows == 1);
-        if ($loginSenhaCombinam) {      
-            $row = $resultSetVerificarLogin->fetch_assoc();         
+        $row = $resultSetVerificarLogin->fetch_assoc(); 
+        $contaFoiExcluida = $row['inativo'] != null;
+        if ($contaFoiExcluida) {
+            $_SESSION ['usuarioExcluido'] = true;    
+        }  
+        if (!$loginSenhaCombinam) {
+            $_SESSION ['login_senha_invalidos'] = true;
+        }
+        if ($loginSenhaCombinam and !$contaFoiExcluida) {                   
             $_SESSION ['id_usuario']   = $row['id'];        
-            $_SESSION ['nome_usuario'] = $row['nome'];      
+            $_SESSION ['nome_usuario'] = $row['nome']; 
             unset($_SESSION ['erro_autenticacao']);
             $id = $row['id'];
             $sqlTipoUsuario = 
@@ -53,7 +62,6 @@
                 } 
             }                       
         } else { // Se login e senha não combinam
-            $_SESSION ['login_senha_invalidos'] = true;
             unset($_SESSION ['id_usuario']);
             unset($_SESSION ['nome_usuario'] );
             unset($_SESSION ['tipo_usuario']);
