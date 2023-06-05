@@ -44,14 +44,14 @@
     // Tenta realizar INSERTs
     try{
         
-        $emailJaCadastrado = mysqli_num_rows(mysqli_query($conn,"SELECT (SELECT email FROM usuario WHERE email = \"$emailLogin\") AS emailJaCadastrado FROM dual;")) > 0;
+        $emailJaCadastrado = mysqli_num_rows(mysqli_query($conn,"SELECT email FROM usuario WHERE email = \"$emailLogin\"")) > 0;
         
         if(is_null($cpf)){
             $cpfJaCadastrado    = false;
-            $cnpjJaCadastrado   = mysqli_num_rows(mysqli_query($conn,"SELECT (SELECT cnpj FROM vendedor WHERE cnpj = \"$cnpj\") AS cnpjJaCadastrado FROM dual;")) > 0;
+            $cnpjJaCadastrado   = mysqli_num_rows(mysqli_query($conn,"SELECT cnpj FROM vendedor WHERE cnpj = \"$cnpj\"")) > 0;
         } else {
             $cnpjJaCadastrado  = false;
-            $cpfJaCadastrado   = mysqli_num_rows(mysqli_query($conn,"SELECT (SELECT cpf FROM vendedor WHERE cpf = \"$cpf\") AS cpfJaCadastrado FROM dual;")) > 0;
+            $cpfJaCadastrado   = mysqli_num_rows(mysqli_query($conn,"SELECT cpf FROM vendedor WHERE cpf = \"$cpf\"")) > 0;
         }
 
         if($emailJaCadastrado || $cpfJaCadastrado || $cnpjJaCadastrado){
