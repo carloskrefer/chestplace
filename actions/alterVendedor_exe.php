@@ -85,6 +85,7 @@
             }
 
             echo json_encode(array( "ok" => true, "message" => "Conta desativada com sucesso!"));
+            mysqli_commit($conn);
             session_destroy();
         } else {
             // Alterar dados do vendedor
@@ -92,10 +93,12 @@
     
             // Alterar dados do endereço
             mysqli_query($conn, $alterEndQuery);
+
         }
         
 
         mysqli_commit($conn);
+        redirect("../page_gerProdutos.php");
 
     } catch (Exception $e){
         http_response_code(500);
