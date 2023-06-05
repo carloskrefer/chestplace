@@ -69,11 +69,17 @@
                                     <input class="w3-input w3-border w3-light-grey " id="numerocartao" name="NumeroCartao" type="text" title="Número do cartão usado" placeholder="XXXX.XXXX.XXXX.XXXX" pattern="[0-9]+$ min=16 max=16" required>
                                 </p>
                                 <p>
-                                    <label class="w3-text-IE"><b>Senha do cartão</b>*</label>
-                                    <input class="w3-input w3-border w3-light-grey " id="senhacartao" name="SenhaCartao" type="password" title="Senha do cartão usado" placeholder="Senha do cartão inserido" required>
+                                    <label class="w3-text-IE"><b>CVC</b>*</label>
+                                    <input class="w3-input w3-border w3-light-grey " id="CVCcartao" name="CVCCrtao" type="text" title="CVC" placeholder="CVC" required>
                                 </p>
-                                <label class="w3-text-IE"><b>Mostrar senha do cartão</b></label>
-                                    <input id="mostrarSenha" name="mostrarSenha" type="checkbox">
+                                <p>
+                                    <label class="w3-text-IE"><b>Nome do Titular</b>*</label>
+                                    <input class="w3-input w3-border w3-light-grey " id="nometitular" name="NomeTitular" type="text" title="Nome do Titular" placeholder="Nome do Titular" required>
+                                </p>
+				<p>
+                                    <label class="w3-text-IE"><b>Validade</b>*</label>
+                                    <input class="w3-input w3-border w3-light-grey " id="validadecartao" name="ValidadeCartao" type="text" title="Validade do Cartao" placeholder="Validade do Cartao" required>
+                                </p>
                                     <br>
                                     <tr>
                                         <td colspan="2" style="text-align:center">
