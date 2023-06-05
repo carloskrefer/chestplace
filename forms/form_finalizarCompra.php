@@ -78,9 +78,16 @@
                                     <tr>
                                         <td colspan="2" style="text-align:center">
                                         <p>
-                                            <input type="button" id="Finalizar" value="Salvar" onclick="enviarFormulario();" class="w3-btn w3-red" >
+                                            <input type="button" id="Finalizar" value="Salvar" onclick="FinalizarCompra();" class="w3-btn w3-red" >
                                             <input type="button" value="Cancelar" class="w3-btn w3-theme" onclick="window.location.href='../index.php'">
                                         </p>
+						<script>
+							function FinalizarCompra(){
+							alert("Houve algum erro nos dados de pagamento!")
+							}
+						</script>
+					
+						
                                         </td>
                                     </tr>
 </body>
