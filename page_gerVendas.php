@@ -252,38 +252,43 @@
                 $resultVendas = mysqli_query($conn, $selectVendasQuery);
 
 
-                // Percorrendo todos os dados do SELECT de vendas
-                while($venda = mysqli_fetch_assoc($resultVendas)){
+                if(mysqli_num_rows($resultVendas) > 0){
+                    // Percorrendo todos os dados do SELECT de vendas
+                    while($venda = mysqli_fetch_assoc($resultVendas)){
 
-                    // if(is_null($venda["data_hora_confirmacao_pagamento"])){
-                    //     $status = "Aguardando pagamento";
-                    // } else if(is_null($venda["data_hora_recebimento"])){
-                    //     $status = "Pedido em trânsito";
-                    // } else {
-                    //     $status = "Pedido entregue ao destinatário.";
-                    // }
+                        // if(is_null($venda["data_hora_confirmacao_pagamento"])){
+                        //     $status = "Aguardando pagamento";
+                        // } else if(is_null($venda["data_hora_recebimento"])){
+                        //     $status = "Pedido em trânsito";
+                        // } else {
+                        //     $status = "Pedido entregue ao destinatário.";
+                        // }
 
-                    // Calcula o TOTAL quantidade * preço unitário
-                    $subtotal = number_format(floatval($venda["preco"])*floatval($venda["quantidade"]),2,",",".");
+                        // Calcula o TOTAL quantidade * preço unitário
+                        $subtotal = number_format(floatval($venda["preco"])*floatval($venda["quantidade"]),2,",",".");
 
-                    // Printa os dados na tabela
-                    echo "
-                    <tr>
-                        <td class=\"w3-center\">".$venda["id"]."</td>
-                        <td>".$venda["titulo"]."</td>
-                        <td>
-                        <div class=\"w3-left\">R$</div>
-                        <div class=\"w3-right\">".$subtotal."</div>
-                        </td>
-                        <td class=\"w3-center\">".$venda["nome"]."</td>
-                        <td class=\"w3-center\">".date('d/m/Y H:i', strtotime($venda['data_hora_compra']))."</td>
-                        <td class=\"w3-center\">".$venda["status"]."</td>
-                        <td class=\"w3-center\">
-                            <a href=\"./forms/form_updateVenda.php?idVenda=".$venda["id"]."\" class=\"w3-button w3-blue\">Visualizar</a>
-                        </td>
-                    </tr>
-                    ";
+                        // Printa os dados na tabela
+                        echo "
+                        <tr>
+                            <td class=\"w3-center\">".$venda["id"]."</td>
+                            <td>".$venda["titulo"]."</td>
+                            <td>
+                            <div class=\"w3-left\">R$</div>
+                            <div class=\"w3-right\">".$subtotal."</div>
+                            </td>
+                            <td class=\"w3-center\">".$venda["nome"]."</td>
+                            <td class=\"w3-center\">".date('d/m/Y H:i', strtotime($venda['data_hora_compra']))."</td>
+                            <td class=\"w3-center\">".$venda["status"]."</td>
+                            <td class=\"w3-center\">
+                                <a href=\"./forms/form_updateVenda.php?idVenda=".$venda["id"]."\" class=\"w3-button w3-blue\">Visualizar</a>
+                            </td>
+                        </tr>
+                        ";
+                    }
+                } else {
+                    echo "<tr><td class=\"w3-center\" colspan=\"7\">Não há vendas realizadas.</td></tr>";
                 }
+
             ?>
         </tbody>
     </table>
