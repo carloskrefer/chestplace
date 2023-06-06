@@ -120,6 +120,8 @@
                     ".$_SESSION["nome_usuario"]."
                     </a>
                 ";
+        } else {
+            $linkComNomeUsuario = "";
         }
 
         $imgLogo = "../../chestplace/imagens/logo_chestplace.png";
