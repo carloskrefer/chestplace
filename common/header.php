@@ -113,16 +113,26 @@
 
     if($tipoPagina == "gerComprador"){
 
+        if (isset($_SESSION["nome_usuario"])) {
+            $linkComNomeUsuario = 
+                "
+                    <a class=\"no-underline w3-large\" href=\"./forms/form_alterComprador.php\" target=\"\" style=\"color:white;\" >
+                    ".$_SESSION["nome_usuario"]."
+                    </a>
+                ";
+        }
+
         $imgLogo = "../../chestplace/imagens/logo_chestplace.png";
 
         $botoes = 
-        "
-        <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;\">
-            <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./index.php\">
-                <i class=\"fa-solid fa-house\"></i>
-            </a>
-        </div>
-         ";
+            $linkComNomeUsuario . 
+            "
+            <div class=\"w3-hover-opacity w3-right w3-bar-item w3-btn w3-xxlarge\" style=\"display:flex; align-items:center; justify-content:space-between;\">
+                <a class=\"w3-btn w3-xxlarge no-underline\" style=\"display:flex; align-items:center; justify-content:space-between; color:white;\" href=\"./index.php\">
+                    <i class=\"fa-solid fa-house\"></i>
+                </a>
+            </div>
+            ";
     }
 
     if($tipoPagina == "alteracaoVendedor"){
