@@ -2,6 +2,13 @@
 <?php
     session_start();
     include("../database/conectaBD.php");
+    if(session_id() == ''){
+      session_start();
+    }
+    $isSetado = isset($_GET["id"]);
+    if (!$isSetado) {
+      header('location: /chestplace/index.php'); 
+    }
 ?>
 <html>
 <title>Chestplace</title>
@@ -166,6 +173,8 @@ nav { background-color: #3C486B!important; }
     </div>
   </div>
   
+  <form action="../actions/comprar_exe.php" method="POST">
+  <input type="text" name="idCamiseta" value="<?= $_GET["id"] ?>" class="w3-hide">
   <!-- Product grid -->
   <?php
                       $idCamiseta = $_GET["id"];
@@ -280,6 +289,7 @@ nav { background-color: #3C486B!important; }
                         }
                     }
                     ?>
+  </form>
   <!-- Subscribe section -->
   <div style = "background-color: #F0F0F0" class="w3-container w3-padding-32">
     <h1>Ofertas</h1>
