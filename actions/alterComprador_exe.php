@@ -24,6 +24,20 @@
     $cpf                 = $_POST["cpf"];
     $telefoneContato     = $_POST["telefoneContato"];
 
+    // Verifica se o CPF já está cadastrado por outro comprador. Se sim, avisa o usuário e retorna para página de gerenciamento.
+    $sqlVerificarCPFJaExiste = 
+        "SELECT count(1) as qtdCpf 
+        FROM comprador 
+        WHERE cpf = \"$cpf\"
+        AND id_usuario <> $id_usuario;"; 
+    $resultSet = mysqli_query($conn, $sqlVerificarCPFJaExiste);
+    $row = mysqli_fetch_assoc($resultSet);
+    if ($row["qtdCpf"] !== "0") {
+        alert("Este CPF já está cadastrado por outro comprador. Favor contatar um administrador.");
+        redirect("../page_gerComprador.php");
+        exit();
+    }
+
     // Dados de endereço
     $cepFaturamento         = $_POST["cepFaturamento"];
     $ruaFaturamento         = $_POST["ruaFaturamento"];
