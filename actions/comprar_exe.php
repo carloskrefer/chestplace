@@ -16,6 +16,10 @@
     $idCamiseta = $_POST["idCamiseta"];  
 
     try{
+        if($_SESSION ['tipo_usuario'] != "comprador"){
+            throw new Exception("Apenas usuários `compradores` devidamente logados podem comprar");
+        }
+
         // SELECT dos tamanhos
         $resultTam = mysqli_query($conn, "SELECT * FROM tamanho");
 
