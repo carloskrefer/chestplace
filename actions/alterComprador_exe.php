@@ -133,14 +133,14 @@
         mysqli_query($conn, $updateQueryComprador);
 
         // Informar que inserções foram feitas com sucesso
-        alert("Usuário cadastrado com sucesso!");
+        alert("Usuário alterado com sucesso!");
         mysqli_commit($conn); // Termina transaction
 
         $_SESSION['nome_usuario'] = $nome; // Atualiza nome do usuário na session (usada no index.php e form_visualizaProduto.php)
 
     } catch(Exception $e) { // Caso haja algum erro inserindo os dados 
         mysqli_rollback($conn); // Desfazer transaction
-        alert("Houve um erro ao cadastrar o usuário. Tente novamente mais tarde.");
+        alert("Houve um erro ao alterar o usuário. Tente novamente mais tarde.");
     }
     redirect("../page_gerComprador.php");
 ?>
