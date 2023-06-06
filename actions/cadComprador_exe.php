@@ -19,6 +19,25 @@
     $cpf                 = $_POST["cpf"];
     $telefoneContato     = $_POST["telefoneContato"];
 
+    // Verifica se o CPF já foi cadastrado por outro comprador ou o
+    // email já foi cadastrado por outro usuário. Se sim, avisa o usuário e retorna para página de cadastro.
+    $sqlVerificarCPFEmailJaExiste = 
+        "SELECT
+            (SELECT count(1) FROM usuario WHERE email = \"$emailLogin\") as qtdEmail,
+            (SELECT count(1) FROM comprador WHERE cpf = \"$cpf\") as qtdCpf
+        FROM DUAL"; 
+    $resultSet = mysqli_query($conn, $sqlVerificarCPFEmailJaExiste);
+    $row = mysqli_fetch_assoc($resultSet);
+    if ($row["qtdEmail"] !== "0") {
+        alert("Este e-mail já está cadastrado. Favor preencher outro.");
+        jsScript("history.go(-1);"); // Retorna para a página de cadastro
+        exit();
+    } else if ($row["qtdCpf"] !== "0") {
+        alert("Este CPF já está cadastrado. Favor preencher outro.");
+        jsScript("history.go(-1);"); // Retorna para a página de cadastro
+        exit();
+    }
+
     // Dados de endereço
     $cepFaturamento         = $_POST["cepFaturamento"];
     $ruaFaturamento         = $_POST["ruaFaturamento"];
