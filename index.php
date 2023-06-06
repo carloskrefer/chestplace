@@ -83,7 +83,7 @@ nav { background-color: #3C486B!important; }
       </form>
     </div>
   </div>
-  <a href="#footer" class="w3-bar-item w3-button w3-padding">Contato</a> 
+  <a href="#footer" class="w3-bar-item w3-button w3-padding w3-text-white">Contato</a> 
 </nav>
 
 <!-- Top menu on small screens -->
