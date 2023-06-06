@@ -2,6 +2,13 @@
 <?php
     session_start();
     include("../database/conectaBD.php");
+    if(session_id() == ''){
+      session_start();
+    }
+    $isSetado = isset($_GET["id"]);
+    if (!$isSetado) {
+      header('location: /chestplace/index.php'); 
+    }
 ?>
 <html>
 <title>Chestplace</title>
@@ -54,23 +61,35 @@ nav { background-color: #3C486B!important; }
     
     <p class="w3-right">
       <?php
-        // Exibe nome do usuário logado e o botão de logout, se não mostrará os botões de login e cadastro
-        $usuarioLogou = isset($_SESSION ['nome_usuario']);
-        if ($usuarioLogou) {
-          $nomeUsuario = $_SESSION['nome_usuario'];
-          echo <<<END
-            <span style="margin-right: 10px;">Olá,<a href="/chestplace/page_gerProdutos.php " > $nomeUsuario</a> </span>
-            <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='./logout.php'" 
-            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
-          END;
-        } else {
-          echo <<<END
-            <button type="button" class="w3-button w3-border" onclick="document.getElementById('id0L').style.display='block'" 
-            style="font-size: 15px; font-weight: 700; margin-right: 10px; background-color: #F45050;">Entrar</button>
-            <button type="button" class="w3-button w3-white w3-border" onclick="document.getElementById('modalCadastro').style.display='block'" 
-            style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
-          END;
+      // Exibe nome do usuário logado e o botão de logout, se não mostrará os botões de login e cadastro
+      // Também controla o link exibido ao clicar no próprio nome, após logado. Se for comprador, vai para a
+      // página de gerenciamento de comprador. Se for vendedor, para página de gerenciamento de produtos.
+      $usuarioLogou = isset($_SESSION ['nome_usuario']);
+      $linkAoClicarNoNome = "/chestplace/index.php";
+      if ($usuarioLogou) {
+        $nomeUsuario = $_SESSION['nome_usuario'];   
+        if (isset($_SESSION['tipo_usuario'])) {
+          if ($_SESSION['tipo_usuario'] == 'comprador') {
+            $linkAoClicarNoNome = "/chestplace/page_gerComprador.php";
+          } else if ($_SESSION['tipo_usuario'] == 'vendedor') {
+            $linkAoClicarNoNome = "/chestplace/page_gerProdutos.php";  
+          } else if ($_SESSION['tipo_usuario'] == 'administrador') {
+            $linkAoClicarNoNome = "/chestplace/index.php"; // TODO: quando criar página de administrador, colocar o link correto aqui.
+          }
         }
+        echo <<<END
+          <span style="margin-right: 10px;">Olá,<a href="$linkAoClicarNoNome" > $nomeUsuario</a> </span>
+          <button class="w3-btn w3-deep-orange w3-border" onclick="window.location.href='../logout.php'" 
+          style="font-size: 15px; font-weight: 700; margin-right: 10px;">Sair</button>
+        END;
+      } else {
+        echo <<<END
+          <button type="button" class="w3-button w3-border" onclick="document.getElementById('id0L').style.display='block'" 
+          style="font-size: 15px; font-weight: 700; margin-right: 10px; background-color: #F45050;">Entrar</button>
+          <button type="button" class="w3-button w3-white w3-border" onclick="document.getElementById('modalCadastro').style.display='block'" 
+          style="font-size: 15px; font-weight: 700; margin-right: 10px;">Cadastrar-se</button>
+        END;
+      }
       ?>     
       <i class="fa fa-shopping-cart w3-margin-right"></i>
       <i class="fa fa-search"></i>
@@ -86,7 +105,7 @@ nav { background-color: #3C486B!important; }
 
       <h2 class="w3-center w3-xxlarge">Entrar</h2>
 
-      <form action="login.php" method="POST" class="w3-container w3-card-4 w3-light-grey w3-margin">
+      <form action="../login.php" method="POST" class="w3-container w3-card-4 w3-light-grey w3-margin">
         <div class="w3-section">
           <label class="w3-text-IE"><b>E-mail</b></label>
           <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login" pattern="(?=.+@.+\..+).{1,255}" 
@@ -99,7 +118,9 @@ nav { background-color: #3C486B!important; }
           <p>
           <input type="checkbox" class="w3-btn w3-theme"  onclick="mostrarOcultarSenhaLogin()"> <b>Mostrar senha</b>
           </p>
+          <!-- O controle de exibição desta mensagem é feito pelo código php logo abaixo desta DIV (id="id0L") de modal de login. -->
           <p id="msgLoginInvalido" class="w3-center w3-text-red" style="display:none;">E-mail ou senha inválidos!</p>
+          <p id="msgContaExcluida" class="w3-center w3-text-red" style="display:none;">Você excluiu sua conta. Para tentar recuperá-la, entre em contato com <i>suporte@chestplace.com</i>.</p>
           <button class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Entrar</button>
         </div>
       </form>
@@ -119,6 +140,13 @@ nav { background-color: #3C486B!important; }
       END;
     } 
     unset($_SESSION ['login_senha_invalidos']);
+    if (isset($_SESSION ['usuarioExcluido'])) {
+      echo <<<END
+      <script>document.getElementById("id0L").style.display = "block";</script>
+      <script>document.getElementById("msgContaExcluida").style.display = "block";</script>
+      END;  
+    }
+    unset($_SESSION ['usuarioExcluido']);
   ?>
 
   <!-- MODAL CADASTRO: pop up com botões que redirecionam para diferentes tipos de cadastro (vendedor ou comprador) --> 
@@ -132,9 +160,9 @@ nav { background-color: #3C486B!important; }
 
       <div class="w3-container w3-card-4 w3-light-grey w3-margin">
         <div class="w3-section">
-          <button onclick="//TODO: adicionar aqui o futuro link de cadastro do cliente" 
-            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente (em breve!)</button>
-          <button onclick="window.location.href='./forms/form_cadVendedor.php'"
+          <button onclick="window.location.href='../forms/form_cadComprador.php'" 
+            class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Sou cliente</button>
+          <button onclick="window.location.href='../forms/form_cadVendedor.php'"
             class="w3-button w3-block w3-theme w3-section w3-padding w3-orange" type="submit" style="font-weight:700;">Sou vendedor</button>
         </div>
       </div>

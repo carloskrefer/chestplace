@@ -8,7 +8,8 @@
  */
 function validarFormulario(isFormularioDeCadastro){
     let valido = false;
-    valido =    validarCpf() && 
+    valido =    validarNome() &&
+                validarCpf() && 
                 validarTelefoneContato() &&
                 validarCEP($('#cepFaturamento')) &&
                 validarRua($('#ruaFaturamento')) && 
@@ -42,6 +43,36 @@ function validarFormulario(isFormularioDeCadastro){
     return valido;
 }
 
+/**
+ * Verifica se o nome do comprador inserido no input '#nome' é válido.
+ * Para verificar se é válido, as seguintes verificações são feitas:
+ * - Nome com menos de 2 caracteres EX: "CF" => FALSE | "CFF" => TRUE
+ * - Nome apenas com números EX: "111" => FALSE | "111A" => TRUE
+ * 
+ * @requires JQuery
+ *  
+ * @returns {boolean} - TRUE caso seja válido | FALSE caso seja inválido
+ */
+function validarNome(){
+    const nome = $("#nome").val().replace(" ", "");
+
+    let nomePequeno = nome.length < 2;
+    let nomeSoComNumeros = /^\d+$/.test(nome)
+
+    if(nomePequeno){
+        exibirPopUpErro($("#nome"), "Nome inválido! O nome informado deve conter ao menos dois caracteres.")
+        return false;
+    }   
+    if(nomeSoComNumeros){
+        exibirPopUpErro($("#nome"), "Nome inválido!")
+        return false;
+    }
+    
+    // Determina que o valor inserido em #nome é valido e desativa mensagem de erro
+    $("#nome")[0].validity.valid = true;
+    $("#nome")[0].setCustomValidity("");
+    return true;
+}
 
 
 /**
