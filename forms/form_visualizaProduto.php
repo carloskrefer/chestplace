@@ -2,6 +2,13 @@
 <?php
     session_start();
     include("../database/conectaBD.php");
+    if(session_id() == ''){
+      session_start();
+    }
+    $isSetado = isset($_GET["id"]);
+    if (!$isSetado) {
+      header('location: /chestplace/index.php'); 
+    }
 ?>
 <html>
 <title>Chestplace</title>
