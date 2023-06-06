@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="./scripts/login.js"></script>
   <link rel="stylesheet" href="./styles.css">
 <style>
@@ -319,6 +320,14 @@ nav { background-color: #3C486B!important; }
                               </div>
                             ";
                           }
+                      }
+                      else{
+                        echo"
+                        <div style=\"display: flex; text-align:right; width:300px;\">
+                        <p style=\"width:100%;\">Não há camisetas cadastradas.<i class=\"fa-solid fa-circle-xmark\"></i></p><br>
+                        
+                        </div
+                        ";
                       }
                       // Fecha a conexão com o banco de dados
                       mysqli_close($conn);

@@ -287,7 +287,7 @@ nav { background-color: #3C486B!important; }
                           ";
                           
                         }
-                    }
+                    } 
                     ?>
   </form>
   <!-- Subscribe section -->
