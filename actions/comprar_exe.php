@@ -14,8 +14,7 @@
     }
 
     $idCamiseta = $_POST["idCamiseta"];  
-    
-    mysqli_begin_transaction($conn);
+
     try{
         // SELECT dos tamanhos
         $resultTam = mysqli_query($conn, "SELECT * FROM tamanho");
@@ -28,10 +27,12 @@
                 $insertQuery = "INSERT INTO compra_venda (id_camiseta, id_comprador, data_hora_compra, data_hora_confirmacao_pagamento,data_hora_recebimento,quantidade) VALUES ($idCamiseta, ".$_SESSION["id_usuario"].", NOW(), NULL, NULL, ".$qtdeSelect.");";
                 mysqli_query($conn, $insertQuery);
             }
+            redirect("../index.php");
         }
 
         
     } catch (Exception $e){
         alert("Houve um erro ao comprar o produto: " . $e->getMessage());
+        jsScript("history.go(-1);");
     }
 ?>
