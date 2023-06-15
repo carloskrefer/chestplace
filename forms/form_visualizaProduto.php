@@ -173,7 +173,86 @@ nav { background-color: #3C486B!important; }
     </div>
   </div>
   
-  <form action="../actions/comprar_exe.php" method="POST">
+  <!-- MODAL DADOS CARTÃO DE CRÉDITO -->
+  <div id="modalCartaoCredito" class="w3-modal" style="display: block;">
+    <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:500px">
+      <div class="w3-center"> 
+        <span onclick="document.getElementById('modalCartaoCredito').style.display='block'" class="w3-button w3-xlarge w3-transparent w3-display-topright" 
+            title="Fechar">×</span>
+      </div>
+
+      <h2 class="w3-center w3-xxlarge">Cartão de crédito</h2>
+
+      <form action="comprar_exe.php" method="POST" class="w3-container w3-card-4 w3-light-grey w3-margin">
+        <div class="w3-section">
+
+          <label class="w3-text-IE"><b>Nome do titular*</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="text" name="Login"
+            title="Deve ser idêntico ao nome informado no cartão." placeholder="JOAO DAS COUVES" required maxlength="255"
+            style="text-transform:uppercase;">
+          
+          <label class="w3-text-IE"><b>Bandeira do cartão*</b></label>
+          <select class="w3-input w3-border w3-margin-bottom" style="width:12.4em;">
+                  <option value="Visa" disabled hidden selected>Selecionar</option>
+                  <option value="Visa">Visa</option>
+                  <option value="Mastercard">Mastercard</option>
+                  <option value="American Express">American Express</option>
+          </select>
+
+          <label class="w3-text-IE"><b>Código de segurança*</b></label>
+          <input class="w3-input w3-border w3-margin-bottom" type="number" name="Login" 
+            title="Código de 3 dígitos no verso do cartão." placeholder="123" required min="000" max="999"
+            style="width: 6em;">
+
+          <div>
+              <label class="w3-text-IE"><b>Vencimento*</b></label><br>
+              <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;">
+                    <option value="" disabled hidden selected>Mês</option>
+                    <?php 
+                        for ($mes = 1; $mes <= 12; $mes++) {
+                            echo <<<END
+                                <option value="$mes">$mes</option>
+                            END;
+                        }
+                    ?>
+              </select>
+              <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;">
+                    <option value="" disabled hidden selected>Ano*</option>
+                    <?php 
+                        for ($ano = 2023; $ano <= 2030; $ano++) {
+                            echo <<<END
+                                <option value="$ano">$ano</option>
+                            END;
+                        }
+                    ?>
+              </select>
+          </div>
+
+          <label class="w3-text-IE"><b>Número de parcelas</b></label><br>
+          <div>
+              <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;">
+                    <option value="1" selected>1</option>
+                    <?php 
+                        for ($mes = 2; $mes <= 24; $mes++) {
+                            echo <<<END
+                                <option value="$mes">$mes</option>
+                            END;
+                        }
+                    ?>
+              </select>
+          </div>
+        
+          <button class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Entrar</button>
+        </div>
+      </form>
+
+      <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+        <button onclick="document.getElementById('id0L').style.display='block'" type="button" class="w3-button w3-red">Cancelar</button>
+        <span class="w3-right w3-padding w3-hide-small"><a href="#">Esqueceu a senha? (em breve)</a></span>
+      </div>
+    </div>
+  </div>
+
   <input type="text" name="idCamiseta" value="<?= $_GET["id"] ?>" class="w3-hide">
   <!-- Product grid -->
   <?php
@@ -288,8 +367,7 @@ nav { background-color: #3C486B!important; }
                           
                         }
                     } 
-                    ?>
-  </form>
+    ?>
   <!-- Subscribe section -->
   <div style = "background-color: #F0F0F0" class="w3-container w3-padding-32">
     <h1>Ofertas</h1>
