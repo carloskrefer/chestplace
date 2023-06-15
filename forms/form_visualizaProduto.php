@@ -191,58 +191,69 @@ nav { background-color: #3C486B!important; }
             title="Deve ser idêntico ao nome informado no cartão." placeholder="JOAO DAS COUVES" required maxlength="255"
             style="text-transform:uppercase;">
           
-          <label class="w3-text-IE"><b>Bandeira do cartão*</b></label>
-          <select class="w3-input w3-border w3-margin-bottom" style="width:12.4em;">
-                  <option value="Visa" disabled hidden selected>Selecionar</option>
-                  <option value="Visa">Visa</option>
-                  <option value="Mastercard">Mastercard</option>
-                  <option value="American Express">American Express</option>
-          </select>
-
-          <label class="w3-text-IE"><b>Código de segurança*</b></label>
-          <input class="w3-input w3-border w3-margin-bottom" type="number" name="Login" 
-            title="Código de 3 dígitos no verso do cartão." placeholder="123" required min="000" max="999"
-            style="width: 6em;">
-
           <div>
-              <label class="w3-text-IE"><b>Vencimento*</b></label><br>
-              <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;">
-                    <option value="" disabled hidden selected>Mês</option>
-                    <?php 
-                        for ($mes = 1; $mes <= 12; $mes++) {
-                            echo <<<END
-                                <option value="$mes">$mes</option>
-                            END;
-                        }
-                    ?>
+              <span style="width:49%;display:inline-block;">
+              <label class="w3-text-IE"><b>Bandeira do cartão*</b></label><br>
+              <select class="w3-input w3-border w3-margin-bottom" style="width:12.4em;display:inline;height:41px;">
+                      <option value="Visa" disabled hidden selected>Selecionar</option>
+                      <option value="Visa">Visa</option>
+                      <option value="Mastercard">Mastercard</option>
+                      <option value="American Express">American Express</option>
               </select>
-              <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;">
-                    <option value="" disabled hidden selected>Ano*</option>
-                    <?php 
-                        for ($ano = 2023; $ano <= 2030; $ano++) {
-                            echo <<<END
-                                <option value="$ano">$ano</option>
-                            END;
-                        }
-                    ?>
-              </select>
+              </span>
+              <span style="width:50%;display:inline-block;">
+              <label class="w3-text-IE"><b>Código de segurança*</b></label>
+              <input class="w3-input w3-border w3-margin-bottom" type="number" name="Login" 
+                title="Código de 3 dígitos no verso do cartão." placeholder="123" required min="000" max="999"
+                style="width: 6em;">
+              </span>
           </div>
 
-          <label class="w3-text-IE"><b>Número de parcelas</b></label><br>
           <div>
-              <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;">
-                    <option value="1" selected>1</option>
-                    <?php 
-                        for ($mes = 2; $mes <= 24; $mes++) {
-                            echo <<<END
-                                <option value="$mes">$mes</option>
-                            END;
-                        }
-                    ?>
-              </select>
+              <span style="width:49%;display:inline-block;">
+                  <div>
+                      <label class="w3-text-IE"><b>Vencimento*</b></label><br>
+                      <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;height:41px;">
+                            <option value="" disabled hidden selected>Mês</option>
+                            <?php 
+                                for ($mes = 1; $mes <= 12; $mes++) {
+                                    echo <<<END
+                                        <option value="$mes">$mes</option>
+                                    END;
+                                }
+                            ?>
+                      </select>
+                      <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;height:41px;">
+                            <option value="" disabled hidden selected>Ano*</option>
+                            <?php 
+                                for ($ano = 2023; $ano <= 2030; $ano++) {
+                                    echo <<<END
+                                        <option value="$ano">$ano</option>
+                                    END;
+                                }
+                            ?>
+                      </select>
+                  </div>
+              </span>
+
+              <span style="width:50%;display:inline-block;">
+                  <label class="w3-text-IE"><b>Número de parcelas</b></label><br>
+                  <div>
+                      <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;height:41px;">
+                            <option value="1" selected>1</option>
+                            <?php 
+                                for ($mes = 2; $mes <= 24; $mes++) {
+                                    echo <<<END
+                                        <option value="$mes">$mes</option>
+                                    END;
+                                }
+                            ?>
+                      </select>
+                  </div>
+              </span>
           </div>
         
-          <button class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Entrar</button>
+          <button class="w3-button w3-block w3-theme w3-section w3-padding" style="background-color:#F9D949; font-weight: 700;" type="submit">Confirmar</button>
         </div>
       </form>
 
