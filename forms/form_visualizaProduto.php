@@ -224,7 +224,7 @@ nav { background-color: #3C486B!important; }
                             ?>
                       </select>
                       <select class="w3-input w3-border w3-margin-bottom" style="display:inline;width:6em;height:41px;">
-                            <option value="" disabled hidden selected>Ano*</option>
+                            <option value="" disabled hidden selected>Ano</option>
                             <?php 
                                 for ($ano = 2023; $ano <= 2030; $ano++) {
                                     echo <<<END
